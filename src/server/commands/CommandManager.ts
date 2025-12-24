@@ -11,7 +11,7 @@ export class CommandManager {
         this.readDirRecursive(commandsPath);
         
         const commands = getAllCommands();
-        Logger.info(`[CMD] Sistem Enterprise activat. ${commands.length} comenzi incarcate.`);
+        Logger.info(`[CMD] Sistem Comenzi activ. ${commands.length} comenzi incarcate.`);
     }
 
     private static readDirRecursive(dir: string) {

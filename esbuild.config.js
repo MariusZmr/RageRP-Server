@@ -10,7 +10,15 @@ async function buildServer() {
     console.log(`🚀 [BUILD-SERVER] Compilare cu SWC...`);
     
     try {
-        execSync('npx swc src/server -d packages/server/dist --config-file packages/server/.swcrc', { stdio: 'inherit' });
+        // Rulăm din src/server pentru a evita structura src/server în dist
+        const swcConfig = path.join(__dirname, 'packages/server/.swcrc');
+        const outDir = path.join(__dirname, 'packages/server/dist');
+        const srcDir = path.join(__dirname, 'src/server');
+        
+        execSync(`npx swc . -d ${outDir} --config-file ${swcConfig}`, { 
+            cwd: srcDir,
+            stdio: 'inherit' 
+        });
     } catch (err) {
         throw new Error('SWC compilation failed');
     }
