@@ -1,48 +1,55 @@
 import { Logger } from "../utils/Logger";
-import { AuthService } from "../services/AuthService";
-import { CommandManager } from "../commands/CommandManager";
+import { User } from "../models/User";
 import { PlayerUtils } from "../utils/PlayerUtils";
-import { AdminTitles } from "../config/AdminLevels";
+import { AdminConfig } from "../config/AdminLevels";
+import { CommandManager } from "../commands/CommandManager";
+import { AuthService } from "../services/AuthService";
 
 export class PlayerEvents {
     static init() {
-        mp.events.add("playerJoin", (player: PlayerMp) => {
-            Logger.info(`[JOIN] ${player.name} s-a conectat (IP: ${player.ip}).`);
-            player.outputChatBox("!{#FFFF00}Bine ai venit pe ServerServeros!");
-            player.outputChatBox("Serverul foloseste TypeScript si MariaDB.");
-            player.outputChatBox("!{#FFFFFF}Foloseste /register <parola> sau /login <parola>.");
-        });
-
-        mp.events.add("playerQuit", async (player: PlayerMp, exitType: string) => {
-            const user = PlayerUtils.getDb(player);
+        mp.events.add("playerJoin", async (player: PlayerMp) => {
+            const user = await User.findOneBy({ username: player.name });
+            
+            player.outputChatBox("!{#AA0000}========================================");
+            player.outputChatBox(`!{#FFFFFF}Bine ai venit pe !{#AA0000}ServerServeros!{#FFFFFF}, ${player.name}!`);
+            
             if (user) {
-                await AuthService.savePlayer(player);
-                Logger.info(`[QUIT] ${user.username} a iesit (${exitType}). Date salvate.`);
+                player.outputChatBox("!{#FFFFFF}Acest nume este !{#55FF55}inregistrat!{#FFFFFF}. Foloseste !{#55FF55}/login <parola>!{#FFFFFF}.");
+            } else {
+                player.outputChatBox("!{#FFFFFF}Acest nume !{#FF9900}nu este inregistrat!{#FFFFFF}. Foloseste !{#FF9900}/register <parola>!{#FFFFFF}.");
             }
-            PlayerUtils.setDb(player, undefined);
+            player.outputChatBox("!{#AA0000}========================================");
+            
+            Logger.info(`[JOIN] ${player.name} (ID: ${player.id}) s-a conectat.`);
         });
 
         mp.events.add("playerChat", (player: PlayerMp, message: string) => {
-            const user = PlayerUtils.getDb(player);
-            if (!user) {
-                player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}Trebuie sa fii logat pentru a scrie.");
+            const db = PlayerUtils.getDb(player);
+            if (!db) {
+                player.outputChatBox("!{#AA0000}Eroare: !{#FFFFFF}Trebuie sa fii logat pentru a vorbi.");
                 return;
             }
 
-            const title = AdminTitles[user.adminLevel] || "";
-            const color = user.adminLevel > 0 ? "!{#FFD700}" : "!{#FFFFFF}";
-            const formattedMsg = `!{#BBBBBB}[${player.id}] ${title}${color}${user.username} says: !{#FFFFFF}${message}`;
+            const config = AdminConfig[db.adminLevel as keyof typeof AdminConfig];
+            const formattedMsg = `!{#BBBBBB}[${player.id}] ${config.color}${config.title}${player.name}: !{#FFFFFF}${message}`;
 
-            // Proximity Chat (15 metri)
-            mp.players.forEachInRange(player.position, 15, (nearPlayer) => {
+            mp.players.forEachInRange(player.position, 20, (nearPlayer) => {
                 nearPlayer.outputChatBox(formattedMsg);
             });
             
-            Logger.info(`[CHAT] ${user.username}: ${message}`);
+            Logger.info(`[CHAT] ${player.name}: ${message}`);
         });
 
         mp.events.add("playerCommand", (player: PlayerMp, message: string) => {
             CommandManager.handleCommand(player, message);
+        });
+
+        mp.events.add("playerQuit", async (player: PlayerMp, exitType: string) => {
+            const db = PlayerUtils.getDb(player);
+            if (db) {
+                await AuthService.savePlayer(player);
+                Logger.info(`[QUIT] ${player.name} a parasit serverul (${exitType}).`);
+            }
         });
     }
 }

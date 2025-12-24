@@ -22,42 +22,47 @@ __export(PlayerEvents_exports, {
 });
 module.exports = __toCommonJS(PlayerEvents_exports);
 var import_Logger = require("../utils/Logger");
-var import_AuthService = require("../services/AuthService");
-var import_CommandManager = require("../commands/CommandManager");
+var import_User = require("../models/User");
 var import_PlayerUtils = require("../utils/PlayerUtils");
 var import_AdminLevels = require("../config/AdminLevels");
+var import_CommandManager = require("../commands/CommandManager");
+var import_AuthService = require("../services/AuthService");
 class PlayerEvents {
   static init() {
-    mp.events.add("playerJoin", (player) => {
-      import_Logger.Logger.info(`[JOIN] ${player.name} s-a conectat (IP: ${player.ip}).`);
-      player.outputChatBox("!{#FFFF00}Bine ai venit pe ServerServeros!");
-      player.outputChatBox("Serverul foloseste TypeScript si MariaDB.");
-      player.outputChatBox("!{#FFFFFF}Foloseste /register <parola> sau /login <parola>.");
-    });
-    mp.events.add("playerQuit", async (player, exitType) => {
-      const user = import_PlayerUtils.PlayerUtils.getDb(player);
+    mp.events.add("playerJoin", async (player) => {
+      const user = await import_User.User.findOneBy({ username: player.name });
+      player.outputChatBox("!{#AA0000}========================================");
+      player.outputChatBox(`!{#FFFFFF}Bine ai venit pe !{#AA0000}ServerServeros!{#FFFFFF}, ${player.name}!`);
       if (user) {
-        await import_AuthService.AuthService.savePlayer(player);
-        import_Logger.Logger.info(`[QUIT] ${user.username} a iesit (${exitType}). Date salvate.`);
+        player.outputChatBox("!{#FFFFFF}Acest nume este !{#55FF55}inregistrat!{#FFFFFF}. Foloseste !{#55FF55}/login <parola>!{#FFFFFF}.");
+      } else {
+        player.outputChatBox("!{#FFFFFF}Acest nume !{#FF9900}nu este inregistrat!{#FFFFFF}. Foloseste !{#FF9900}/register <parola>!{#FFFFFF}.");
       }
-      import_PlayerUtils.PlayerUtils.setDb(player, void 0);
+      player.outputChatBox("!{#AA0000}========================================");
+      import_Logger.Logger.info(`[JOIN] ${player.name} (ID: ${player.id}) s-a conectat.`);
     });
     mp.events.add("playerChat", (player, message) => {
-      const user = import_PlayerUtils.PlayerUtils.getDb(player);
-      if (!user) {
-        player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}Trebuie sa fii logat pentru a scrie.");
+      const db = import_PlayerUtils.PlayerUtils.getDb(player);
+      if (!db) {
+        player.outputChatBox("!{#AA0000}Eroare: !{#FFFFFF}Trebuie sa fii logat pentru a vorbi.");
         return;
       }
-      const title = import_AdminLevels.AdminTitles[user.adminLevel] || "";
-      const color = user.adminLevel > 0 ? "!{#FFD700}" : "!{#FFFFFF}";
-      const formattedMsg = `!{#BBBBBB}[${player.id}] ${title}${color}${user.username} says: !{#FFFFFF}${message}`;
-      mp.players.forEachInRange(player.position, 15, (nearPlayer) => {
+      const config = import_AdminLevels.AdminConfig[db.adminLevel];
+      const formattedMsg = `!{#BBBBBB}[${player.id}] ${config.color}${config.title}${player.name}: !{#FFFFFF}${message}`;
+      mp.players.forEachInRange(player.position, 20, (nearPlayer) => {
         nearPlayer.outputChatBox(formattedMsg);
       });
-      import_Logger.Logger.info(`[CHAT] ${user.username}: ${message}`);
+      import_Logger.Logger.info(`[CHAT] ${player.name}: ${message}`);
     });
     mp.events.add("playerCommand", (player, message) => {
       import_CommandManager.CommandManager.handleCommand(player, message);
+    });
+    mp.events.add("playerQuit", async (player, exitType) => {
+      const db = import_PlayerUtils.PlayerUtils.getDb(player);
+      if (db) {
+        await import_AuthService.AuthService.savePlayer(player);
+        import_Logger.Logger.info(`[QUIT] ${player.name} a parasit serverul (${exitType}).`);
+      }
     });
   }
 }

@@ -7,11 +7,11 @@ export enum AdminLevel {
     Owner = 5
 }
 
-export const AdminTitles: Record<number, string> = {
-    [AdminLevel.Player]: "",
-    [AdminLevel.Moderator]: "[Moderator]",
-    [AdminLevel.Admin]: "[Admin]",
-    [AdminLevel.SeniorAdmin]: "[Sr. Admin]",
-    [AdminLevel.Manager]: "[Manager]",
-    [AdminLevel.Owner]: "[Owner]"
+export const AdminConfig = {
+    [AdminLevel.Player]: { title: "", color: "!{#FFFFFF}" },
+    [AdminLevel.Moderator]: { title: "[Moderator] ", color: "!{#55FF55}" },
+    [AdminLevel.Admin]: { title: "[Admin] ", color: "!{#3399FF}" },
+    [AdminLevel.SeniorAdmin]: { title: "[Sr. Admin] ", color: "!{#FF9900}" },
+    [AdminLevel.Manager]: { title: "[Manager] ", color: "!{#FF33CC}" },
+    [AdminLevel.Owner]: { title: "[Owner] ", color: "!{#AA0000}" } // Roșu închis profesional
 };

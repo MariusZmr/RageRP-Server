@@ -18,8 +18,8 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var AdminLevels_exports = {};
 __export(AdminLevels_exports, {
-  AdminLevel: () => AdminLevel,
-  AdminTitles: () => AdminTitles
+  AdminConfig: () => AdminConfig,
+  AdminLevel: () => AdminLevel
 });
 module.exports = __toCommonJS(AdminLevels_exports);
 var AdminLevel = /* @__PURE__ */ ((AdminLevel2) => {
@@ -31,17 +31,18 @@ var AdminLevel = /* @__PURE__ */ ((AdminLevel2) => {
   AdminLevel2[AdminLevel2["Owner"] = 5] = "Owner";
   return AdminLevel2;
 })(AdminLevel || {});
-const AdminTitles = {
-  [0 /* Player */]: "",
-  [1 /* Moderator */]: "[Moderator]",
-  [2 /* Admin */]: "[Admin]",
-  [3 /* SeniorAdmin */]: "[Sr. Admin]",
-  [4 /* Manager */]: "[Manager]",
-  [5 /* Owner */]: "[Owner]"
+const AdminConfig = {
+  [0 /* Player */]: { title: "", color: "!{#FFFFFF}" },
+  [1 /* Moderator */]: { title: "[Moderator] ", color: "!{#55FF55}" },
+  [2 /* Admin */]: { title: "[Admin] ", color: "!{#3399FF}" },
+  [3 /* SeniorAdmin */]: { title: "[Sr. Admin] ", color: "!{#FF9900}" },
+  [4 /* Manager */]: { title: "[Manager] ", color: "!{#FF33CC}" },
+  [5 /* Owner */]: { title: "[Owner] ", color: "!{#AA0000}" }
+  // Roșu închis profesional
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  AdminLevel,
-  AdminTitles
+  AdminConfig,
+  AdminLevel
 });
 //# sourceMappingURL=AdminLevels.js.map

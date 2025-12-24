@@ -1,64 +1,61 @@
 "use strict";
 var import_CommandRegistry = require("../CommandRegistry");
 var import_AuthService = require("../../services/AuthService");
-var import_AdminLevels = require("../../config/AdminLevels");
 (0, import_CommandRegistry.register)({
   name: "help",
-  description: "Afiseaza toate comenzile disponibile in functie de categoria lor.",
-  aliases: ["h", "comenzi"],
+  description: "Vizualizeaza lista de comenzi si informatii despre server.",
+  aliases: ["h", "cmds", "commands"],
   category: "general",
   execute: (player) => {
-    const user = player.dbData;
+    const db = player.dbData;
     const allCmds = (0, import_CommandRegistry.getAllCommands)();
-    player.outputChatBox("!{#FFFF00}======= [ LISTA COMENZI ] =======");
-    const categories = {};
+    player.outputChatBox("!{#AA0000}==== [ ServerServeros - Help ] ====");
+    const cats = {};
     allCmds.forEach((cmd) => {
-      if (cmd.minAdmin && (!user || user.adminLevel < cmd.minAdmin)) return;
-      if (!categories[cmd.category]) categories[cmd.category] = [];
-      const aliasStr = cmd.aliases ? ` (${cmd.aliases.join(", ")})` : "";
-      categories[cmd.category].push(`!{#FFFFFF}/${cmd.name}${aliasStr}`);
+      if (cmd.minAdmin && (!db || db.adminLevel < cmd.minAdmin)) return;
+      if (!cats[cmd.category]) cats[cmd.category] = [];
+      cats[cmd.category].push(`!{#FFFFFF}/${cmd.name}`);
     });
-    Object.keys(categories).forEach((cat) => {
-      player.outputChatBox(`!{#55FF55}[${cat.toUpperCase()}]: !{#FFFFFF}${categories[cat].join(", ")}`);
+    Object.keys(cats).forEach((category) => {
+      player.outputChatBox(`!{#AA0000}>> !{#FFFFFF}${category.toUpperCase()}: ${cats[category].join(", ")}`);
     });
-    player.outputChatBox("!{#FFFF00}==================================");
+    player.outputChatBox("!{#AA0000}==================================");
+  }
+});
+(0, import_CommandRegistry.register)({
+  name: "stats",
+  description: "Afiseaza statisticile detaliate ale contului tau.",
+  aliases: ["s", "status", "me"],
+  category: "general",
+  execute: (player) => {
+    const db = player.dbData;
+    if (!db) return;
+    player.outputChatBox(`!{#AA0000}==== [ Informatii Personaj: ${player.name} ] ====`);
+    player.outputChatBox(`!{#FFFFFF}ID: !{#AA0000}${player.id} !{#FFFFFF}| Level: !{#AA0000}${db.level} !{#FFFFFF}| Exp: !{#AA0000}${db.exp}/10`);
+    player.outputChatBox(`!{#FFFFFF}Bani Cash: !{#55FF55}$${db.money.toLocaleString()} !{#FFFFFF}| Banca: !{#55FF55}$${db.bank.toLocaleString()}`);
+    player.outputChatBox(`!{#FFFFFF}Sanatate: !{#FF5555}${player.health}% !{#FFFFFF}| Armura: !{#3399FF}${player.armour}%`);
+    player.outputChatBox("!{#AA0000}==================================================");
   }
 });
 (0, import_CommandRegistry.register)({
   name: "register",
-  description: "Creeaza un cont nou de utilizator pe server.",
+  description: "Inregistreaza un cont nou cu numele curent.",
   usage: "/register <parola>",
   category: "general",
   execute: (player, args) => {
-    if (!args[0]) return player.outputChatBox("!{#FF0000}Utilizare: !{#FFFFFF}/register <parola>");
+    if (!args[0]) return player.outputChatBox("!{#AA0000}Utilizare: !{#FFFFFF}/register <parola>");
     import_AuthService.AuthService.register(player, player.name, args[0]);
   }
 });
 (0, import_CommandRegistry.register)({
   name: "login",
-  description: "Autentifica-te pe contul tau existent.",
+  description: "Conecteaza-te la contul tau.",
   usage: "/login <parola>",
-  aliases: ["l", "auth"],
+  aliases: ["auth"],
   category: "general",
   execute: (player, args) => {
-    if (!args[0]) return player.outputChatBox("!{#FF0000}Utilizare: !{#FFFFFF}/login <parola>");
+    if (!args[0]) return player.outputChatBox("!{#AA0000}Utilizare: !{#FFFFFF}/login <parola>");
     import_AuthService.AuthService.login(player, player.name, args[0]);
-  }
-});
-(0, import_CommandRegistry.register)({
-  name: "stats",
-  description: "Vizualizeaza informatiile detaliate despre personajul tau.",
-  aliases: ["s", "myinfo"],
-  category: "general",
-  execute: (player) => {
-    const db = player.dbData;
-    if (!db) return player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}Nu esti logat.");
-    const title = import_AdminLevels.AdminTitles[db.adminLevel] || "Jucator";
-    player.outputChatBox(`!{#FFFF00}--- Statistica Personaj: ${db.username} ---`);
-    player.outputChatBox(`!{#FFFFFF}ID: !{#55FF55}${player.id} !{#FFFFFF}| Level: !{#55FF55}${db.level} !{#FFFFFF}| Exp: !{#55FF55}${db.exp}/5`);
-    player.outputChatBox(`!{#FFFFFF}Grad: !{#55FF55}${title} !{#FFFFFF}| Bani: !{#00FF00}$${db.money.toLocaleString()}`);
-    player.outputChatBox(`!{#FFFFFF}Banca: !{#00FF00}$${db.bank.toLocaleString()} !{#FFFFFF}| Warns: !{#FF0000}${db.warns}/3`);
-    player.outputChatBox("!{#FFFF00}---------------------------------------");
   }
 });
 //# sourceMappingURL=core.js.map
