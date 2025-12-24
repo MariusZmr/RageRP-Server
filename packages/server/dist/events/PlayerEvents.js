@@ -31,24 +31,25 @@ class PlayerEvents {
   static init() {
     mp.events.add("playerJoin", async (player) => {
       const user = await import_User.User.findOneBy({ username: player.name });
-      player.outputChatBox("!{#AA0000}========================================");
-      player.outputChatBox(`!{#FFFFFF}Bine ai venit pe !{#AA0000}ServerServeros!{#FFFFFF}, ${player.name}!`);
+      player.outputChatBox(import_AdminLevels.Theme.Divider);
+      player.outputChatBox(`${import_AdminLevels.Theme.Text}Bun venit pe ${import_AdminLevels.Theme.Primary}ServerServeros${import_AdminLevels.Theme.Text}, ${import_AdminLevels.Theme.Primary}${player.name}${import_AdminLevels.Theme.Text}.`);
       if (user) {
-        player.outputChatBox("!{#FFFFFF}Acest nume este !{#55FF55}inregistrat!{#FFFFFF}. Foloseste !{#55FF55}/login <parola>!{#FFFFFF}.");
+        player.outputChatBox(`${import_AdminLevels.Theme.Secondary}Sistem: ${import_AdminLevels.Theme.Text}Contul tau este securizat. Foloseste ${import_AdminLevels.Theme.Success}/login <parola>${import_AdminLevels.Theme.Text}.`);
       } else {
-        player.outputChatBox("!{#FFFFFF}Acest nume !{#FF9900}nu este inregistrat!{#FFFFFF}. Foloseste !{#FF9900}/register <parola>!{#FFFFFF}.");
+        player.outputChatBox(`${import_AdminLevels.Theme.Secondary}Sistem: ${import_AdminLevels.Theme.Text}Numele tau nu este inregistrat. Foloseste ${import_AdminLevels.Theme.Primary}/register <parola>${import_AdminLevels.Theme.Text}.`);
       }
-      player.outputChatBox("!{#AA0000}========================================");
+      player.outputChatBox(import_AdminLevels.Theme.Divider);
       import_Logger.Logger.info(`[JOIN] ${player.name} (ID: ${player.id}) s-a conectat.`);
     });
     mp.events.add("playerChat", (player, message) => {
       const db = import_PlayerUtils.PlayerUtils.getDb(player);
       if (!db) {
-        player.outputChatBox("!{#AA0000}Eroare: !{#FFFFFF}Trebuie sa fii logat pentru a vorbi.");
+        player.outputChatBox(`${import_AdminLevels.Theme.Error}Sistem: ${import_AdminLevels.Theme.Text}Trebuie sa te autentifici pentru a utiliza chat-ul.`);
         return;
       }
       const config = import_AdminLevels.AdminConfig[db.adminLevel];
-      const formattedMsg = `!{#BBBBBB}[${player.id}] ${config.color}${config.title}${player.name}: !{#FFFFFF}${message}`;
+      const titlePrefix = db.adminLevel > 0 ? `${config.color}${config.title} ` : "";
+      const formattedMsg = `${titlePrefix}${import_AdminLevels.Theme.Text}${player.name} ${import_AdminLevels.Theme.Secondary}(${player.id})${import_AdminLevels.Theme.Text}: ${import_AdminLevels.Theme.Text}${message}`;
       mp.players.forEachInRange(player.position, 20, (nearPlayer) => {
         nearPlayer.outputChatBox(formattedMsg);
       });
@@ -61,7 +62,7 @@ class PlayerEvents {
       const db = import_PlayerUtils.PlayerUtils.getDb(player);
       if (db) {
         await import_AuthService.AuthService.savePlayer(player);
-        import_Logger.Logger.info(`[QUIT] ${player.name} a parasit serverul (${exitType}).`);
+        import_Logger.Logger.info(`[QUIT] ${player.name} a parasit sesiunea.`);
       }
     });
   }
