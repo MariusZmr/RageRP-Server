@@ -1,8 +1,8 @@
 # Dependency directories
 node_modules/
 
-# Build outputs
-packages/server/dist/
+# Build outputs & Game Resources
+packages/
 client_packages/
 bin/
 dotnet/
