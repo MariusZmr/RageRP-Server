@@ -35,15 +35,16 @@ var import_bcryptjs = __toESM(require("bcryptjs"));
 var import_User = require("../models/User");
 var import_Logger = require("../utils/Logger");
 var import_PlayerUtils = require("../utils/PlayerUtils");
+var import_AdminLevels = require("../config/AdminLevels");
 class AuthService {
   static async register(player, username, pass) {
     try {
-      if (pass.length < 4) {
-        return player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}Parola trebuie sa aiba minim 4 caractere.");
+      if (pass.length < 6) {
+        return player.outputChatBox(`${import_AdminLevels.Theme.Error}Securitate: ${import_AdminLevels.Theme.Text}Parola este prea scurta (minim 6 caractere).`);
       }
       const existing = await import_User.User.findOneBy({ username });
       if (existing) {
-        return player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}Acest nume este deja utilizat.");
+        return player.outputChatBox(`${import_AdminLevels.Theme.Error}Eroare: ${import_AdminLevels.Theme.Text}Acest cont este deja inregistrat.`);
       }
       const hashed = await import_bcryptjs.default.hash(pass, 10);
       const userCount = await import_User.User.count();
@@ -52,27 +53,28 @@ class AuthService {
       newUser.password = hashed;
       newUser.adminLevel = userCount === 0 ? 5 : 0;
       await newUser.save();
-      player.outputChatBox("!{#00FF00}Succes: !{#FFFFFF}Cont creat cu succes! Te poti loga.");
-      import_Logger.Logger.info(`[AUTH] ${username} s-a inregistrat.`);
+      player.outputChatBox(`${import_AdminLevels.Theme.Success}Succes: ${import_AdminLevels.Theme.Text}Contul tau a fost creat. Te rugam sa folosesti ${import_AdminLevels.Theme.Primary}/login <parola>`);
+      import_Logger.Logger.info(`[AUTH] Utilizator nou: ${username}`);
     } catch (e) {
-      import_Logger.Logger.error("Eroare la inregistrare:", e.message);
+      import_Logger.Logger.error("Eroare inregistrare:", e.message);
     }
   }
   static async login(player, username, pass) {
     try {
       if (import_PlayerUtils.PlayerUtils.getDb(player)) {
-        return player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}Esti deja logat.");
+        return player.outputChatBox(`${import_AdminLevels.Theme.Error}Sistem: ${import_AdminLevels.Theme.Text}Esti deja autentificat.`);
       }
       const user = await import_User.User.findOneBy({ username });
       if (!user) {
-        return player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}Contul nu exista.");
+        return player.outputChatBox(`${import_AdminLevels.Theme.Error}Eroare: ${import_AdminLevels.Theme.Text}Numele de utilizator nu este valid.`);
       }
       if (user.isBanned) {
-        return player.outputChatBox(`!{#FF0000}Esti banat pe acest server! Motiv: ${user.banReason}`);
+        player.outputChatBox(`${import_AdminLevels.Theme.Error}RESTRIC\u021AIONAT: ${import_AdminLevels.Theme.Text}Acces interzis. Motiv: ${import_AdminLevels.Theme.Primary}${user.banReason}`);
+        return player.kick("Banned");
       }
       const match = await import_bcryptjs.default.compare(pass, user.password);
       if (!match) {
-        return player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}Parola este incorecta.");
+        return player.outputChatBox(`${import_AdminLevels.Theme.Error}Eroare: ${import_AdminLevels.Theme.Text}Parola introdusa este incorecta.`);
       }
       import_PlayerUtils.PlayerUtils.setDb(player, user);
       player.name = user.username;
@@ -81,11 +83,10 @@ class AuthService {
       player.dimension = user.dimension;
       player.health = user.health;
       player.armour = user.armor;
-      player.outputChatBox(`!{#00FF00}Bine ai revenit, !{#FFFFFF}${username}!`);
-      player.outputChatBox(`!{#FFFF00}Stats: !{#FFFFFF}Level ${user.level} | Bani: $${user.money.toLocaleString()}`);
-      import_Logger.Logger.info(`[AUTH] ${username} s-a logat.`);
+      player.outputChatBox(`${import_AdminLevels.Theme.Success}Sistem: ${import_AdminLevels.Theme.Text}Autentificare reusita. Bun venit, ${import_AdminLevels.Theme.Primary}${username}!`);
+      import_Logger.Logger.info(`[AUTH] ${username} s-a autentificat.`);
     } catch (e) {
-      import_Logger.Logger.error("Eroare la login:", e.message);
+      import_Logger.Logger.error("Eroare login:", e.message);
     }
   }
   static async savePlayer(player) {
@@ -98,7 +99,7 @@ class AuthService {
     try {
       await user.save();
     } catch (e) {
-      import_Logger.Logger.error(`Eroare la salvarea lui ${user.username}:`, e.message);
+      import_Logger.Logger.error(`Eroare salvare ${user.username}:`, e.message);
     }
   }
 }

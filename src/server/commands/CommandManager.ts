@@ -3,62 +3,65 @@ import path from "path";
 import { Logger } from "../utils/Logger";
 import { findCommand, getAllCommands } from "./CommandRegistry";
 import { PlayerUtils } from "../utils/PlayerUtils";
+import { Theme } from "../config/AdminLevels";
 
 export class CommandManager {
     static async loadCommands() {
         const commandsPath = __dirname;
-        const categories = ["admin", "general", "roleplay"];
+        const totalFiles = this.readDirRecursive(commandsPath);
         
-        for (const cat of categories) {
-            const catPath = path.join(commandsPath, cat);
-            if (!fs.existsSync(catPath)) continue;
+        const commands = getAllCommands();
+        Logger.info(`[CMD] Sistem Enterprise activat. ${commands.length} comenzi din ${totalFiles} module.`);
+    }
 
-            const files = fs.readdirSync(catPath).filter(f => f.endsWith(".js"));
-            for (const file of files) {
+    private static readDirRecursive(dir: string): number {
+        let count = 0;
+        const items = fs.readdirSync(dir);
+
+        for (const item of items) {
+            const fullPath = path.join(dir, item);
+            if (fs.statSync(fullPath).isDirectory()) {
+                count += this.readDirRecursive(fullPath);
+            } else if (item.endsWith(".js") && !item.includes("CommandManager") && !item.includes("CommandRegistry")) {
                 try {
-                    const fullPath = path.join(catPath, file);
                     delete require.cache[require.resolve(fullPath)];
                     require(fullPath);
+                    count++;
                 } catch (e) {
-                    Logger.error(`[CMD] Eroare la incarcarea fișierului ${file}:`, (e as any).message);
+                    Logger.error(`Eroare la modulul ${item}:`, (e as any).message);
                 }
             }
         }
-
-        const totalCmds = getAllCommands();
-        Logger.info(`[CMD] Sistem activat. ${totalCmds.length} comenzi principale incarcate.`);
+        return count;
     }
 
     static handleCommand(player: PlayerMp, message: string) {
         const args = message.split(" ");
-        const cmdTrigger = args.shift()?.toLowerCase();
-        if (!cmdTrigger) return;
+        const trigger = args.shift()?.toLowerCase();
+        if (!trigger) return;
 
-        const cmd = findCommand(cmdTrigger);
+        const cmd = findCommand(trigger);
         if (!cmd) {
-            player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}Comanda !{#FFFF00}/" + cmdTrigger + " !{#FFFFFF}nu exista. Foloseste !{#55FF55}/help.");
+            player.outputChatBox(`${Theme.Error}Eroare: ${Theme.Text}Comanda ${Theme.Primary}/${trigger}${Theme.Text} nu exista. Foloseste ${Theme.Primary}/help.`);
             return;
         }
 
         const user = PlayerUtils.getDb(player);
-        
-        // Logic for unauthenticated players
         if (!user && cmd.name !== "login" && cmd.name !== "register") {
-            player.outputChatBox("!{#FF0000}Autentificare: !{#FFFFFF}Trebuie sa fii logat pentru a folosi comenzile.");
+            player.outputChatBox(`${Theme.Error}Sistem: ${Theme.Text}Trebuie sa te autentifici pentru a accesa sistemul.`);
             return;
         }
 
-        // Admin check
         if (cmd.minAdmin && (!user || user.adminLevel < cmd.minAdmin)) {
-            player.outputChatBox("!{#FF0000}Permisiuni: !{#FFFFFF}Nu ai acces la aceasta comanda (Min Admin: " + cmd.minAdmin + ").");
+            player.outputChatBox(`${Theme.Error}Securitate: ${Theme.Text}Nivel de acces insuficient.`);
             return;
         }
 
         try {
             cmd.execute(player, args, args.join(" "));
         } catch (e) {
-            Logger.error(`Eroare fatala la comanda /${cmd.name}:`, (e as any).stack);
-            player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}A intervenit o eroare interna la procesarea comenzii.");
+            Logger.error(`Eroare executie /${cmd.name}:`, (e as any).stack);
+            player.outputChatBox(`${Theme.Error}Eroare: ${Theme.Text}Procesare esuata.`);
         }
     }
 }

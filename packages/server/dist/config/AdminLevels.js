@@ -19,7 +19,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var AdminLevels_exports = {};
 __export(AdminLevels_exports, {
   AdminConfig: () => AdminConfig,
-  AdminLevel: () => AdminLevel
+  AdminLevel: () => AdminLevel,
+  Theme: () => Theme
 });
 module.exports = __toCommonJS(AdminLevels_exports);
 var AdminLevel = /* @__PURE__ */ ((AdminLevel2) => {
@@ -31,18 +32,36 @@ var AdminLevel = /* @__PURE__ */ ((AdminLevel2) => {
   AdminLevel2[AdminLevel2["Owner"] = 5] = "Owner";
   return AdminLevel2;
 })(AdminLevel || {});
+const Theme = {
+  Primary: "!{#8B0000}",
+  // Roșu Închis (Branding)
+  Secondary: "!{#A9A9A9}",
+  // Gri pentru detalii
+  Text: "!{#E0E0E0}",
+  // Text principal
+  Success: "!{#27AE60}",
+  // Verde premium
+  Error: "!{#C0392B}",
+  // Roșu eroare
+  Divider: "!{#333333}\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC"
+};
 const AdminConfig = {
-  [0 /* Player */]: { title: "", color: "!{#FFFFFF}" },
-  [1 /* Moderator */]: { title: "[Moderator] ", color: "!{#55FF55}" },
-  [2 /* Admin */]: { title: "[Admin] ", color: "!{#3399FF}" },
-  [3 /* SeniorAdmin */]: { title: "[Sr. Admin] ", color: "!{#FF9900}" },
-  [4 /* Manager */]: { title: "[Manager] ", color: "!{#FF33CC}" },
-  [5 /* Owner */]: { title: "[Owner] ", color: "!{#AA0000}" }
-  // Roșu închis profesional
+  [0 /* Player */]: { title: "Jucator", color: Theme.Text },
+  [1 /* Moderator */]: { title: "Moderator", color: "!{#2E86C1}" },
+  // Steel Blue
+  [2 /* Admin */]: { title: "Admin", color: "!{#17A589}" },
+  // Teal
+  [3 /* SeniorAdmin */]: { title: "Sr. Admin", color: "!{#D4AC0D}" },
+  // Muted Gold
+  [4 /* Manager */]: { title: "Manager", color: "!{#8E44AD}" },
+  // Amethyst
+  [5 /* Owner */]: { title: "Owner", color: Theme.Primary }
+  // Dark Red
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   AdminConfig,
-  AdminLevel
+  AdminLevel,
+  Theme
 });
 //# sourceMappingURL=AdminLevels.js.map

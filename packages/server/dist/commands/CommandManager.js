@@ -36,51 +36,57 @@ var import_path = __toESM(require("path"));
 var import_Logger = require("../utils/Logger");
 var import_CommandRegistry = require("./CommandRegistry");
 var import_PlayerUtils = require("../utils/PlayerUtils");
+var import_AdminLevels = require("../config/AdminLevels");
 class CommandManager {
   static async loadCommands() {
     const commandsPath = __dirname;
-    const categories = ["admin", "general", "roleplay"];
-    for (const cat of categories) {
-      const catPath = import_path.default.join(commandsPath, cat);
-      if (!import_fs.default.existsSync(catPath)) continue;
-      const files = import_fs.default.readdirSync(catPath).filter((f) => f.endsWith(".js"));
-      for (const file of files) {
+    const totalFiles = this.readDirRecursive(commandsPath);
+    const commands = (0, import_CommandRegistry.getAllCommands)();
+    import_Logger.Logger.info(`[CMD] Sistem Enterprise activat. ${commands.length} comenzi din ${totalFiles} module.`);
+  }
+  static readDirRecursive(dir) {
+    let count = 0;
+    const items = import_fs.default.readdirSync(dir);
+    for (const item of items) {
+      const fullPath = import_path.default.join(dir, item);
+      if (import_fs.default.statSync(fullPath).isDirectory()) {
+        count += this.readDirRecursive(fullPath);
+      } else if (item.endsWith(".js") && !item.includes("CommandManager") && !item.includes("CommandRegistry")) {
         try {
-          const fullPath = import_path.default.join(catPath, file);
           delete require.cache[require.resolve(fullPath)];
           require(fullPath);
+          count++;
         } catch (e) {
-          import_Logger.Logger.error(`[CMD] Eroare la incarcarea fi\u0219ierului ${file}:`, e.message);
+          import_Logger.Logger.error(`Eroare la modulul ${item}:`, e.message);
         }
       }
     }
-    const totalCmds = (0, import_CommandRegistry.getAllCommands)();
-    import_Logger.Logger.info(`[CMD] Sistem activat. ${totalCmds.length} comenzi principale incarcate.`);
+    return count;
   }
   static handleCommand(player, message) {
     var _a;
     const args = message.split(" ");
-    const cmdTrigger = (_a = args.shift()) == null ? void 0 : _a.toLowerCase();
-    if (!cmdTrigger) return;
-    const cmd = (0, import_CommandRegistry.findCommand)(cmdTrigger);
+    const trigger = (_a = args.shift()) == null ? void 0 : _a.toLowerCase();
+    if (!trigger) return;
+    const cmd = (0, import_CommandRegistry.findCommand)(trigger);
     if (!cmd) {
-      player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}Comanda !{#FFFF00}/" + cmdTrigger + " !{#FFFFFF}nu exista. Foloseste !{#55FF55}/help.");
+      player.outputChatBox(`${import_AdminLevels.Theme.Error}Eroare: ${import_AdminLevels.Theme.Text}Comanda ${import_AdminLevels.Theme.Primary}/${trigger}${import_AdminLevels.Theme.Text} nu exista. Foloseste ${import_AdminLevels.Theme.Primary}/help.`);
       return;
     }
     const user = import_PlayerUtils.PlayerUtils.getDb(player);
     if (!user && cmd.name !== "login" && cmd.name !== "register") {
-      player.outputChatBox("!{#FF0000}Autentificare: !{#FFFFFF}Trebuie sa fii logat pentru a folosi comenzile.");
+      player.outputChatBox(`${import_AdminLevels.Theme.Error}Sistem: ${import_AdminLevels.Theme.Text}Trebuie sa te autentifici pentru a accesa sistemul.`);
       return;
     }
     if (cmd.minAdmin && (!user || user.adminLevel < cmd.minAdmin)) {
-      player.outputChatBox("!{#FF0000}Permisiuni: !{#FFFFFF}Nu ai acces la aceasta comanda (Min Admin: " + cmd.minAdmin + ").");
+      player.outputChatBox(`${import_AdminLevels.Theme.Error}Securitate: ${import_AdminLevels.Theme.Text}Nivel de acces insuficient.`);
       return;
     }
     try {
       cmd.execute(player, args, args.join(" "));
     } catch (e) {
-      import_Logger.Logger.error(`Eroare fatala la comanda /${cmd.name}:`, e.stack);
-      player.outputChatBox("!{#FF0000}Eroare: !{#FFFFFF}A intervenit o eroare interna la procesarea comenzii.");
+      import_Logger.Logger.error(`Eroare executie /${cmd.name}:`, e.stack);
+      player.outputChatBox(`${import_AdminLevels.Theme.Error}Eroare: ${import_AdminLevels.Theme.Text}Procesare esuata.`);
     }
   }
 }
