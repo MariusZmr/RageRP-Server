@@ -1,1 +1,1 @@
-mp.gui.chat.push('Client-side loaded!');
+mp.gui.chat.push("Client-side loaded!");

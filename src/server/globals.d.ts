@@ -1,5 +1,6 @@
 import "@ragemp/types";
 
 declare global {
-    var mp: MultiPlayer;
+    type PlayerMp = PlayerMpServer;
+    var mp: MpServer;
 }

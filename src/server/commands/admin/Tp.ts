@@ -10,7 +10,7 @@ register({
   execute: (player, args) => {
     if (!args[0])
       return player.outputChatBox(
-        `${Theme.Error}Info: ${Theme.Text}Utilizeaza /goto <id>`
+        `${Theme.Error}Info: ${Theme.Text}Utilizeaza /tp <id>`
       );
     const target = mp.players.at(parseInt(args[0]));
     if (!target)

@@ -1,6 +1,5 @@
 const esbuild = require('esbuild');
-const { esbuildDecorators } = require('esbuild-plugin-typescript-decorators');
-const { globSync } = require('glob');
+const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
@@ -8,20 +7,13 @@ async function buildServer() {
     const distPath = path.join(__dirname, 'packages/server/dist');
     if (fs.existsSync(distPath)) fs.rmSync(distPath, { recursive: true, force: true });
 
-    const entryPoints = globSync('src/server/**/*.ts');
-    console.log(`🚀 [BUILD-SERVER] Compilare ${entryPoints.length} fișiere...`);
-
-    await esbuild.build({
-        entryPoints,
-        bundle: false,
-        outdir: 'packages/server/dist',
-        platform: 'node',
-        format: 'cjs',
-        target: 'node14',
-        sourcemap: true,
-        plugins: [esbuildDecorators()],
-        outbase: 'src/server'
-    });
+    console.log(`🚀 [BUILD-SERVER] Compilare cu SWC...`);
+    
+    try {
+        execSync('npx swc src/server -d packages/server/dist --config-file packages/server/.swcrc', { stdio: 'inherit' });
+    } catch (err) {
+        throw new Error('SWC compilation failed');
+    }
 }
 
 async function buildClient() {

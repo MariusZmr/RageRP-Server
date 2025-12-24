@@ -19,16 +19,10 @@
 
 ## 📜 Jurnal Modificări (Checkpoints)
 
-### ✅ Checkpoint 3: Refactorizare Profesională (24 Dec 2025)
-- **Feature:** Sistem dinamic de încărcare comenzi (Command Loader).
-- **Feature:** Categorizare și Help automatizat.
-- **Feature:** Sistem Admin ierarhic (Config + Validare).
-- **Feature:** Graceful Shutdown (`/stopserver`).
-
-### 🔄 MIGRATION POINT (Acum)
-- Trecere de la `npm` la `pnpm`.
-- Trecere de la `tsc` (build) la `swc` (build).
+### ✅ Checkpoint 4: Modernizare Build System (24 Dec 2025)
+- **Migration:** Trecere completă la `pnpm`.
+- **Migration:** Trecere de la `esbuild/tsc` la `SWC` pentru server (performanță ultra-fast).
+- **Fix:** Rezolvat eroare module lipsă și corectat watch path în `package.json`.
 
 ## 🛠️ Configurație Curentă
-- **API:** Port 3005.
-- **Admin:** Level 0-5.
+- **Build:** SWC (Server) + Esbuild (Client).

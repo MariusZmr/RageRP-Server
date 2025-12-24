@@ -33,6 +33,9 @@ importers:
         specifier: ^0.3.11
         version: 0.3.11(mysql2@2.3.3)(ts-node@10.9.2(@swc/core@1.15.7)(@types/node@22.19.3)(typescript@5.9.3))
     devDependencies:
+      '@ragemp/types':
+        specifier: github:ragempcommunity/ragemp-types
+        version: root@https://codeload.github.com/ragempcommunity/ragemp-types/tar.gz/ab3a463219957fd928d0d61de534c55c0e632745
       '@swc/cli':
         specifier: ^0.7.9
         version: 0.7.9(@swc/core@1.15.7)(chokidar@4.0.3)
@@ -40,7 +43,7 @@ importers:
         specifier: ^1.15.7
         version: 1.15.7
       '@types/express':
-        specifier: ^5.0.0
+        specifier: ^5.0.6
         version: 5.0.6
       '@types/node':
         specifier: ^22.10.2
@@ -1573,6 +1576,10 @@ packages:
     resolution: {integrity: sha512-3nk8Y3a9Ea8szgKhinMlGMhGMw89mqule3KWczxhIzqudyHdCIOHw8WJlj/r329fACjKLEh13ZSk7oE22kyeIw==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
+
+  root@https://codeload.github.com/ragempcommunity/ragemp-types/tar.gz/ab3a463219957fd928d0d61de534c55c0e632745:
+    resolution: {tarball: https://codeload.github.com/ragempcommunity/ragemp-types/tar.gz/ab3a463219957fd928d0d61de534c55c0e632745}
+    version: 0.0.0
 
   safe-buffer@5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
@@ -3350,6 +3357,8 @@ snapshots:
       '@rollup/rollup-win32-x64-gnu': 4.54.0
       '@rollup/rollup-win32-x64-msvc': 4.54.0
       fsevents: 2.3.3
+
+  root@https://codeload.github.com/ragempcommunity/ragemp-types/tar.gz/ab3a463219957fd928d0d61de534c55c0e632745: {}
 
   safe-buffer@5.2.1: {}
 

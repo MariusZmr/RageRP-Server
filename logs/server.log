@@ -111,3 +111,57 @@ Unknown database 'ragemp'
 2025-12-24 15:20:07 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
 2025-12-24 15:20:17 [INFO]: [AUTH] Marius s-a autentificat.
 2025-12-24 15:27:13 [INFO]: [CHAT] Marius: gasd'
+2025-12-24 16:06:07 [INFO]: Se inițializează serverul...
+2025-12-24 16:06:08 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 16:06:08 [INFO]: [CMD] Sistem Enterprise activat. 8 comenzi incarcate.
+2025-12-24 16:06:08 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 16:06:08 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 16:06:08 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-24 16:06:21 [INFO]: [AUTH] Marius s-a autentificat.
+2025-12-24 16:18:36 [INFO]: Se inițializează serverul...
+2025-12-24 16:18:37 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 16:18:37 [INFO]: [CMD] Sistem Enterprise activat. 17 comenzi incarcate.
+2025-12-24 16:18:37 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 16:18:37 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 16:18:41 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-24 16:23:33 [INFO]: [AUTH] Marius s-a autentificat.
+2025-12-24 16:23:39 [INFO]: [CHAT] Marius: Salut
+2025-12-24 16:30:21 [INFO]: Se inițializează serverul...
+2025-12-24 16:30:22 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 16:30:22 [INFO]: [CMD] Sistem Enterprise activat. 17 comenzi incarcate.
+2025-12-24 16:30:22 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 16:30:22 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 16:30:22 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-24 16:36:29 [INFO]: [AUTH] Marius s-a autentificat.
+2025-12-24 16:36:34 [INFO]: [CHAT] Marius: asd
+2025-12-24 16:38:32 [INFO]: [CHAT] Marius: '
+2025-12-24 16:38:33 [INFO]: [CHAT] Marius: a
+2025-12-24 16:44:33 [INFO]: Se inițializează serverul...
+2025-12-24 16:44:34 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 16:44:34 [INFO]: [CMD] Sistem Enterprise activat. 18 comenzi incarcate.
+2025-12-24 16:44:34 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 16:44:34 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 16:44:34 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-24 16:44:41 [INFO]: [AUTH] Marius s-a autentificat.
+2025-12-24 16:46:31 [INFO]: Se inițializează serverul...
+2025-12-24 16:46:32 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 16:46:32 [INFO]: [CMD] Sistem Enterprise activat. 17 comenzi incarcate.
+2025-12-24 16:46:32 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 16:46:32 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 16:46:32 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-24 16:46:53 [INFO]: [AUTH] Marius s-a autentificat.
+2025-12-24 16:47:44 [INFO]: [CHAT] Marius: asdasd
+2025-12-24 16:47:53 [INFO]: [CHAT] Marius: .asasd
+2025-12-24 16:54:55 [INFO]: Se inițializează serverul...
+2025-12-24 16:54:56 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 16:54:56 [INFO]: [CMD] Sistem Enterprise activat. 17 comenzi incarcate.
+2025-12-24 16:54:56 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 16:54:56 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 16:54:59 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-24 17:00:56 [INFO]: [AUTH] Marius s-a autentificat.
+2025-12-24 17:09:39 [INFO]: Se inițializează serverul...
+2025-12-24 17:09:40 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 17:09:40 [INFO]: [CMD] Sistem Enterprise activat. 17 comenzi incarcate.
+2025-12-24 17:09:40 [ERROR]: Eroare la pornirea serverului:
+express is not a function
+2025-12-24 17:09:40 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
