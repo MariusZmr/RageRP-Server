@@ -8,31 +8,33 @@ import { Theme } from "../config/AdminLevels";
 export class CommandManager {
     static async loadCommands() {
         const commandsPath = __dirname;
-        const totalFiles = this.readDirRecursive(commandsPath);
+        this.readDirRecursive(commandsPath);
         
         const commands = getAllCommands();
-        Logger.info(`[CMD] Sistem Enterprise activat. ${commands.length} comenzi din ${totalFiles} module.`);
+        Logger.info(`[CMD] Sistem Enterprise activat. ${commands.length} comenzi incarcate.`);
     }
 
-    private static readDirRecursive(dir: string): number {
-        let count = 0;
+    private static readDirRecursive(dir: string) {
         const items = fs.readdirSync(dir);
 
         for (const item of items) {
             const fullPath = path.join(dir, item);
-            if (fs.statSync(fullPath).isDirectory()) {
-                count += this.readDirRecursive(fullPath);
+            const stats = fs.statSync(fullPath);
+
+            if (stats.isDirectory()) {
+                // Setăm categoria globală ca fiind numele folderului curent
+                (global as any).currentLoadingCategory = item.toLowerCase();
+                this.readDirRecursive(fullPath);
+                (global as any).currentLoadingCategory = undefined; // Resetăm după ieșire
             } else if (item.endsWith(".js") && !item.includes("CommandManager") && !item.includes("CommandRegistry")) {
                 try {
                     delete require.cache[require.resolve(fullPath)];
                     require(fullPath);
-                    count++;
                 } catch (e) {
-                    Logger.error(`Eroare la modulul ${item}:`, (e as any).message);
+                    Logger.error(`Eroare la incarcarea modulului ${item}:`, (e as any).message);
                 }
             }
         }
-        return count;
     }
 
     static handleCommand(player: PlayerMp, message: string) {
@@ -48,7 +50,7 @@ export class CommandManager {
 
         const user = PlayerUtils.getDb(player);
         if (!user && cmd.name !== "login" && cmd.name !== "register") {
-            player.outputChatBox(`${Theme.Error}Sistem: ${Theme.Text}Trebuie sa te autentifici pentru a accesa sistemul.`);
+            player.outputChatBox(`${Theme.Error}Sistem: ${Theme.Text}Autentificarea este obligatorie.`);
             return;
         }
 

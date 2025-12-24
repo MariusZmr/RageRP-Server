@@ -103,3 +103,10 @@ Unknown database 'ragemp'
 2025-12-24 15:13:25 [INFO]: API-ul Express ascultă pe portul 3005
 2025-12-24 15:13:28 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
 2025-12-24 15:13:37 [INFO]: [AUTH] Marius s-a logat.
+2025-12-24 15:20:05 [INFO]: Se inițializează serverul...
+2025-12-24 15:20:06 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 15:20:06 [INFO]: [CMD] Sistem Enterprise activat. 8 comenzi din 8 module.
+2025-12-24 15:20:06 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 15:20:06 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 15:20:07 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-24 15:20:17 [INFO]: [AUTH] Marius s-a autentificat.

@@ -31,6 +31,9 @@ const commands = global.commandMap;
 const aliases = global.aliasMap;
 function register(cmd) {
   const mainName = cmd.name.toLowerCase();
+  if (!cmd.category && global.currentLoadingCategory) {
+    cmd.category = global.currentLoadingCategory;
+  }
   commands.set(mainName, cmd);
   if (cmd.aliases) {
     cmd.aliases.forEach((alias) => {

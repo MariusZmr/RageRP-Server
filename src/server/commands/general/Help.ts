@@ -5,7 +5,6 @@ register({
     name: "help",
     description: "Manualul de utilizare al sistemelor Serveros.",
     aliases: ["h", "commands"],
-    category: "general",
     execute: (player) => {
         const db = (player as any).dbData;
         const allCmds = getAllCommands();
@@ -16,8 +15,9 @@ register({
         const cats: Record<string, string[]> = {};
         allCmds.forEach(cmd => {
             if (cmd.minAdmin && (!db || db.adminLevel < cmd.minAdmin)) return;
-            if (!cats[cmd.category]) cats[cmd.category] = [];
-            cats[cmd.category].push(`${Theme.Text}/${cmd.name}`);
+            const cat = cmd.category || "altele";
+            if (!cats[cat]) cats[cat] = [];
+            cats[cat].push(`${Theme.Text}/${cmd.name}`);
         });
 
         Object.keys(cats).forEach(cat => {

@@ -7,7 +7,6 @@ register({
     usage: "/veh <model>",
     aliases: ["v", "spawn"],
     minAdmin: AdminLevel.Admin,
-    category: "admin",
     execute: (player, args) => {
         if (!args[0]) return player.outputChatBox(`${Theme.Error}Info: ${Theme.Text}Utilizeaza /veh <model>`);
         try {

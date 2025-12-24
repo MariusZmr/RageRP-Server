@@ -4,7 +4,7 @@ export interface ICommand {
     usage?: string;
     aliases?: string[];
     minAdmin?: number;
-    category: "general" | "admin" | "roleplay" | "job" | "faction";
+    category?: string; // Acum este opțional, va fi completat de loader
     execute: (player: PlayerMp, args: string[], fullText: string) => void;
 }
 
@@ -18,6 +18,12 @@ const aliases: Map<string, string> = (global as any).aliasMap;
 
 export function register(cmd: ICommand) {
     const mainName = cmd.name.toLowerCase();
+    
+    // Preluăm categoria din contextul global setat de manager în timpul încărcării
+    if (!cmd.category && (global as any).currentLoadingCategory) {
+        cmd.category = (global as any).currentLoadingCategory;
+    }
+
     commands.set(mainName, cmd);
     
     if (cmd.aliases) {

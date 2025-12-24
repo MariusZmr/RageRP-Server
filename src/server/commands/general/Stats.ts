@@ -5,7 +5,6 @@ register({
     name: "stats",
     description: "Vizualizeaza rezumatul profilului tau digital.",
     aliases: ["s", "profile"],
-    category: "general",
     execute: (player) => {
         const db = (player as any).dbData;
         if (!db) return;

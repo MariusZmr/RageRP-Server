@@ -40,28 +40,28 @@ var import_AdminLevels = require("../config/AdminLevels");
 class CommandManager {
   static async loadCommands() {
     const commandsPath = __dirname;
-    const totalFiles = this.readDirRecursive(commandsPath);
+    this.readDirRecursive(commandsPath);
     const commands = (0, import_CommandRegistry.getAllCommands)();
-    import_Logger.Logger.info(`[CMD] Sistem Enterprise activat. ${commands.length} comenzi din ${totalFiles} module.`);
+    import_Logger.Logger.info(`[CMD] Sistem Enterprise activat. ${commands.length} comenzi incarcate.`);
   }
   static readDirRecursive(dir) {
-    let count = 0;
     const items = import_fs.default.readdirSync(dir);
     for (const item of items) {
       const fullPath = import_path.default.join(dir, item);
-      if (import_fs.default.statSync(fullPath).isDirectory()) {
-        count += this.readDirRecursive(fullPath);
+      const stats = import_fs.default.statSync(fullPath);
+      if (stats.isDirectory()) {
+        global.currentLoadingCategory = item.toLowerCase();
+        this.readDirRecursive(fullPath);
+        global.currentLoadingCategory = void 0;
       } else if (item.endsWith(".js") && !item.includes("CommandManager") && !item.includes("CommandRegistry")) {
         try {
           delete require.cache[require.resolve(fullPath)];
           require(fullPath);
-          count++;
         } catch (e) {
-          import_Logger.Logger.error(`Eroare la modulul ${item}:`, e.message);
+          import_Logger.Logger.error(`Eroare la incarcarea modulului ${item}:`, e.message);
         }
       }
     }
-    return count;
   }
   static handleCommand(player, message) {
     var _a;
@@ -75,7 +75,7 @@ class CommandManager {
     }
     const user = import_PlayerUtils.PlayerUtils.getDb(player);
     if (!user && cmd.name !== "login" && cmd.name !== "register") {
-      player.outputChatBox(`${import_AdminLevels.Theme.Error}Sistem: ${import_AdminLevels.Theme.Text}Trebuie sa te autentifici pentru a accesa sistemul.`);
+      player.outputChatBox(`${import_AdminLevels.Theme.Error}Sistem: ${import_AdminLevels.Theme.Text}Autentificarea este obligatorie.`);
       return;
     }
     if (cmd.minAdmin && (!user || user.adminLevel < cmd.minAdmin)) {
