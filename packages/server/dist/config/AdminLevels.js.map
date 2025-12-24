@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/server/config/AdminLevels.ts"],
+  "sourcesContent": ["export enum AdminLevel {\n    Player = 0,\n    Moderator = 1,\n    Admin = 2,\n    SeniorAdmin = 3,\n    Manager = 4,\n    Owner = 5\n}\n\nexport const AdminTitles: Record<number, string> = {\n    [AdminLevel.Player]: \"\",\n    [AdminLevel.Moderator]: \"[Moderator]\",\n    [AdminLevel.Admin]: \"[Admin]\",\n    [AdminLevel.SeniorAdmin]: \"[Sr. Admin]\",\n    [AdminLevel.Manager]: \"[Manager]\",\n    [AdminLevel.Owner]: \"[Owner]\"\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,IAAK,aAAL,kBAAKA,gBAAL;AACH,EAAAA,wBAAA,YAAS,KAAT;AACA,EAAAA,wBAAA,eAAY,KAAZ;AACA,EAAAA,wBAAA,WAAQ,KAAR;AACA,EAAAA,wBAAA,iBAAc,KAAd;AACA,EAAAA,wBAAA,aAAU,KAAV;AACA,EAAAA,wBAAA,WAAQ,KAAR;AANQ,SAAAA;AAAA,GAAA;AASL,MAAM,cAAsC;AAAA,EAC/C,CAAC,cAAiB,GAAG;AAAA,EACrB,CAAC,iBAAoB,GAAG;AAAA,EACxB,CAAC,aAAgB,GAAG;AAAA,EACpB,CAAC,mBAAsB,GAAG;AAAA,EAC1B,CAAC,eAAkB,GAAG;AAAA,EACtB,CAAC,aAAgB,GAAG;AACxB;",
+  "names": ["AdminLevel"]
+}

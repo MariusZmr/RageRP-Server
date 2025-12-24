@@ -1,0 +1,9 @@
+{
+  "maxplayers": 100,
+  "name": "Marius suiraM 1.0",
+  "gamemode": "roleplay",
+  "stream-distance": 500.0,
+  "announce": false,
+  "csharp": "disabled",
+  "port": 22005
+}

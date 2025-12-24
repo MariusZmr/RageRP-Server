@@ -1,0 +1,38 @@
+{
+  "name": "serverserveros",
+  "version": "1.0.0",
+  "description": "",
+  "main": "packages/server/index.js",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "node esbuild.config.js",
+    "dev": "nodemon --watch packages/server/src --ext ts --exec \"pnpm run build && ragemp-server\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mariadb": "^3.4.0",
+    "mysql2": "2.3.3",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.11"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.7.9",
+    "@swc/core": "^1.15.7",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "esbuild": "^0.27.2",
+    "esbuild-plugin-typescript-decorators": "^0.1.0",
+    "glob": "^13.0.0",
+    "nodemon": "^3.1.9",
+    "rimraf": "^6.1.2",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.7.2"
+  }
+}

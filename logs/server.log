@@ -1,0 +1,98 @@
+2025-12-24 14:25:41 [INFO]: 🛠️ Se inițializează serverul...
+2025-12-24 14:26:19 [INFO]: 🛠️ Se inițializează serverul...
+2025-12-24 14:26:21 [INFO]: ✅ Conectat cu succes la MariaDB!
+2025-12-24 14:26:21 [INFO]: 🔍 [CMD] Scanez comenzi în: C:\Users\Nucl3\Desktop\ServerServeros\packages\server\dist\commands
+2025-12-24 14:26:21 [ERROR]: ❌ Eroare la încărcarea comenzii AdminChatCommand.js: TypeError: _CommandManager.register is not a function
+2025-12-24 14:26:21 [ERROR]: ❌ Eroare la încărcarea comenzii AnnounceCommand.js: TypeError: _CommandManager.register is not a function
+2025-12-24 14:26:21 [ERROR]: ❌ Eroare la încărcarea comenzii FixCommand.js: TypeError: _CommandManager.register is not a function
+2025-12-24 14:26:21 [ERROR]: ❌ Eroare la încărcarea comenzii SetAdminCommand.js: TypeError: _CommandManager.register is not a function
+2025-12-24 14:26:21 [ERROR]: ❌ Eroare la încărcarea comenzii HealCommand.js: TypeError: _CommandManager.register is not a function
+2025-12-24 14:26:21 [ERROR]: ❌ Eroare la încărcarea comenzii StopServerCommand.js: TypeError: _CommandManager.register is not a function
+2025-12-24 14:26:21 [ERROR]: ❌ Eroare la încărcarea comenzii VehicleCommand.js: TypeError: _CommandManager.register is not a function
+2025-12-24 14:26:21 [ERROR]: ❌ Eroare la încărcarea comenzii HelpCommand.js: TypeError: _CommandManager.register is not a function
+2025-12-24 14:26:21 [ERROR]: ❌ Eroare la încărcarea comenzii MoneyCommand.js: TypeError: _CommandManager.register is not a function
+2025-12-24 14:26:21 [ERROR]: ❌ Eroare la încărcarea comenzii MeCommand.js: TypeError: _CommandManager.register is not a function
+2025-12-24 14:26:21 [INFO]: ✅ [CMD] 0 comenzi încărcate.
+2025-12-24 14:26:21 [INFO]: ✅ Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 14:26:21 [INFO]: 🚀 API-ul Express ascultă pe portul 3005
+2025-12-24 14:27:14 [INFO]: 🛠️ Se inițializează serverul...
+2025-12-24 14:27:15 [INFO]: ✅ Conectat cu succes la MariaDB!
+2025-12-24 14:27:15 [INFO]: 🔍 [CMD] Scanez comenzi în: C:\Users\Nucl3\Desktop\ServerServeros\packages\server\dist\commands
+2025-12-24 14:27:15 [INFO]: 🚀 API-ul Express ascultă pe portul 3005
+2025-12-24 14:27:15 [INFO]: ✅ [CMD] 20 comenzi încărcate.
+2025-12-24 14:27:15 [INFO]: ✅ Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 14:29:37 [INFO]: [JOIN] Marius s-a conectat (IP: 127.0.0.1).
+2025-12-24 14:29:47 [INFO]: [DB] Cont nou creat: Marius (ID: 1, Admin: 5)
+2025-12-24 14:29:47 [INFO]: [AUTH] Marius s-a logat cu succes.
+2025-12-24 14:30:04 [DEBUG]: [CHAT] Marius: asd
+2025-12-24 14:30:05 [DEBUG]: [CHAT] Marius: salut
+2025-12-24 14:32:15 [INFO]: 💾 [Auto-Save] Se salvează jucătorii online...
+2025-12-24 14:32:15 [DEBUG]: [DB] Stats salvate pentru ID 1.
+2025-12-24 14:33:37 [INFO]:  Se inițializează serverul...
+2025-12-24 14:33:38 [INFO]:  Conectat cu succes la MariaDB!
+2025-12-24 14:33:38 [INFO]:  [CMD] Scanez comenzi în: C:\Users\Nucl3\Desktop\ServerServeros\packages\server\dist\commands
+2025-12-24 14:33:38 [INFO]:  [CMD] 20 comenzi încărcate.
+2025-12-24 14:33:38 [INFO]:  Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 14:33:38 [INFO]:  API-ul Express ascultă pe portul 3005
+2025-12-24 14:33:40 [INFO]: [JOIN] Marius s-a conectat (IP: 127.0.0.1).
+2025-12-24 14:38:38 [INFO]:  [Auto-Save] Se salvează jucătorii online...
+2025-12-24 14:38:58 [INFO]:  Se inițializează serverul...
+2025-12-24 14:38:59 [INFO]:  Conectat cu succes la MariaDB!
+2025-12-24 14:38:59 [INFO]:  [CMD] Inregistrez comenzile din: C:\Users\Nucl3\Desktop\ServerServeros\packages\server\dist\commands
+2025-12-24 14:38:59 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 14:38:59 [INFO]:  [CMD] 22 comenzi încărcate.
+2025-12-24 14:38:59 [INFO]:  API-ul Express ascultă pe portul 3005
+2025-12-24 14:39:00 [INFO]: [JOIN] Marius s-a conectat (IP: 127.0.0.1).
+2025-12-24 14:39:10 [INFO]: [AUTH] Marius s-a logat cu succes.
+2025-12-24 14:43:59 [INFO]: Se salvează jucătorii online...
+2025-12-24 14:44:00 [DEBUG]: [DB] Stats salvate pentru ID 1.
+2025-12-24 14:45:54 [INFO]:  Se inițializează serverul...
+2025-12-24 14:45:55 [INFO]:  Conectat cu succes la MariaDB!
+2025-12-24 14:45:55 [INFO]:  [CMD] Inregistrez comenzile din: C:\Users\Nucl3\Desktop\ServerServeros\packages\server\dist\commands
+2025-12-24 14:45:55 [INFO]:  [CMD] 22 comenzi încărcate.
+2025-12-24 14:45:55 [INFO]:  API-ul Express ascultă pe portul 3005
+2025-12-24 14:45:55 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 14:45:58 [INFO]: [JOIN] Marius s-a conectat (IP: 127.0.0.1).
+2025-12-24 14:50:55 [INFO]: Se salvează jucătorii online...
+2025-12-24 14:52:33 [INFO]: Se inițializează serverul...
+2025-12-24 14:52:34 [ERROR]: Eroare la pornirea serverului:
+Unknown database 'ragemp'
+2025-12-24 14:52:57 [INFO]: Se inițializează serverul...
+2025-12-24 14:52:58 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 14:52:58 [INFO]: [CMD] Inregistrez comenzile din: C:\Users\Nucl3\Desktop\ServerServeros\packages\server\dist
+2025-12-24 14:52:58 [INFO]: [CMD] 0 comenzi încărcate.
+2025-12-24 14:52:58 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 14:52:58 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 14:53:00 [INFO]: [JOIN] Marius s-a conectat (IP: 127.0.0.1).
+2025-12-24 14:56:30 [INFO]: Se inițializează serverul...
+2025-12-24 14:56:31 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 14:56:32 [INFO]: [CMD] Inregistrez comenzile din: C:\Users\Nucl3\Desktop\ServerServeros\packages\server\dist
+2025-12-24 14:56:32 [INFO]: [CMD] 0 comenzi încărcate.
+2025-12-24 14:56:32 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 14:56:32 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 14:56:33 [INFO]: [JOIN] Marius s-a conectat (IP: 127.0.0.1).
+2025-12-24 14:58:03 [INFO]: Se inițializează serverul...
+2025-12-24 14:58:04 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 14:58:04 [INFO]: [CMD] Inregistrez comenzile din: C:\Users\Nucl3\Desktop\ServerServeros\packages\server\dist\commands
+2025-12-24 14:58:04 [INFO]: [CMD] 3 comenzi încărcate cu succes.
+2025-12-24 14:58:04 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 14:58:04 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 14:58:09 [INFO]: [JOIN] Marius s-a conectat (IP: 127.0.0.1).
+2025-12-24 14:58:25 [INFO]: [AUTH] Marius s-a logat.
+2025-12-24 14:59:29 [INFO]: Se inițializează serverul...
+2025-12-24 14:59:30 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 14:59:30 [INFO]: [CMD] 12 comenzi individuale incarcate: veh, goto, setadmin, help, cmds, register, login, stats, me, do, b, shout
+2025-12-24 14:59:30 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 14:59:30 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 14:59:34 [INFO]: [JOIN] Marius s-a conectat (IP: 127.0.0.1).
+2025-12-24 14:59:39 [INFO]: [AUTH] Marius s-a logat.
+2025-12-24 14:59:40 [INFO]: [CHAT] Marius: asd
+2025-12-24 14:59:43 [INFO]: [CHAT] Marius: asdasdasd
+2025-12-24 15:02:09 [INFO]: Se inițializează serverul...
+2025-12-24 15:02:10 [INFO]: Conectat cu succes la MariaDB!
+2025-12-24 15:02:10 [INFO]: [CMD] Sistem activat. 13 comenzi principale incarcate.
+2025-12-24 15:02:10 [INFO]: Sistem Auth, Stats, Chat & Comenzi activat.
+2025-12-24 15:02:10 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-24 15:02:14 [INFO]: [JOIN] Marius s-a conectat (IP: 127.0.0.1).
+2025-12-24 15:02:19 [INFO]: [AUTH] Marius s-a logat.
+2025-12-24 15:02:34 [INFO]: [CHAT] Marius: asd
