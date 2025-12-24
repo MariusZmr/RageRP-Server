@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../src/server/utils/PlayerUtils.ts"],
-  "sourcesContent": ["import { User } from \"../models/User\";\n\nexport class PlayerUtils {\n    static getDb(player: PlayerMp): User | undefined {\n        if (!player || !mp.players.exists(player)) return undefined;\n        return (player as any).dbData;\n    }\n\n    static setDb(player: PlayerMp, data: User | undefined) {\n        if (!player || !mp.players.exists(player)) return;\n        (player as any).dbData = data;\n    }\n\n    static updateDb(player: PlayerMp, updates: Partial<User>) {\n        const db = this.getDb(player);\n        if (db) {\n            Object.assign(db, updates);\n        }\n    }\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEO,MAAM,YAAY;AAAA,EACrB,OAAO,MAAM,QAAoC;AAC7C,QAAI,CAAC,UAAU,CAAC,GAAG,QAAQ,OAAO,MAAM,EAAG,QAAO;AAClD,WAAQ,OAAe;AAAA,EAC3B;AAAA,EAEA,OAAO,MAAM,QAAkB,MAAwB;AACnD,QAAI,CAAC,UAAU,CAAC,GAAG,QAAQ,OAAO,MAAM,EAAG;AAC3C,IAAC,OAAe,SAAS;AAAA,EAC7B;AAAA,EAEA,OAAO,SAAS,QAAkB,SAAwB;AACtD,UAAM,KAAK,KAAK,MAAM,MAAM;AAC5B,QAAI,IAAI;AACJ,aAAO,OAAO,IAAI,OAAO;AAAA,IAC7B;AAAA,EACJ;AACJ;",
-  "names": []
-}
