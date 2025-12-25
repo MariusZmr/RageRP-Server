@@ -6,6 +6,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "node esbuild.config.js",
+    "build:ui": "vite build",
+    "dev:ui": "vite",
     "dev": "nodemon --watch src/server --ext ts --exec \"pnpm run build && ./ragemp-server.exe\""
   },
   "keywords": [],
@@ -14,11 +16,20 @@
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "framer-motion": "^12.23.26",
+    "lucide-react": "^0.562.0",
     "mariadb": "^3.4.0",
     "mysql2": "2.3.3",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.11.0",
     "reflect-metadata": "^0.2.2",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss-animate": "^1.0.7",
     "typeorm": "^0.3.11"
   },
   "devDependencies": {
@@ -27,13 +38,20 @@
     "@swc/core": "^1.15.7",
     "@types/express": "^5.0.6",
     "@types/node": "^22.10.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "autoprefixer": "^10.4.23",
     "esbuild": "^0.27.2",
     "esbuild-plugin-typescript-decorators": "^0.1.0",
     "glob": "^13.0.0",
     "nodemon": "^3.1.9",
+    "postcss": "^8.5.6",
     "rimraf": "^6.1.2",
+    "tailwindcss": "3.4.17",
     "ts-node": "^10.9.2",
     "tsup": "^8.5.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vite": "^7.3.0"
   }
 }

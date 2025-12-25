@@ -3,20 +3,17 @@ class NoClipManager {
   private active: boolean = false;
   private camera: CameraMp | null = null;
 
-  // Configurare
-  private mouseSensitivity: number = 5.0;
+  // Setări viteză și sensibilitate
+  private mouseSensitivity: number = 3.0; // Ajustabil
   private readonly speeds = {
     normal: 1.0,
-    fast: 3.0, // Dacă ai HDD (nu SSD), pune 2.0 aici. 3.0+ poate bloca jocul la încărcare.
+    fast: 3.0,
     slow: 0.1,
   };
 
-  // Stocare rotație și timp
-  private rotX: number = 0.0;
-  private rotZ: number = 0.0;
-  private lastPlayerUpdate: number = 0; // Pentru optimizare
+  // Variabile pentru optimizare (Ghost Mode)
+  private lastPlayerUpdate: number = 0;
 
-  // Taste
   private readonly controls = {
     W: 32,
     S: 33,
@@ -38,19 +35,61 @@ class NoClipManager {
     return NoClipManager.instance;
   }
 
+  // --- FUNCȚII MATEMATICE (Din scriptul tău) ---
+
+  // Calculează direcția înainte pe baza rotației
+  private getForwardVector(rot: { x: number; z: number }): {
+    x: number;
+    y: number;
+    z: number;
+  } {
+    const z = rot.z * (Math.PI / 180.0);
+    const x = rot.x * (Math.PI / 180.0);
+    const num = Math.abs(Math.cos(x));
+
+    return {
+      x: -Math.sin(z) * num,
+      y: Math.cos(z) * num,
+      z: Math.sin(x),
+    };
+  }
+
+  // Normalizează vectorul (îl aduce la lungimea de 1)
+  private getNormalizedVector(vector: { x: number; y: number; z: number }) {
+    const mag = Math.sqrt(
+      vector.x * vector.x + vector.y * vector.y + vector.z * vector.z
+    );
+    return {
+      x: vector.x / mag,
+      y: vector.y / mag,
+      z: vector.z / mag,
+    };
+  }
+
+  // Produsul Vectorial (pentru a afla direcția "Dreapta" perfectă)
+  private getCrossProduct(
+    v1: { x: number; y: number; z: number },
+    v2: { x: number; y: number; z: number }
+  ) {
+    return {
+      x: v1.y * v2.z - v1.z * v2.y,
+      y: v1.z * v2.x - v1.x * v2.z,
+      z: v1.x * v2.y - v1.y * v2.x,
+    };
+  }
+
+  // --- LOGICA NOCLIP ---
+
   public toggle() {
     this.active = !this.active;
     const player = mp.players.local;
 
     if (this.active) {
       const rot = mp.game.cam.getGameplayCamRot(2);
-      this.rotX = rot.x;
-      this.rotZ = rot.z;
-
       this.camera = mp.cameras.new(
         "default",
         player.position,
-        new mp.Vector3(this.rotX, 0, this.rotZ),
+        new mp.Vector3(rot.x, rot.y, rot.z),
         45
       );
       this.camera.setActive(true);
@@ -63,18 +102,19 @@ class NoClipManager {
     } else {
       if (this.camera) {
         const pos = this.camera.getCoord();
-        // Aducem jucătorul la poziția finală
+        const rot = this.camera.getRot(2);
+
         player.position = pos;
-        player.setHeading(this.rotZ);
-        player.setRotation(0, 0, this.rotZ, 2, true);
+        player.setHeading(rot.z);
+        player.setRotation(0, 0, rot.z, 2, true);
 
         this.camera.setActive(false);
         this.camera.destroy();
         this.camera = null;
       }
 
-      // RESETĂM FOCUSUL PE JUCĂTOR
-      mp.game.streaming.clearFocus();
+      // Deblocăm focusul hărții
+      mp.game.invoke("0x31B73D1EA9F01DA2"); // CLEAR_FOCUS
 
       mp.game.cam.renderScriptCams(false, false, 0, true, false);
       player.freezePosition(false);
@@ -85,90 +125,99 @@ class NoClipManager {
   }
 
   private onRender() {
-    if (!this.active || !this.camera) return;
+    if (!this.active || !this.camera || mp.gui.cursor.visible) return;
 
-    // --- 1. MOUSE INPUT ---
-    const mouseX = mp.game.controls.getDisabledControlNormal(0, 220);
-    const mouseY = mp.game.controls.getDisabledControlNormal(0, 221);
-    const isMouseMoving = Math.abs(mouseX) > 0.01 || Math.abs(mouseY) > 0.01;
+    // --- 1. INPUT ---
+    const rightAxisX = mp.game.controls.getDisabledControlNormal(0, 220);
+    const rightAxisY = mp.game.controls.getDisabledControlNormal(0, 221);
+    const leftAxisX = mp.game.controls.getDisabledControlNormal(0, 218); // A/D
+    const leftAxisY = mp.game.controls.getDisabledControlNormal(0, 219); // W/S
 
-    // --- 2. KEYBOARD INPUT ---
-    const isW = mp.game.controls.isDisabledControlPressed(0, this.controls.W);
-    const isS = mp.game.controls.isDisabledControlPressed(0, this.controls.S);
-    const isA = mp.game.controls.isDisabledControlPressed(0, this.controls.A);
-    const isD = mp.game.controls.isDisabledControlPressed(0, this.controls.D);
-    const isSpace = mp.game.controls.isDisabledControlPressed(
-      0,
-      this.controls.Space
-    );
-    const isCtrl = mp.game.controls.isDisabledControlPressed(
-      0,
-      this.controls.LCtrl
-    );
-
-    // OPTIMIZARE: Dacă nu faci nimic, nu consumăm resurse
-    if (!isMouseMoving && !isW && !isS && !isA && !isD && !isSpace && !isCtrl)
+    // Deadzone check (dacă nu facem nimic, ieșim rapid pentru FPS)
+    if (
+      Math.abs(rightAxisX) < 0.01 &&
+      Math.abs(rightAxisY) < 0.01 &&
+      Math.abs(leftAxisX) < 0.01 &&
+      Math.abs(leftAxisY) < 0.01 &&
+      !mp.game.controls.isDisabledControlPressed(0, this.controls.Space) &&
+      !mp.game.controls.isDisabledControlPressed(0, this.controls.LCtrl)
+    ) {
       return;
-
-    // Calcul Rotație
-    if (isMouseMoving) {
-      this.rotZ -= mouseX * this.mouseSensitivity * 5.0;
-      this.rotX -= mouseY * this.mouseSensitivity * 5.0;
-      if (this.rotX < -89.0) this.rotX = -89.0;
-      if (this.rotX > 89.0) this.rotX = 89.0;
-      this.camera.setRot(this.rotX, 0.0, this.rotZ, 2);
     }
 
-    // Calcul Poziție
-    const camPos = this.camera.getCoord();
-    let nx = camPos.x;
-    let ny = camPos.y;
-    let nz = camPos.z;
+    // --- 2. ROTAȚIE ---
+    const currentRot = this.camera.getRot(2);
+    const newRotX = currentRot.x + rightAxisY * -5.0; // Păstrat logica din scriptul tău
+    const newRotZ = currentRot.z + rightAxisX * -5.0;
 
-    if (isW || isS || isA || isD || isSpace || isCtrl) {
-      let speed = this.speeds.normal;
-      if (mp.game.controls.isDisabledControlPressed(0, this.controls.LShift))
-        speed = this.speeds.fast;
-      else if (mp.game.controls.isDisabledControlPressed(0, this.controls.LAlt))
-        speed = this.speeds.slow;
+    // Aplicăm rotația
+    this.camera.setRot(newRotX, 0.0, newRotZ, 2);
 
-      const rZ = this.rotZ * 0.01745329251;
-      const rX = this.rotX * 0.01745329251;
-      const cosZ = Math.cos(rZ);
-      const sinZ = Math.sin(rZ);
-      const cosX = Math.cos(rX);
-      const sinX = Math.sin(rX);
+    // --- 3. MIȘCARE VECTORIALĂ ---
 
-      if (isW || isS) {
-        const dir = isW ? 1 : -1;
-        nx += -sinZ * Math.abs(cosX) * speed * dir;
-        ny += cosZ * Math.abs(cosX) * speed * dir;
-        nz += sinX * speed * dir;
-      }
+    // Calculăm viteza
+    let speedMult = this.speeds.normal;
+    if (mp.game.controls.isDisabledControlPressed(0, this.controls.LShift))
+      speedMult = this.speeds.fast;
+    else if (mp.game.controls.isDisabledControlPressed(0, this.controls.LCtrl))
+      speedMult = this.speeds.slow;
 
-      if (isA || isD) {
-        const dir = isD ? 1 : -1;
-        nx += cosZ * speed * dir;
-        ny += sinZ * speed * dir;
-      }
+    // Obținem vectorii de direcție
+    const forwardVector = this.getForwardVector({ x: newRotX, z: newRotZ }); // Forward
+    const upVector = { x: 0, y: 0, z: 1 }; // World Up
 
-      if (isSpace) nz += speed * 0.5;
-      if (isCtrl) nz -= speed * 0.5;
+    // Calculăm vectorul "Dreapta" folosind Cross Product (Exact ca în scriptul tău)
+    // Asta asigură că A și D merg mereu perfect lateral față de unde te uiți
+    let rightVector = this.getCrossProduct(
+      this.getNormalizedVector(forwardVector),
+      this.getNormalizedVector(upVector)
+    );
 
-      // Mutăm camera (Asta trebuie să fie smooth, la fiecare frame)
-      this.camera.setCoord(nx, ny, nz);
+    // Vectorul final de mișcare
+    let moveX = 0,
+      moveY = 0,
+      moveZ = 0;
+
+    // Adăugăm mișcarea Înainte/Înapoi (W/S - axa Y a controllerului)
+    // Notă: leftAxisY e negativ când apeși W, deci inversăm semnul
+    moveX += forwardVector.x * leftAxisY * speedMult * -1;
+    moveY += forwardVector.y * leftAxisY * speedMult * -1;
+    moveZ += forwardVector.z * leftAxisY * speedMult * -1;
+
+    // Adăugăm mișcarea Stânga/Dreapta (A/D - axa X a controllerului)
+    moveX += rightVector.x * leftAxisX * speedMult * 0.5;
+    moveY += rightVector.y * leftAxisX * speedMult * 0.5;
+    moveZ += rightVector.z * leftAxisX * speedMult * 0.5;
+
+    // Adăugăm mișcarea Sus/Jos (Space/Ctrl)
+    if (mp.game.controls.isDisabledControlPressed(0, this.controls.Space)) {
+      moveZ += speedMult * 0.5;
     }
+    // Folosim Alt pentru coborâre dacă Ctrl e folosit pentru slow,
+    // sau lăsăm Ctrl dacă nu e conflict. Aici am pus Q/E logic pe Space/Alt.
+    // Scriptul tău folosea Q/E. Putem adapta. Aici folosesc Space pentru UP.
+    // Dacă vrei exact ca în scriptul tău:
+    /*
+        if (mp.keys.isDown(81)) moveZ += speedMult * 0.5; // Q
+        if (mp.keys.isDown(69)) moveZ -= speedMult * 0.5; // E
+        */
 
-    // --- OPTIMIZARE CRITICĂ PENTRU BLOCARE ---
+    // --- 4. APLICARE POZIȚIE ---
+    const currentPos = this.camera.getCoord();
+    const nx = currentPos.x + moveX;
+    const ny = currentPos.y + moveY;
+    const nz = currentPos.z + moveZ;
 
-    // 1. Forțăm harta să se încarce unde e camera, NU unde e jucătorul
-    mp.game.streaming.setFocus(nx, ny, nz);
+    this.camera.setCoord(nx, ny, nz);
 
-    // 2. Mutăm jucătorul fizic DOAR o dată la 50ms.
-    // Asta elimină sacadarea, pentru că nu "bombardăm" serverul cu poziții noi la fiecare milisecundă.
+    // --- 5. OPTIMIZARE (Anti-Freeze & Anti-Lag) ---
+
+    // Încarcă harta la poziția camerei (evită dispariția clădirilor)
+    mp.game.invoke("0xBB7454BAFF08FE25", nx, ny, nz, 0.0, 0.0, 0.0); // SET_FOCUS_POS_AND_VEL
+
+    // Trage jucătorul după cameră cu delay (pentru performanță)
     const now = Date.now();
     if (now - this.lastPlayerUpdate > 50) {
-      // 50ms delay
       mp.players.local.setCoordsNoOffset(nx, ny, nz, false, false, false);
       this.lastPlayerUpdate = now;
     }

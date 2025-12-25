@@ -5,6 +5,7 @@ import { User } from "./models/User";
 import { UserService } from "./services/UserService";
 import { Logger } from "./utils/Logger";
 import { PlayerEvents } from "./events/PlayerEvents";
+import "./events/AuthHandlers";
 import { CommandManager } from "./commands/CommandManager";
 import * as dotenv from "dotenv";
 
@@ -61,11 +62,15 @@ async function bootstrap() {
 
     app.get("/api/users/player/:id", (req: any, res: any) => {
       const target = mp.players.at(parseInt(req.params.id));
-      if (!target) return res.status(404).json({ error: "Jucătorul nu este online" });
-      
+      if (!target)
+        return res.status(404).json({ error: "Jucătorul nu este online" });
+
       const db = (target as any).dbData;
-      if (!db) return res.status(404).json({ error: "Jucătorul nu este autentificat" });
-      
+      if (!db)
+        return res
+          .status(404)
+          .json({ error: "Jucătorul nu este autentificat" });
+
       res.json(db);
     });
 
@@ -77,7 +82,8 @@ async function bootstrap() {
 
     app.get("/api/users/:id", async (req: any, res: any) => {
       const user = await UserService.getById(parseInt(req.params.id));
-      if (!user) return res.status(404).json({ error: "Utilizatorul nu a fost găsit" });
+      if (!user)
+        return res.status(404).json({ error: "Utilizatorul nu a fost găsit" });
       res.json(user);
     });
 
@@ -92,15 +98,14 @@ async function bootstrap() {
 
     app.delete("/api/users/:id", async (req: any, res: any) => {
       const success = await UserService.delete(parseInt(req.params.id));
-      if (!success) return res.status(404).json({ error: "Utilizatorul nu a fost găsit" });
+      if (!success)
+        return res.status(404).json({ error: "Utilizatorul nu a fost găsit" });
       res.json({ success: true });
     });
 
     app.listen(3005, () => {
       Logger.info("API-ul Express ascultă pe portul 3005");
     });
-
-    Logger.info("Sistem Auth, Stats, Chat & Comenzi activat.");
   } catch (e) {
     Logger.error("Eroare la pornirea serverului:", (e as any).message);
   }

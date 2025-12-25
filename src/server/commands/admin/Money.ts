@@ -1,6 +1,7 @@
 import { register } from "../CommandRegistry";
 import { AdminLevel, Theme } from "../../config/AdminLevels";
 import { PlayerUtils } from "../../utils/PlayerUtils";
+import { HUDUtils } from "../../utils/HUDUtils";
 
 register({
     name: "setmoney",
@@ -21,6 +22,10 @@ register({
         if (db) {
             db.money = amount;
             await db.save();
+            
+            // Actualizăm HUD-ul țintei
+            HUDUtils.update(target);
+
             player.outputChatBox(`${Theme.Success}Sistem: ${Theme.Text}I-ai setat lui ${Theme.Primary}${target.name} ${Theme.Text}suma de ${Theme.Success}$${amount.toLocaleString()}.`);
             target.outputChatBox(`${Theme.Primary}Sistem: ${Theme.Text}Soldul tau a fost actualizat la ${Theme.Success}$${amount.toLocaleString()} ${Theme.Text}de catre admin.`);
         }

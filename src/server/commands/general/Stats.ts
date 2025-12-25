@@ -19,9 +19,9 @@ register({
       `${Theme.Secondary}Nivel: ${Theme.Text}${db.level} ${Theme.Secondary}| Exp: ${Theme.Text}${db.exp}/10 ${Theme.Secondary}| Statut: ${adminInfo.color}${adminInfo.title}`
     );
     player.outputChatBox(
-      `${Theme.Secondary}Lichiditati: ${
+      `${Theme.Secondary}Cash: ${
         Theme.Success
-      }$${db.money.toLocaleString()} ${Theme.Secondary}| Depozite: ${
+      }$${db.money.toLocaleString()} ${Theme.Secondary}| Banca: ${
         Theme.Success
       }$${db.bank.toLocaleString()}`
     );
