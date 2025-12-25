@@ -1,11 +1,13 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import express from "express";
-import { User } from "./models/User";
+import { User } from "./database/entities/User";
+import { Character } from "./database/entities/Character";
 import { UserService } from "./services/UserService";
 import { Logger } from "./utils/Logger";
 import { PlayerEvents } from "./events/PlayerEvents";
 import "./events/AuthHandlers";
+import "./events/CharacterHandlers";
 import { CommandManager } from "./commands/CommandManager";
 import * as dotenv from "dotenv";
 
@@ -18,7 +20,7 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",
   database: process.env.DB_NAME || "roleplay",
-  entities: [User],
+  entities: [User, Character],
   synchronize: true,
   logging: false,
 });

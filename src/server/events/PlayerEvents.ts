@@ -1,5 +1,5 @@
 import { Logger } from "../utils/Logger";
-import { User } from "../models/User";
+import { User } from "../database/entities/User";
 import { PlayerUtils } from "../utils/PlayerUtils";
 import { AdminConfig, Theme } from "../config/AdminLevels";
 import { CommandManager } from "../commands/CommandManager";

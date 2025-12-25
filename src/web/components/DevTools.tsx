@@ -63,6 +63,13 @@ const DevTools: React.FC = () => {
                         </button>
 
                         <button
+                            onClick={() => simulateServerEvent('navigateTo', { route: '/char-creator' })}
+                            className="bg-purple-600 hover:bg-purple-500 px-3 py-1 rounded text-xs text-left"
+                        >
+                            ➡️ Go to Char Creator
+                        </button>
+
+                        <button
                             onClick={() => simulateServerEvent('hud:update', { money: Math.floor(Math.random() * 100000) })}
                             className="bg-teal-600 hover:bg-teal-500 px-3 py-1 rounded text-xs text-left"
                         >

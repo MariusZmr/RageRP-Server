@@ -1,4 +1,4 @@
-import { User } from "../models/User";
+import { User } from "../database/entities/User";
 
 export class PlayerUtils {
     static getDb(player: PlayerMp): User | undefined {

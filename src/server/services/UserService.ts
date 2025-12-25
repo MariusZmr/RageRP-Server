@@ -1,4 +1,5 @@
-import { User } from "../models/User";
+import { User } from "../database/entities/User";
+import { AppDataSource } from "../index";
 import { Logger } from "../utils/Logger";
 
 export class UserService {

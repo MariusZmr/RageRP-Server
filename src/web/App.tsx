@@ -2,8 +2,11 @@ import React, { useEffect } from 'react';
 import { HashRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import EventManager from './utils/EventManager';
 import Login from './pages/auth/Login';
-import GameInterface from './pages/GameInterface'; // Importăm noua pagină
+import GameInterface from './pages/GameInterface';
+import CharacterCreator from './pages/char-creator/CharacterCreator';
 import DevTools from './components/DevTools';
+
+import { NotificationProvider } from './components/ui/NotificationSystem';
 
 const Home = () => <div className="p-10 text-white font-bold text-2xl hidden">🏠 Home (Default Hidden)</div>;
 
@@ -32,16 +35,19 @@ function App() {
     return (
         <React.Fragment>
             <DevTools />
-            <HashRouter>
-                <NavigationHandler />
-                <div className="w-full h-full relative">
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/game" element={<GameInterface />} />
-                    </Routes>
-                </div>
-            </HashRouter>
+            <NotificationProvider>
+                <HashRouter>
+                    <NavigationHandler />
+                    <div className="w-full h-full relative">
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/game" element={<GameInterface />} />
+                            <Route path="/char-creator" element={<CharacterCreator />} />
+                        </Routes>
+                    </div>
+                </HashRouter>
+            </NotificationProvider>
         </React.Fragment>
     );
 }

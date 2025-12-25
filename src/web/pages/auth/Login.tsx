@@ -78,7 +78,7 @@ const Login: React.FC = () => {
               <div className="absolute inset-0 bg-orange-500/5 rounded-full blur-xl"></div>
 
               {/* Main Icon */}
-              <div className="bg-zinc-900/80 p-3 rounded-xl border border-orange-500/20 shadow-[0_0_15px_rgba(234,88,12,0.2)] backdrop-blur-sm relative z-10">
+              <div className="bg-zinc-900 p-3 rounded-xl border border-orange-500/20 shadow-[0_0_15px_rgba(234,88,12,0.2)] relative z-10">
                 <Crosshair className="w-10 h-10 text-orange-500" />
               </div>
             </div>
@@ -103,7 +103,7 @@ const Login: React.FC = () => {
         </div>
 
         {/* Card Metalic */}
-        <div className="bg-zinc-900/60 backdrop-blur-xl p-8 rounded-xl border border-white/10 shadow-2xl relative overflow-hidden group">
+        <div className="bg-zinc-900/95 p-8 rounded-xl border border-white/10 shadow-2xl relative overflow-hidden group">
           {/* Top Orange Line */}
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-600 via-red-600 to-orange-600"></div>
 

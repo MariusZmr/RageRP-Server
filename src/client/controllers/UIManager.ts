@@ -1,11 +1,9 @@
-/// <reference path="../../../node_modules/@types/ragemp-c/index.d.ts" />
-
 /**
  * UIManager - Controller Singleton pentru gestionarea interfeței grafice (CEF).
  */
 export class UIManager {
     private static instance: UIManager;
-    private browser: BrowserMp | null = null;
+    private browser: any | null = null;
     private readonly browserPath: string = "package://ui/index.html";
     private isReady: boolean = false;
     private pendingActions: Array<() => void> = [];
@@ -41,7 +39,7 @@ export class UIManager {
     private initBrowser(): void {
         if (this.browser && mp.browsers.exists(this.browser)) return;
 
-        mp.browsers.forEach((b) => {
+        mp.browsers.forEach((b: any) => {
             if (b.url === this.browserPath) b.destroy();
         });
 
@@ -54,6 +52,8 @@ export class UIManager {
         
         mp.console.logInfo("[UIManager] Browser CEF inițializat.");
     }
+    
+    // ... (rest of the file content until getBrowser)
 
     private processPendingActions(): void {
         while (this.pendingActions.length > 0) {
@@ -112,7 +112,7 @@ export class UIManager {
         mp.console.logInfo("[UIManager] Interfața ascunsă.");
     }
 
-    public getBrowser(): BrowserMp | null {
+    public getBrowser(): any | null {
         return this.browser;
     }
 }

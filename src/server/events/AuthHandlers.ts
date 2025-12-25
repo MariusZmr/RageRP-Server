@@ -1,5 +1,5 @@
 import { AuthService } from "../services/AuthService";
-import { User } from "../models/User";
+import { User } from "../database/entities/User";
 import bcrypt from "bcryptjs";
 import { PlayerUtils } from "../utils/PlayerUtils";
 import { Logger } from "../utils/Logger";
