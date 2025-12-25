@@ -323,3 +323,64 @@ express is not a function
 2025-12-25 18:33:03 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
 2025-12-25 18:33:03 [INFO]: API-ul Express ascultă pe portul 3005
 2025-12-25 18:33:04 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 18:33:32 [INFO]: [Auth] Marius s-a logat.
+2025-12-25 18:33:39 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 18:33:48 [INFO]: [Auth] Marius s-a logat.
+2025-12-25 18:33:50 [INFO]: [CHAT] Marius: asd
+2025-12-25 18:36:39 [INFO]: Se inițializează serverul...
+2025-12-25 18:36:41 [INFO]: Conectat cu succes la MariaDB!
+2025-12-25 18:36:41 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-25 18:36:41 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-25 18:36:42 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 18:36:51 [INFO]: [Auth] Marius s-a logat.
+2025-12-25 18:38:39 [INFO]: Se inițializează serverul...
+2025-12-25 18:38:42 [INFO]: Conectat cu succes la MariaDB!
+2025-12-25 18:38:42 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-25 18:38:42 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-25 18:38:43 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 18:38:50 [INFO]: [Auth] Marius s-a logat.
+2025-12-25 18:39:06 [INFO]: [CHAT] Marius: asd
+2025-12-25 18:42:07 [INFO]: Se inițializează serverul...
+2025-12-25 18:42:09 [INFO]: Conectat cu succes la MariaDB!
+2025-12-25 18:42:09 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-25 18:42:09 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-25 18:42:09 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 18:47:22 [INFO]: Se inițializează serverul...
+2025-12-25 18:47:24 [INFO]: Conectat cu succes la MariaDB!
+2025-12-25 18:47:24 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-25 18:47:24 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-25 18:49:08 [INFO]: Se inițializează serverul...
+2025-12-25 18:49:11 [INFO]: Conectat cu succes la MariaDB!
+2025-12-25 18:49:12 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-25 18:49:12 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-25 18:49:16 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 18:50:14 [INFO]: Se inițializează serverul...
+2025-12-25 18:50:20 [INFO]: Conectat cu succes la MariaDB!
+2025-12-25 18:50:20 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-25 18:50:20 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-25 18:50:23 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 18:51:02 [INFO]: [Auth] Marius s-a logat.
+2025-12-25 19:04:21 [INFO]: [QUIT] Marius a parasit sesiunea.
+2025-12-25 19:04:22 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 19:04:37 [INFO]: [Auth] marius s-a logat.
+2025-12-25 19:04:43 [INFO]: [QUIT] Marius a parasit sesiunea.
+2025-12-25 19:04:43 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 19:04:59 [INFO]: [Auth] marius s-a logat.
+2025-12-25 19:08:55 [INFO]: Se inițializează serverul...
+2025-12-25 19:08:57 [INFO]: Conectat cu succes la MariaDB!
+2025-12-25 19:08:58 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-25 19:08:58 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-25 19:09:01 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 19:09:27 [INFO]: [Auth] Cont nou creat: Marius
+2025-12-25 19:13:18 [INFO]: Se inițializează serverul...
+2025-12-25 19:13:20 [INFO]: Conectat cu succes la MariaDB!
+2025-12-25 19:13:20 [INFO]: [CMD] Sistem Comenzi activ. 16 comenzi incarcate.
+2025-12-25 19:13:20 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-25 19:13:20 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 19:13:29 [INFO]: [Auth] Marius s-a logat.
+2025-12-25 19:15:21 [INFO]: Se inițializează serverul...
+2025-12-25 19:15:22 [INFO]: Conectat cu succes la MariaDB!
+2025-12-25 19:15:22 [INFO]: [CMD] Sistem Comenzi activ. 16 comenzi incarcate.
+2025-12-25 19:15:22 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-25 19:15:23 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-25 19:15:31 [INFO]: [Auth] Marius s-a logat.

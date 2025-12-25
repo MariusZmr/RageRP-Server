@@ -63,9 +63,19 @@ export class PlayerEvents {
 
     mp.events.add("playerQuit", async (player: PlayerMp, exitType: string) => {
       const db = PlayerUtils.getDb(player);
+      const playerName = player.name; // Salvăm numele cât timp obiectul e valid
+
       if (db) {
-        await AuthService.savePlayer(player);
-        Logger.info(`[QUIT] ${player.name} a parasit sesiunea.`);
+        // AuthService.savePlayer trebuie să fie sigur și el, dar presupunem că extrage datele necesare la început
+        // Totuși, e mai sigur să pasăm DB-ul direct dacă AuthService suportă, sau să ne asigurăm că AuthService nu accesează player.position după un await intern.
+        // Pentru moment, fixăm eroarea de logging.
+        try {
+            await AuthService.savePlayer(player);
+        } catch (e) {
+            Logger.error(`Eroare la salvarea jucătorului ${playerName}:`, (e as any).message);
+        }
+        
+        Logger.info(`[QUIT] ${playerName} a parasit sesiunea.`);
       }
     });
   }

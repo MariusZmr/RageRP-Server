@@ -9,6 +9,7 @@ export class UIManager {
     private readonly browserPath: string = "package://ui/index.html";
     private isReady: boolean = false;
     private pendingActions: Array<() => void> = [];
+    private needsCursor: boolean = false; // Flag pentru a ști dacă pagina curentă vrea cursor
 
     private constructor() {
         this.initBrowser();
@@ -19,6 +20,14 @@ export class UIManager {
             mp.gui.chat.push("[DEBUG] UI Ready event received.");
             this.isReady = true;
             this.processPendingActions();
+        });
+
+        // CURSOR ENFORCER:
+        // Verificăm constant dacă avem nevoie de cursor și dacă jocul l-a ascuns (ex: după închidere consolă F8)
+        mp.events.add('render', () => {
+            if (this.needsCursor && !mp.gui.cursor.visible) {
+                mp.gui.cursor.show(true, true);
+            }
         });
     }
 
@@ -73,8 +82,9 @@ export class UIManager {
 
         this.browser!.active = true;
         
-        // Gestionăm cursorul în funcție de opțiuni
-        if (options.enableCursor) {
+        // Gestionăm cursorul în funcție de opțiuni și setăm flag-ul de enforcement
+        this.needsCursor = options.enableCursor;
+        if (this.needsCursor) {
             mp.gui.cursor.show(true, true);
         } else {
             mp.gui.cursor.show(false, false);
@@ -94,6 +104,7 @@ export class UIManager {
     }
 
     public hide(): void {
+        this.needsCursor = false; // Nu mai forțăm cursorul
         if (this.browser && mp.browsers.exists(this.browser)) {
             this.browser.active = false;
         }
