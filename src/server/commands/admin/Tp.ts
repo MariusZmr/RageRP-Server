@@ -24,3 +24,16 @@ register({
     );
   },
 });
+
+register({
+  name: "tpm",
+  description: "Teleportare la Waypoint-ul de pe hartă.",
+  minAdmin: AdminLevel.Moderator,
+  category: "admin",
+  execute: (player) => {
+    player.call("client:teleportToWaypoint");
+    player.outputChatBox(
+      `${Theme.Primary}Admin: ${Theme.Text}Se calculează ruta către Waypoint...`
+    );
+  },
+});

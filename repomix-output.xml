@@ -1336,7 +1336,7 @@ register({
         if (!senderDb) return;
 
         const adminConfig = AdminConfig[senderDb.adminLevel as keyof typeof AdminConfig];
-        // Format: [ADMIN] (Grad) Nume: Mesaj
+        // Format: [Admin] (Grad) Nume: Mesaj
         const msg = `${Theme.Primary}[STAFF] ${adminConfig.color}(${adminConfig.title}) ${Theme.Text}${player.name}: ${fullText}`;
 
         mp.players.forEach((p) => {
@@ -1581,7 +1581,7 @@ register({
       const veh = mp.vehicles.new(mp.joaat(args[0]), player.position, {
         heading: player.heading,
         dimension: player.dimension,
-        numberPlate: "ADMIN",
+        numberPlate: "Admin",
         locked: false,
         engine: true,
       });

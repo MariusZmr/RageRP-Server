@@ -78,15 +78,9 @@ const HUD: React.FC = () => {
               <span className="text-zinc-100 font-black italic tracking-widest text-xl drop-shadow-md leading-none">
                 {stats.serverName}
               </span>
-              <span
-                className="text-orange-500 ml-0.5"
-                style={{ textShadow: "0 0 10px rgba(249, 115, 22, 0.8)" }}
-              >
-                ROLEPLAY
-              </span>
               <div className="flex items-center gap-1 text-[10px] text-zinc-400 font-bold uppercase tracking-[0.2em] bg-zinc-950/80 px-2 py-0.5 rounded-full border border-zinc-800">
                 <Target className="w-3 h-3 text-red-500" />
-                San Andreas
+                ROLEPLAY
               </div>
             </div>
           </motion.div>

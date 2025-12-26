@@ -17,7 +17,7 @@ register({
       const veh = mp.vehicles.new(mp.joaat(args[0]), player.position, {
         heading: player.heading,
         dimension: player.dimension,
-        numberPlate: "ADMIN",
+        numberPlate: "Admin",
         locked: false,
         engine: true,
       });

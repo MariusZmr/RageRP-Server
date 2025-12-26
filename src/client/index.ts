@@ -2,12 +2,14 @@ import { UIManager } from "./controllers/UIManager";
 import { CameraManager } from "./controllers/CameraManager";
 import { CharacterController } from "./controllers/CharacterController";
 import { NotificationManager } from "./controllers/NotificationManager";
+import { DevController } from "./controllers/DevController";
 import "./controllers/AdminController";
 import "./noclip";
 mp.console.logInfo("Client-side loaded successfully!");
 
 // Init Controllers
 CharacterController.getInstance();
+new DevController(); // Init DevController
 
 mp.events.add("ui:log", (type: string, msg: string) => {
   mp.console.logInfo(`[UI-${type.toUpperCase()}] ${msg}`);

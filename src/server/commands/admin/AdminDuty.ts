@@ -18,13 +18,13 @@ register({
     if (newState) {
       // ACTIVAT
       player.outputChatBox(
-        `${Theme.Primary}ADMIN: ${Theme.Text}Ai intrat la datorie. (Godmode ON)`
+        `${Theme.Primary}Admin: ${Theme.Text}Ai intrat la datorie. (Godmode ON)`
       );
       // Aici vom adăuga pe viitor logica pentru Custom Nametag (ex: player.setVariable('adminTitle', 'Moderator'))
     } else {
       // DEZACTIVAT
       player.outputChatBox(
-        `${Theme.Primary}ADMIN: ${Theme.Text}Nu mai esti la datorie. (Godmode OFF)`
+        `${Theme.Primary}Admin: ${Theme.Text}Nu mai esti la datorie. (Godmode OFF)`
       );
     }
   },
