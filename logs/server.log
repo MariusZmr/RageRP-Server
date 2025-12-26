@@ -580,3 +580,129 @@ express is not a function
 2025-12-26 00:44:16 [INFO]: Conectat cu succes la MariaDB!
 2025-12-26 00:44:16 [INFO]: [CMD] Sistem Comenzi activ. 17 comenzi incarcate.
 2025-12-26 00:44:16 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 00:47:29 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 00:47:36 [INFO]: [Auth] marius s-a logat.
+2025-12-26 01:05:25 [INFO]: Se inițializează serverul...
+2025-12-26 01:05:25 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 01:05:25 [INFO]: [CMD] Sistem Comenzi activ. 17 comenzi incarcate.
+2025-12-26 01:05:26 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 01:05:29 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 01:05:36 [INFO]: [Auth] marius s-a logat.
+2025-12-26 01:06:05 [INFO]: [CHAT] Marius: rr
+2025-12-26 01:10:34 [INFO]: [QUIT] Marius a parasit sesiunea.
+2025-12-26 01:10:35 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 01:12:06 [INFO]: Se inițializează serverul...
+2025-12-26 01:12:07 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 01:12:07 [INFO]: [CMD] Sistem Comenzi activ. 17 comenzi incarcate.
+2025-12-26 01:12:07 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 01:12:14 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 01:12:24 [INFO]: [Auth] marius s-a logat.
+2025-12-26 01:27:47 [INFO]: Se inițializează serverul...
+2025-12-26 01:27:49 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 01:27:49 [INFO]: [CMD] Sistem Comenzi activ. 17 comenzi incarcate.
+2025-12-26 01:27:49 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 01:27:50 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 01:27:55 [INFO]: [Auth] marius s-a logat.
+2025-12-26 01:28:26 [INFO]: [QUIT] Marius a parasit sesiunea.
+2025-12-26 01:34:42 [INFO]: Se inițializează serverul...
+2025-12-26 01:34:43 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 01:34:43 [INFO]: [CMD] Sistem Comenzi activ. 17 comenzi incarcate.
+2025-12-26 01:34:43 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 01:36:05 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 01:36:17 [INFO]: [Auth] marius s-a logat.
+2025-12-26 01:41:32 [INFO]: [QUIT] Marius a parasit sesiunea.
+2025-12-26 10:25:23 [INFO]: Se inițializează serverul...
+2025-12-26 10:25:26 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 10:25:26 [INFO]: [CMD] Sistem Comenzi activ. 17 comenzi incarcate.
+2025-12-26 10:25:26 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 10:25:46 [INFO]: Se inițializează serverul...
+2025-12-26 10:25:47 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 10:25:47 [INFO]: [CMD] Sistem Comenzi activ. 17 comenzi incarcate.
+2025-12-26 10:25:47 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 10:27:44 [INFO]: Se inițializează serverul...
+2025-12-26 10:27:45 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 10:27:45 [INFO]: [CMD] Sistem Comenzi activ. 17 comenzi incarcate.
+2025-12-26 10:27:45 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 10:40:07 [INFO]: Se inițializează serverul...
+2025-12-26 10:40:08 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 10:40:08 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 10:40:08 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 10:40:28 [INFO]: Se inițializează serverul...
+2025-12-26 10:40:29 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 10:40:29 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 10:40:29 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 10:40:58 [INFO]: Se inițializează serverul...
+2025-12-26 10:40:59 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 10:40:59 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 10:40:59 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 10:47:08 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 10:48:44 [INFO]: [Auth] marius s-a logat.
+2025-12-26 10:54:54 [INFO]: Se inițializează serverul...
+2025-12-26 10:54:56 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 10:54:56 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 10:54:56 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 10:54:57 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 10:57:22 [INFO]: Se inițializează serverul...
+2025-12-26 10:57:25 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 10:57:25 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 10:57:25 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 10:57:25 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:01:02 [INFO]: Se inițializează serverul...
+2025-12-26 11:01:04 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 11:01:04 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 11:01:04 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 11:01:06 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:01:48 [INFO]: Se inițializează serverul...
+2025-12-26 11:01:49 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 11:01:50 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 11:01:50 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 11:01:54 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:02:38 [INFO]: Se inițializează serverul...
+2025-12-26 11:02:40 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 11:02:40 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 11:02:40 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 11:02:41 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:02:47 [INFO]: [Auth] marius s-a logat.
+2025-12-26 11:04:54 [INFO]: Se inițializează serverul...
+2025-12-26 11:04:55 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 11:04:55 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 11:04:55 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 11:04:57 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:05:13 [INFO]: Se inițializează serverul...
+2025-12-26 11:05:15 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 11:05:15 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 11:05:15 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 11:05:16 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:05:30 [INFO]: Se inițializează serverul...
+2025-12-26 11:05:32 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 11:05:32 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 11:05:32 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 11:05:33 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:05:41 [INFO]: [Auth] marius s-a logat.
+2025-12-26 11:06:14 [INFO]: Se inițializează serverul...
+2025-12-26 11:06:15 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 11:06:15 [INFO]: [CMD] Sistem Comenzi activ. 18 comenzi incarcate.
+2025-12-26 11:06:15 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 11:06:17 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:06:22 [INFO]: [Auth] marius s-a logat.
+2025-12-26 11:09:36 [INFO]: Se inițializează serverul...
+2025-12-26 11:09:38 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 11:09:38 [INFO]: [CMD] Sistem Comenzi activ. 19 comenzi incarcate.
+2025-12-26 11:09:38 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 11:09:39 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:09:56 [INFO]: [Auth] marius s-a logat.
+2025-12-26 11:10:40 [INFO]: [QUIT] Marius a parasit sesiunea.
+2025-12-26 11:10:41 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:10:48 [INFO]: [Auth] marius s-a logat.
+2025-12-26 11:12:58 [INFO]: Se inițializează serverul...
+2025-12-26 11:12:59 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 11:13:00 [INFO]: [CMD] Sistem Comenzi activ. 20 comenzi incarcate.
+2025-12-26 11:13:00 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 11:13:01 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:13:06 [INFO]: [Auth] marius s-a logat.
+2025-12-26 11:14:07 [INFO]: Se inițializează serverul...
+2025-12-26 11:14:08 [INFO]: Conectat cu succes la MariaDB!
+2025-12-26 11:14:09 [INFO]: [CMD] Sistem Comenzi activ. 20 comenzi incarcate.
+2025-12-26 11:14:09 [INFO]: API-ul Express ascultă pe portul 3005
+2025-12-26 11:14:10 [INFO]: [JOIN] Marius (ID: 0) s-a conectat.
+2025-12-26 11:14:19 [INFO]: [Auth] marius s-a logat.

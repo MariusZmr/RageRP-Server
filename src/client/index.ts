@@ -2,6 +2,7 @@ import { UIManager } from "./controllers/UIManager";
 import { CameraManager } from "./controllers/CameraManager";
 import { CharacterController } from "./controllers/CharacterController";
 import { NotificationManager } from "./controllers/NotificationManager";
+import "./controllers/AdminController";
 import "./noclip";
 mp.console.logInfo("Client-side loaded successfully!");
 
