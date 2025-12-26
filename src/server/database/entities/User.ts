@@ -28,12 +28,18 @@ export class User extends BaseEntity {
     @Column({ type: "int", default: 0 })
     vipLevel!: number;
 
+    @Column({ type: "int", default: 1 })
+    characterSlots!: number;
+
     // --- Stats ---
     @Column({ type: "int", default: 1 })
     level!: number;
 
     @Column({ type: "int", default: 0 })
     exp!: number;
+
+    @Column({ type: "int", default: 0 })
+    accountPlayedTime!: number;
 
     @Column({ type: "bigint", default: 10000, transformer: { to: (v: number) => v, from: (v: string) => parseInt(v) } })
     money!: number;

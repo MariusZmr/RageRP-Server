@@ -61,6 +61,9 @@ export class Character extends BaseEntity {
     @Column({ type: "int" })
     age!: number;
 
+    @Column({ type: "int", default: 0 })
+    playedTime!: number;
+
     // Stocăm structura JSON complexă pentru aspect
     @Column({ type: "simple-json" }) 
     appearance!: CharacterAppearance;

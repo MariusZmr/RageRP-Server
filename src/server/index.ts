@@ -10,6 +10,7 @@ import "./events/AuthHandlers";
 import "./events/CharacterHandlers";
 import { CommandManager } from "./commands/CommandManager";
 import * as dotenv from "dotenv";
+import { TimeManager } from "./managers/TimeManager";
 
 dotenv.config();
 
@@ -34,6 +35,9 @@ async function bootstrap() {
 
     // Load Commands
     await CommandManager.loadCommands();
+
+    // Init Managers
+    TimeManager.init();
 
     // Init Events
     PlayerEvents.init();

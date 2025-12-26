@@ -32,19 +32,33 @@ mp.events.add(
       player.name = user.username;
       player.dimension = user.dimension; // Poate fi util, dar de obicei 0 sau un routing bucket specific
 
-      // 3. Pregătim lista simplificată de caractere pentru UI
+      // 3. Calculăm Sloturile Disponibile
+      let maxSlots = user.characterSlots;
+
+      // Bonus pentru timp jucat (1000 ore = 60000 minute)
+      if (user.accountPlayedTime >= 60000 && maxSlots < 2) {
+        maxSlots = 2;
+      }
+
+      // Bonus Admin
+      if (user.adminLevel >= 5) {
+        maxSlots = 3;
+      }
+
+      // 4. Pregătim lista simplificată de caractere pentru UI
       const characterList = user.characters.map((char) => ({
         id: char.id,
         firstName: char.firstName,
         lastName: char.lastName,
         level: char.level || 1, // Fallback dacă nu există field-ul level
+        playedTime: char.playedTime || 0, // Adăugat Timp Jucat
         lastPlayed: char.updatedAt,
       }));
 
-      // 4. Trimitem succes + lista
-      player.call("auth:response", [{ success: true, characters: characterList }]);
+      // 5. Trimitem succes + lista + maxSlots
+      player.call("auth:response", [{ success: true, characters: characterList, maxSlots }]);
 
-      Logger.info(`[Auth] ${username} authenticated. Sending char selection.`);
+      Logger.info(`[Auth] ${username} authenticated. Sending char selection (Slots: ${characterList.length}/${maxSlots}).`);
     } catch (e) {
       Logger.error("Auth Error:", (e as any).message);
       player.call("auth:response", [

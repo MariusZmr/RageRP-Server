@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { User, Plus, Play, Calendar, Shield, Clock } from "lucide-react";
+import { User, Plus, Play, Calendar, Shield, Clock, Hourglass, Lock } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import EventManager from "../../utils/EventManager";
 
@@ -10,6 +10,7 @@ interface Character {
   firstName: string;
   lastName: string;
   level: number;
+  playedTime: number; // Minute
   lastPlayed: string;
 }
 
@@ -17,17 +18,26 @@ const CharacterSelector: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // Preluăm caracterele din state-ul de navigare (venite de la Login)
-  // Fallback la array gol pentru siguranță
+  // Preluăm datele din state-ul de navigare
   const characters: Character[] = (location.state as any)?.characters || [];
+  const maxSlots: number = (location.state as any)?.maxSlots || 1;
+
+  const usedSlots = characters.length;
+  const canCreate = usedSlots < maxSlots;
 
   const handleSelect = (charId: number) => {
     EventManager.triggerServer("character:select", charId);
   };
 
   const handleCreateNew = () => {
-    // În loc să navigăm direct, cerem clientului să pregătească scena (Cameră, Teleport, Model)
+    if (!canCreate) return;
     EventManager.trigger("client:requestCreator");
+  };
+
+  // Helper pentru formatare ore
+  const formatHours = (minutes: number) => {
+    const hours = Math.floor(minutes / 60);
+    return hours === 1 ? "1 Hr" : `${hours} Hrs`;
   };
 
   // Variabile pentru animație
@@ -59,10 +69,17 @@ const CharacterSelector: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-12 text-center"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-500 text-xs font-bold tracking-widest uppercase mb-4">
-            <Shield size={12} />
-            Secure Connection Established
+          <div className="flex justify-center gap-4 mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-500 text-xs font-bold tracking-widest uppercase">
+                <Shield size={12} />
+                Secure Connection
+            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-400 text-xs font-bold tracking-widest uppercase">
+                <span>Slots:</span>
+                <span className={canCreate ? "text-green-400" : "text-red-400"}>{usedSlots} / {maxSlots}</span>
+            </div>
           </div>
+
           <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white uppercase">
             Select Identity
           </h1>
@@ -100,9 +117,15 @@ const CharacterSelector: React.FC = () => {
                   {char.firstName} <span className="text-zinc-500">{char.lastName}</span>
                 </h3>
 
-                <div className="flex items-center gap-2 text-xs text-zinc-500 mb-6">
-                  <Clock size={12} />
-                  <span>Last seen: {new Date(char.lastPlayed).toLocaleDateString()}</span>
+                <div className="flex flex-col gap-1 mb-6">
+                    <div className="flex items-center gap-2 text-xs text-zinc-500">
+                        <Clock size={12} />
+                        <span>Last seen: {new Date(char.lastPlayed).toLocaleDateString()}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-zinc-500">
+                        <Hourglass size={12} />
+                        <span>Playtime: {formatHours(char.playedTime)}</span>
+                    </div>
                 </div>
 
                 <Button
@@ -119,20 +142,33 @@ const CharacterSelector: React.FC = () => {
             </motion.div>
           ))}
 
-          {/* Card "New Identity" */}
+          {/* Card "New Identity" - Condiționat de sloturi */}
           <motion.div
             variants={itemVariants}
             onClick={handleCreateNew}
-            className="group cursor-pointer relative bg-zinc-900/30 border border-dashed border-zinc-700 hover:border-orange-500 hover:bg-zinc-900/50 transition-all duration-300 rounded-lg flex flex-col items-center justify-center min-h-[280px]"
+            className={`group relative border transition-all duration-300 rounded-lg flex flex-col items-center justify-center min-h-[280px]
+                ${canCreate 
+                    ? "cursor-pointer bg-zinc-900/30 border-dashed border-zinc-700 hover:border-orange-500 hover:bg-zinc-900/50" 
+                    : "cursor-not-allowed bg-zinc-950/50 border-zinc-800 opacity-60 grayscale"
+                }`}
           >
-            <div className="w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-500 group-hover:bg-orange-500 group-hover:text-white transition-all mb-4 shadow-lg shadow-black/50">
-              <Plus size={32} />
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all mb-4 shadow-lg shadow-black/50
+                ${canCreate 
+                    ? "bg-zinc-800 text-zinc-500 group-hover:bg-orange-500 group-hover:text-white" 
+                    : "bg-zinc-900 text-red-900/50 border border-zinc-800"
+                }`}>
+              {canCreate ? <Plus size={32} /> : <Lock size={32} />}
             </div>
-            <h3 className="text-lg font-bold text-zinc-300 group-hover:text-white transition-colors uppercase tracking-wide">
-              New Identity
+            
+            <h3 className={`text-lg font-bold transition-colors uppercase tracking-wide
+                ${canCreate ? "text-zinc-300 group-hover:text-white" : "text-zinc-600"}`}>
+              {canCreate ? "New Identity" : "Max Limit Reached"}
             </h3>
+            
             <p className="text-xs text-zinc-500 mt-2 text-center px-8">
-              Create a new dossier for tactical operations.
+              {canCreate 
+                ? "Create a new dossier for tactical operations."
+                : "Increase your playtime or rank to unlock more slots."}
             </p>
           </motion.div>
         </motion.div>

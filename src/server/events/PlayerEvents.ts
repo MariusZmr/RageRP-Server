@@ -1,10 +1,12 @@
 import { Logger } from "../utils/Logger";
 import { User } from "../database/entities/User";
+import { Character } from "../database/entities/Character";
 import { PlayerUtils } from "../utils/PlayerUtils";
 import { AdminConfig, Theme } from "../config/AdminLevels";
 import { CommandManager } from "../commands/CommandManager";
 import { AuthService } from "../services/AuthService";
 import { CharacterManager } from "../managers/CharacterManager";
+import { TimeManager } from "../managers/TimeManager";
 
 export class PlayerEvents {
   static init() {
@@ -63,24 +65,38 @@ export class PlayerEvents {
     });
 
     mp.events.add("playerQuit", async (player: PlayerMp, exitType: string) => {
-      const db = PlayerUtils.getDb(player);
-      const playerName = player.name; // Salvăm numele cât timp obiectul e valid
+      // 1. Extragem datele critic SINCRON (cât timp obiectul player este valid)
+      const playerName = player.name;
+      const pos = player.position; // Copiem vectorul
+      const dimension = player.dimension;
 
-      // 1. Salvăm progresul caracterului (Poziție) dacă este logat pe unul
-      if (player.data.characterId) {
-        await CharacterManager.savePosition(player);
+      // Accesăm direct proprietățile atașate, evitând PlayerUtils.getDb care verifică exists()
+      const user = (player as any).dbData as User;
+      const char = (player as any).activeCharacter as Character; // Poate fi undefined dacă nu e spawnat
+      const charId = player.data.characterId;
+
+      // 2. Acum putem face operațiuni asincrone în siguranță folosind datele extrase
+
+      // Salvăm timpul jucat
+      if (user && char) {
+        await TimeManager.forceSave(user, char);
       }
 
-      if (db) {
-        // AuthService.savePlayer trebuie să fie sigur și el, dar presupunem că extrage datele necesare la început
-        // Totuși, e mai sigur să pasăm DB-ul direct dacă AuthService suportă, sau să ne asigurăm că AuthService nu accesează player.position după un await intern.
-        // Pentru moment, fixăm eroarea de logging.
-        try {
-            await AuthService.savePlayer(player);
-        } catch (e) {
-            Logger.error(`Eroare la salvarea jucătorului ${playerName}:`, (e as any).message);
-        }
-        
+      // Salvăm poziția dacă era spawnat
+      if (charId && pos) {
+        await CharacterManager.savePositionData(
+          charId,
+          pos.x,
+          pos.y,
+          pos.z,
+          dimension
+        );
+      }
+
+      if (user) {
+        // AuthService.savePlayer trebuie verificat dacă folosește player object.
+        // Dacă da, ar trebui refăcut. Dar pentru moment, User e salvat de TimeManager.
+        // Logger.info doar:
         Logger.info(`[QUIT] ${playerName} a parasit sesiunea.`);
       }
     });

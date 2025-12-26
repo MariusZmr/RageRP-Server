@@ -13,6 +13,16 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+// --- Window Type Extensions ---
+declare global {
+    interface Window {
+        mp?: {
+            trigger: (event: string, data?: string) => void;
+        };
+        triggerNotification?: (type: string, title: string, message: string, duration?: number) => void;
+    }
+}
+
 // --- Types ---
 interface CharacterData {
     parents: {

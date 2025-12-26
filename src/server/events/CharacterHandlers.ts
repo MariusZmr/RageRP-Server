@@ -5,6 +5,7 @@ import {
 import { Logger } from "../utils/Logger";
 import { PlayerUtils } from "../utils/PlayerUtils";
 import { HUDUtils } from "../utils/HUDUtils";
+import { Character } from "../database/entities/Character";
 
 mp.events.add("character:select", async (player: PlayerMp, charId: number) => {
   try {
@@ -46,6 +47,24 @@ mp.events.add(
         data = JSON.parse(dataString);
       } else {
         data = dataString;
+      }
+
+      const user = PlayerUtils.getDb(player);
+      if (!user) {
+          player.call("character:create:response", [{ success: false, error: "Not Authenticated" }]);
+          return;
+      }
+
+      // Validare Sloturi
+      const currentCount = await Character.count({ where: { userId: user.id } });
+      
+      let maxSlots = user.characterSlots;
+      if (user.accountPlayedTime >= 60000 && maxSlots < 2) maxSlots = 2;
+      if (user.adminLevel >= 5) maxSlots = 3;
+
+      if (currentCount >= maxSlots) {
+          player.call("character:create:response", [{ success: false, error: "Nu mai ai sloturi disponibile!" }]);
+          return;
       }
 
       Logger.info(

@@ -133,7 +133,10 @@ mp.events.add("auth:response", (responseRaw: any) => {
     // Navigăm către Selectorul de Caractere în loc să intrăm direct în joc
     UIManager.getInstance().showPage(
       "/char-selector",
-      { characters: response.characters },
+      { 
+          characters: response.characters,
+          maxSlots: response.maxSlots // Transmitem și numărul de sloturi
+      },
       { enableCursor: true }
     );
 

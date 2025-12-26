@@ -30,65 +30,47 @@ export interface CharacterCreationData {
 
 import { PlayerUtils } from "../utils/PlayerUtils";
 
-
-
 // ... existing code ...
 
-
-
 export class CharacterManager {
+  // ... existing code ...
 
-    
+  public static async create(
+    player: PlayerMp,
+    data: CharacterCreationData
+  ): Promise<boolean> {
+    try {
+      Logger.info(
+        `[CharCreator] Validating name: First='${data.info.firstName}', Last='${data.info.lastName}'`
+      );
 
-    // ... existing code ...
+      // 1. Validare Server-Side
 
+      if (!this.isValidName(data.info.firstName)) {
+        Logger.warn(`[CharCreator] Invalid FirstName: ${data.info.firstName}`);
 
+        return false;
+      }
 
-    public static async create(player: PlayerMp, data: CharacterCreationData): Promise<boolean> {
+      if (!this.isValidName(data.info.lastName)) {
+        Logger.warn(`[CharCreator] Invalid LastName: ${data.info.lastName}`);
 
-        try {
+        return false;
+      }
 
-            Logger.info(`[CharCreator] Validating name: First='${data.info.firstName}', Last='${data.info.lastName}'`);
+      // Găsim user-ul asociat folosind helper-ul corect
 
+      const user = PlayerUtils.getDb(player);
 
+      if (!user) {
+        Logger.error(
+          `[Character] User not found on player object for ${player.name} (dbData is missing)`
+        );
 
-            // 1. Validare Server-Side
+        return false;
+      }
 
-            if (!this.isValidName(data.info.firstName)) {
-
-                 Logger.warn(`[CharCreator] Invalid FirstName: ${data.info.firstName}`);
-
-                 return false;
-
-            }
-
-            if (!this.isValidName(data.info.lastName)) {
-
-                 Logger.warn(`[CharCreator] Invalid LastName: ${data.info.lastName}`);
-
-                 return false;
-
-            }
-
-
-
-            // Găsim user-ul asociat folosind helper-ul corect
-
-            const user = PlayerUtils.getDb(player);
-
-            
-
-            if (!user) {
-
-                Logger.error(`[Character] User not found on player object for ${player.name} (dbData is missing)`);
-
-                return false;
-
-            }
-
-
-
-            // ... rest of the function ...
+      // ... rest of the function ...
 
       // 2. Construim obiectul de Appearance din datele plate venite de la UI
       const appearance: CharacterAppearance = {
@@ -146,7 +128,12 @@ export class CharacterManager {
 
     // Setăm variabila pe player pentru a ști că e spawnat
     player.data.characterId = char.id;
-    player.name = `${char.firstName}_${char.lastName}`;
+    // Stocăm referința completă pentru acces rapid (ex: TimeManager)
+    // Folosim (player as any) pentru a păstra instanța clasei (cu metodele save, remove etc.)
+    // player.data serializează obiectul și pierde metodele!
+    (player as any).activeCharacter = char;
+
+    // player.name = `${char.firstName}_${char.lastName}`;
 
     // 1. Setare Model
     const modelName =
@@ -208,28 +195,43 @@ export class CharacterManager {
    * Salvează poziția curentă a caracterului în baza de date.
    */
   public static async savePosition(player: PlayerMp): Promise<void> {
-    if (!player || !mp.players.exists(player) || !player.data.characterId) return;
+    if (!player || !mp.players.exists(player) || !player.data.characterId)
+      return;
 
     try {
       const pos = player.position;
       const dimension = player.dimension;
-      
-      await Character.update(
-        { id: player.data.characterId },
-        {
-          lastPosition: {
-            x: pos.x,
-            y: pos.y,
-            z: pos.z,
-            dimension: dimension,
-          },
-        }
+      await this.savePositionData(
+        player.data.characterId,
+        pos.x,
+        pos.y,
+        pos.z,
+        dimension
       );
-      
-      // Opțional: Logger.info(`[Character] Position saved for ID ${player.data.characterId}`);
     } catch (e) {
-      Logger.error(`[Character] Failed to save position for ${player.name}`, e as any);
+      Logger.error(
+        `[Character] Failed to save position for ${player.name}`,
+        e as any
+      );
     }
+  }
+
+  /**
+   * Metodă sigură pentru salvarea poziției la Quit (nu depinde de obiectul player)
+   */
+  public static async savePositionData(
+    charId: number,
+    x: number,
+    y: number,
+    z: number,
+    dimension: number
+  ) {
+    await Character.update(
+      { id: charId },
+      {
+        lastPosition: { x, y, z, dimension },
+      }
+    );
   }
 
   private static applyAppearance(
