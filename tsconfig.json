@@ -9,24 +9,18 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@/*": ["./src/web/*"],
-      "@ragemp/server": ["./node_modules/@ragemp/types/packages/server"],
-      "@ragemp/client": ["./node_modules/@ragemp/types/packages/client"],
-      "@ragemp/cef": ["./node_modules/@ragemp/types/packages/cef"]
+      "@/*": ["./src/web/*"]
     },
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "types": ["node", "react", "react-dom"]
+    "emitDecoratorMetadata": true
   },
-  "include": [
-    "src/**/*",
-    "node_modules/@ragemp/types/packages/**/*.d.ts"
-  ],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "client_packages", "packages/server/dist"]
 }

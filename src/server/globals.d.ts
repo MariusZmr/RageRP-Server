@@ -1,6 +1,6 @@
-import "@ragemp/types";
+/// <reference types="@ragempcommunity/types-server" />
 
 declare global {
-    type PlayerMp = PlayerMpServer;
-    var mp: MpServer;
+    // Alias-uri utile
+    type PlayerMp = import("@ragempcommunity/types-server").PlayerMp;
 }

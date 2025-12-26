@@ -8,7 +8,7 @@ import {
     UpdateDateColumn,
     JoinColumn
 } from "typeorm";
-import { User } from "./User";
+import type { User } from "./User";
 
 // --- Interfețe pentru structura JSON ---
 
@@ -42,7 +42,7 @@ export class Character extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @ManyToOne(() => User, (user) => user.characters, { onDelete: "CASCADE" })
+    @ManyToOne("User", "characters")
     @JoinColumn({ name: "userId" })
     user!: User;
 

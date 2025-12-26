@@ -13,7 +13,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const AppDataSource = new DataSource({
+export const AppDataSource = new DataSource({
   type: "mariadb",
   host: process.env.DB_HOST || "localhost",
   port: Number(process.env.DB_PORT) || 3306,

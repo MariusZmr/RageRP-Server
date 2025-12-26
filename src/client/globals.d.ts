@@ -1,7 +1,6 @@
-import "@ragemp/types";
+/// <reference types="@ragempcommunity/types-client" />
 
 declare global {
-    type PlayerMp = PlayerMpClient;
-    type CameraMp = CameraMpClient;
-    var mp: MpClient;
+    // Alias-uri utile
+    type PlayerMp = import("@ragempcommunity/types-client").PlayerMp;
 }

@@ -63,9 +63,15 @@ importers:
         specifier: ^0.3.11
         version: 0.3.11(mysql2@2.3.3)(ts-node@10.9.2(@swc/core@1.15.7)(@types/node@22.19.3)(typescript@5.9.3))
     devDependencies:
-      '@ragemp/types':
-        specifier: github:ragempcommunity/ragemp-types
-        version: root@https://codeload.github.com/ragempcommunity/ragemp-types/tar.gz/ab3a463219957fd928d0d61de534c55c0e632745
+      '@ragempcommunity/types-cef':
+        specifier: ^2.1.9
+        version: 2.1.9
+      '@ragempcommunity/types-client':
+        specifier: ^2.1.9
+        version: 2.1.9
+      '@ragempcommunity/types-server':
+        specifier: ^2.1.9
+        version: 2.1.9
       '@swc/cli':
         specifier: ^0.7.9
         version: 0.7.9(@swc/core@1.15.7)(chokidar@4.0.3)
@@ -542,6 +548,15 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  '@ragempcommunity/types-cef@2.1.9':
+    resolution: {integrity: sha512-OCBc8mrLLjm2ryIP8sEj77/S5eaKPH4lo1n0u5octrcM0nJjgHMHYK61kGJrLkhiI7SAcO0y5srVCBy/ooi4iA==}
+
+  '@ragempcommunity/types-client@2.1.9':
+    resolution: {integrity: sha512-D6SdgzyyuHdQyVDSPVohII6EWbwmWTmOBynVU9BcIHxvtVbr82ZmQ+YzMVlihcEiOk/nt8aeWSzcrWdXXHkgeA==}
+
+  '@ragempcommunity/types-server@2.1.9':
+    resolution: {integrity: sha512-J0aDQxzGBW3l8JniyDNZl17JJFXjjy59LHeQKjNgPk3kWpW/mOuPQ1L90euZFkAx0PPGT96IA3+bHq4zarNEmA==}
 
   '@rolldown/pluginutils@1.0.0-beta.53':
     resolution: {integrity: sha512-vENRlFU4YbrwVqNDZ7fLvy+JR1CRkyr01jhSiDpE1u6py3OMzQfztQU2jxykW3ALNxO4kSlqIDeYyD0Y9RcQeQ==}
@@ -2092,10 +2107,6 @@ packages:
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
-  root@https://codeload.github.com/ragempcommunity/ragemp-types/tar.gz/ab3a463219957fd928d0d61de534c55c0e632745:
-    resolution: {tarball: https://codeload.github.com/ragempcommunity/ragemp-types/tar.gz/ab3a463219957fd928d0d61de534c55c0e632745}
-    version: 0.0.0
-
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
@@ -2909,6 +2920,12 @@ snapshots:
       react: 19.2.3
     optionalDependencies:
       '@types/react': 19.2.7
+
+  '@ragempcommunity/types-cef@2.1.9': {}
+
+  '@ragempcommunity/types-client@2.1.9': {}
+
+  '@ragempcommunity/types-server@2.1.9': {}
 
   '@rolldown/pluginutils@1.0.0-beta.53': {}
 
@@ -4402,8 +4419,6 @@ snapshots:
       '@rollup/rollup-win32-x64-gnu': 4.54.0
       '@rollup/rollup-win32-x64-msvc': 4.54.0
       fsevents: 2.3.3
-
-  root@https://codeload.github.com/ragempcommunity/ragemp-types/tar.gz/ab3a463219957fd928d0d61de534c55c0e632745: {}
 
   run-parallel@1.2.0:
     dependencies:

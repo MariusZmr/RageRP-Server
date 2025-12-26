@@ -34,7 +34,9 @@
     "typeorm": "^0.3.11"
   },
   "devDependencies": {
-    "@ragemp/types": "github:ragempcommunity/ragemp-types",
+    "@ragempcommunity/types-cef": "^2.1.9",
+    "@ragempcommunity/types-client": "^2.1.9",
+    "@ragempcommunity/types-server": "^2.1.9",
     "@swc/cli": "^0.7.9",
     "@swc/core": "^1.15.7",
     "@types/express": "^5.0.6",

@@ -1,9 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, OneToMany } from "typeorm";
+import type { Character } from "./Character";
 
 @Entity("users")
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
+
+    @OneToMany("Character", "user")
+    characters!: Character[];
 
     @Column({ type: "varchar", length: 50, unique: true })
     username!: string;
