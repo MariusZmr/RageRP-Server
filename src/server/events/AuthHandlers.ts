@@ -9,7 +9,11 @@ mp.events.add(
   "auth:login",
   async (player: PlayerMp, username: string, pass: string) => {
     try {
-      const user = await User.findOneBy({ username });
+      // 1. Încărcăm User-ul împreună cu lista de Caractere
+      const user = await User.findOne({
+        where: { username },
+        relations: ["characters"],
+      });
 
       if (!user || !(await bcrypt.compare(pass, user.password))) {
         return player.call("auth:response", [
@@ -23,27 +27,24 @@ mp.events.add(
         ]);
       }
 
+      // 2. Setăm datele pe player, dar NU SPWNĂM
       PlayerUtils.setDb(player, user);
       player.name = user.username;
+      player.dimension = user.dimension; // Poate fi util, dar de obicei 0 sau un routing bucket specific
 
-      let pos;
-      try {
-        pos = JSON.parse(user.lastPos);
-      } catch {
-        pos = { x: -425, y: 1123, z: 325 };
-      }
+      // 3. Pregătim lista simplificată de caractere pentru UI
+      const characterList = user.characters.map((char) => ({
+        id: char.id,
+        firstName: char.firstName,
+        lastName: char.lastName,
+        level: char.level || 1, // Fallback dacă nu există field-ul level
+        lastPlayed: char.updatedAt,
+      }));
 
-      player.spawn(new mp.Vector3(pos.x, pos.y, pos.z));
-      player.dimension = user.dimension;
-      player.health = user.health;
-      player.armour = user.armor;
+      // 4. Trimitem succes + lista
+      player.call("auth:response", [{ success: true, characters: characterList }]);
 
-      player.call("auth:response", [{ success: true }]);
-
-      // Trimitem datele HUD imediat după login
-      HUDUtils.update(player);
-
-      Logger.info(`[Auth] ${username} s-a logat.`);
+      Logger.info(`[Auth] ${username} authenticated. Sending char selection.`);
     } catch (e) {
       Logger.error("Auth Error:", (e as any).message);
       player.call("auth:response", [

@@ -10,6 +10,7 @@ import EventManager from "./utils/EventManager";
 import Login from "./pages/auth/Login";
 import GameInterface from "./pages/GameInterface";
 import CharacterCreator from "./pages/char-creator/CharacterCreator";
+import CharacterSelector from "./pages/char-selector/CharacterSelector";
 import DevTools from "./components/DevTools";
 
 import { NotificationProvider } from "./components/ui/NotificationSystem";
@@ -52,6 +53,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/char-selector" element={<CharacterSelector />} />
               <Route path="/game" element={<GameInterface />} />
               <Route path="/char-creator" element={<CharacterCreator />} />
             </Routes>

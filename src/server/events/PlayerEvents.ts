@@ -4,6 +4,7 @@ import { PlayerUtils } from "../utils/PlayerUtils";
 import { AdminConfig, Theme } from "../config/AdminLevels";
 import { CommandManager } from "../commands/CommandManager";
 import { AuthService } from "../services/AuthService";
+import { CharacterManager } from "../managers/CharacterManager";
 
 export class PlayerEvents {
   static init() {
@@ -64,6 +65,11 @@ export class PlayerEvents {
     mp.events.add("playerQuit", async (player: PlayerMp, exitType: string) => {
       const db = PlayerUtils.getDb(player);
       const playerName = player.name; // Salvăm numele cât timp obiectul e valid
+
+      // 1. Salvăm progresul caracterului (Poziție) dacă este logat pe unul
+      if (player.data.characterId) {
+        await CharacterManager.savePosition(player);
+      }
 
       if (db) {
         // AuthService.savePlayer trebuie să fie sigur și el, dar presupunem că extrage datele necesare la început

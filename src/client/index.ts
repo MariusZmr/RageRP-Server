@@ -27,31 +27,60 @@ mp.events.add("playerReady", () => {
 // State tracking
 let isCreatorOpen = false;
 
-mp.events.add("client:openCreator", () => {
-  isCreatorOpen = true; // Set Flag
+// Funcție centralizată pentru inițializarea sesiunii de creare caracter
+const startCreatorSession = () => {
+  if (isCreatorOpen) return;
+  isCreatorOpen = true; 
+
+  // 1. Ascunde Chat și Radar. Activează Cursor.
   mp.gui.chat.show(false);
   mp.game.ui.displayRadar(false);
-  mp.gui.cursor.show(true, true); // Forțăm explicit
+  mp.gui.cursor.show(true, true);
 
-  // Opțional: Putem îngheța jucătorul să nu se miște
-  mp.players.local.freezePosition(true);
+  // 2. Referențiază mp.players.local
+  const localPlayer = mp.players.local;
 
-  // Setăm modelul DEFAULT Freemode (Obligatoriu pentru personalizare)
-  // Dacă nu facem asta, funcțiile de setHeadBlendData nu vor merge pe skin-uri normale
-  mp.players.local.model = mp.game.joaat("mp_m_freemode_01");
+  // 3. Teleportează jucătorul la interior
+  // Coordonate: Police Station Locker Room (Interior ID)
+  localPlayer.position = new mp.Vector3(402.8664, -996.4108, -99.00404);
 
-  mp.players.local.setVisible(true, false);
-  mp.players.local.setAlpha(255);
+  // 4. Setează rotația (Heading) - cu fața la cameră (aprox)
+  localPlayer.setHeading(180.0);
 
-  // Setup Camera
-  CameraManager.getInstance().createStartCamera();
+  // 5. Blochează poziția și setează Alpha
+  localPlayer.freezePosition(true);
+  localPlayer.setAlpha(255);
+  localPlayer.setVisible(true, false);
 
-  UIManager.getInstance().showPage("/char-creator", {}, { enableCursor: true });
-});
+  // 6. Setează modelul (Obligatoriu pentru personalizare)
+  localPlayer.model = mp.game.joaat("mp_m_freemode_01");
+
+  // 7. Timeout critic pentru procesare teleportare
+  setTimeout(() => {
+    // 8. Setup Camera & UI
+    CameraManager.getInstance().createStartCamera();
+    mp.console.logInfo("[Client] Starting Character Creator Session.");
+    UIManager.getInstance().showPage(
+      "/char-creator",
+      {},
+      { enableCursor: true }
+    );
+  }, 150);
+};
+
+// Eveniment triggeruit de Server
+mp.events.add("client:openCreator", startCreatorSession);
+
+// Eveniment triggeruit de UI (Character Selector)
+mp.events.add("client:requestCreator", startCreatorSession);
 
 // Proxy UI -> Server
 mp.events.add("auth:login", (username: string, password: string) => {
   mp.events.callRemote("auth:login", username, password);
+});
+
+mp.events.add("character:select", (charId: number) => {
+  mp.events.callRemote("character:select", charId);
 });
 
 mp.events.add(
@@ -91,17 +120,27 @@ const enterGame = () => {
   CameraManager.getInstance().destroy();
 };
 
+mp.events.add("client:enterGame", () => {
+  enterGame();
+});
+
 mp.events.add("auth:response", (responseRaw: any) => {
   let response =
     typeof responseRaw === "string" ? JSON.parse(responseRaw) : responseRaw;
   if (Array.isArray(response)) response = response[0];
 
   if (response.success) {
-    enterGame();
+    // Navigăm către Selectorul de Caractere în loc să intrăm direct în joc
+    UIManager.getInstance().showPage(
+      "/char-selector",
+      { characters: response.characters },
+      { enableCursor: true }
+    );
+
     NotificationManager.show(
       "success",
       "Autentificare",
-      "Bine ai venit pe server!"
+      "Bine ai venit! Selectează identitatea."
     );
   } else {
     UIManager.getInstance().showPage("/login", { error: response.error });

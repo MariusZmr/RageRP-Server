@@ -96,7 +96,7 @@ const Login: React.FC = () => {
           <div className="flex items-center justify-center gap-3 mt-3">
             <div className="h-[1px] w-8 bg-orange-500/50"></div>
             <p className="text-zinc-400 text-[10px] font-bold tracking-[0.3em] uppercase">
-              Survival • Combat • Roleplay
+              Build your dreams
             </p>
             <div className="h-[1px] w-8 bg-orange-500/50"></div>
           </div>

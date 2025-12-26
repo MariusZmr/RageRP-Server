@@ -181,12 +181,55 @@ export class CharacterManager {
       char.appearance.hair.highlight
     );
 
-    // 4. Teleport la Spawn (Aeroport LS)
-    player.position = new mp.Vector3(-1037.94, -2738.04, 20.169);
-    player.heading = -37.0;
-    player.dimension = 0;
+    // 4. Teleport la Spawn (Ultima poziție sau Aeroport LS)
+    if (
+      char.lastPosition &&
+      char.lastPosition.x !== 0 &&
+      char.lastPosition.y !== 0
+    ) {
+      player.position = new mp.Vector3(
+        char.lastPosition.x,
+        char.lastPosition.y,
+        char.lastPosition.z
+      );
+      player.heading = 0; // TypeORM nu stochează heading în structura curentă simplificată, putem adăuga sau lăsa 0
+      player.dimension = char.lastPosition.dimension || 0;
+    } else {
+      player.position = new mp.Vector3(-1037.94, -2738.04, 20.169);
+      player.heading = -37.0;
+      player.dimension = 0;
+    }
+
     player.health = 100;
     player.armour = 0;
+  }
+
+  /**
+   * Salvează poziția curentă a caracterului în baza de date.
+   */
+  public static async savePosition(player: PlayerMp): Promise<void> {
+    if (!player || !mp.players.exists(player) || !player.data.characterId) return;
+
+    try {
+      const pos = player.position;
+      const dimension = player.dimension;
+      
+      await Character.update(
+        { id: player.data.characterId },
+        {
+          lastPosition: {
+            x: pos.x,
+            y: pos.y,
+            z: pos.z,
+            dimension: dimension,
+          },
+        }
+      );
+      
+      // Opțional: Logger.info(`[Character] Position saved for ID ${player.data.characterId}`);
+    } catch (e) {
+      Logger.error(`[Character] Failed to save position for ${player.name}`, e as any);
+    }
   }
 
   private static applyAppearance(
