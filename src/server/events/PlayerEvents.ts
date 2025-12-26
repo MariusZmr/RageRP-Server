@@ -11,6 +11,9 @@ import { TimeManager } from "../managers/TimeManager";
 export class PlayerEvents {
   static init() {
     mp.events.add("playerJoin", async (player: PlayerMp) => {
+      // Sincronizăm vremea curentă cu clientul
+      player.call("client:setWeather", [mp.world.weather]);
+
       // const user = await User.findOneBy({ username: player.name });
 
       // UI-ul va prelua fluxul de autentificare
