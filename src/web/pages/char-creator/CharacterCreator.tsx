@@ -19,9 +19,6 @@ import { useTranslation } from 'react-i18next';
 // --- Window Type Extensions ---
 declare global {
     interface Window {
-        mp?: {
-            trigger: (event: string, data?: string) => void;
-        };
         triggerNotification?: (type: string, title: string, message: string, duration?: number) => void;
     }
 }

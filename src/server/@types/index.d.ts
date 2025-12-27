@@ -1,8 +1,12 @@
+import { User } from "../database/entities/User";
+import { Character } from "../database/entities/Character";
+
 declare global {
   interface PlayerMp {
-    customProperty: number;
-
-    customMethod(): void;
+    dbData: User;
+    activeCharacter: Character;
+    
+    setVariable(key: string, value: any): void;
   }
 }
 

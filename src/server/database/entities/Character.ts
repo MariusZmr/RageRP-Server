@@ -64,6 +64,9 @@ export class Character extends BaseEntity {
     @Column({ type: "int", default: 0 })
     playedTime!: number;
 
+    @Column({ type: "int", default: 1 })
+    level!: number;
+
     // Stocăm structura JSON complexă pentru aspect
     @Column({ type: "simple-json" }) 
     appearance!: CharacterAppearance;
@@ -73,7 +76,7 @@ export class Character extends BaseEntity {
     clothes!: CharacterClothes;
 
     @Column({ type: "simple-json", nullable: true })
-    lastPosition?: { x: number; y: number; z: number; dimension: number };
+    lastPosition?: { x: number; y: number; z: number; dimension: number; heading: number };
 
     @CreateDateColumn()
     createdAt!: Date;

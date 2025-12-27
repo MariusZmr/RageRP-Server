@@ -1,13 +1,13 @@
+import { ISystem } from "@shared/interfaces/ISystem";
 import { UIManager } from "./UIManager";
 
-export class VehicleUIController {
+export class VehicleUIController implements ISystem {
   private static instance: VehicleUIController;
+  public name = "VehicleUIController";
   private updateInterval: number | null = null;
-  private readonly UPDATE_RATE_MS = 100; // 10 FPS for UI is enough
+  private readonly UPDATE_RATE_MS = 100;
 
-  private constructor() {
-    this.initEvents();
-  }
+  private constructor() {}
 
   public static getInstance(): VehicleUIController {
     if (!VehicleUIController.instance) {
@@ -16,7 +16,7 @@ export class VehicleUIController {
     return VehicleUIController.instance;
   }
 
-  private initEvents() {
+  public init(): void {
     mp.events.add("playerEnterVehicle", (vehicle: VehicleMp, seat: number) => {
       this.startUpdates(vehicle);
     });
@@ -25,7 +25,6 @@ export class VehicleUIController {
       this.stopUpdates();
     });
 
-    // Handle case where player spawns inside vehicle (rare but possible)
     if (mp.players.local.vehicle) {
       this.startUpdates(mp.players.local.vehicle);
     }
@@ -34,7 +33,6 @@ export class VehicleUIController {
   private startUpdates(vehicle: VehicleMp) {
     if (this.updateInterval) clearInterval(this.updateInterval);
 
-    // Initial state
     this.sendUpdate({
       inVehicle: true,
       locked: vehicle.getDoorLockStatus() === 2,
@@ -47,23 +45,16 @@ export class VehicleUIController {
         return;
       }
 
-      const speedKmh = vehicle.getSpeed() * 3.6; // m/s to km/h
-      const rpm = vehicle.rpm || 0;
-      const gear = vehicle.gear || 0;
-      
-      // Get indicators (Using natives if RageMP properties are insufficient)
-      // For now, basic properties
-      
       this.sendUpdate({
         inVehicle: true,
-        speed: Math.floor(speedKmh),
-        rpm: rpm,
-        gear: gear,
-        fuel: 85, // Dummy value until server syncs fuel
+        speed: Math.floor(vehicle.getSpeed() * 3.6),
+        rpm: vehicle.rpm || 0,
+        gear: vehicle.gear || 0,
+        fuel: 85,
         engineHealth: vehicle.getEngineHealth(),
         locked: vehicle.getDoorLockStatus() === 2,
-        lights: false, // Need native to check lights state properly
-        seatbelt: false // Need seatbelt system
+        lights: false,
+        seatbelt: false
       });
 
     }, this.UPDATE_RATE_MS) as unknown as number;
@@ -85,9 +76,7 @@ export class VehicleUIController {
   private sendUpdate(data: any) {
     const browser = UIManager.getInstance().getBrowser();
     if (browser && mp.browsers.exists(browser)) {
-      // Use efficient string building
-      const js = `window.EventManager.receiveFromServer('vehicle:update', ${JSON.stringify(data)})`;
-      browser.execute(js);
+      browser.execute(`window.EventManager.receiveFromServer('vehicle:update', ${JSON.stringify(data)})`);
     }
   }
 }

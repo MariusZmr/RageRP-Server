@@ -3,7 +3,8 @@
   "compilerOptions": {
     "types": ["@ragempcommunity/types-client", "./@types"],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@shared/*": ["../shared/*"]
     }
   },
   "include": ["./**/*.ts"]

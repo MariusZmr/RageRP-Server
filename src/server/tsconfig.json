@@ -3,7 +3,9 @@
   "compilerOptions": {
     "types": ["@ragempcommunity/types-server", "node", "./@types"],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@server/*": ["./*"],
+      "@shared/*": ["../shared/*"]
     }
   },
   "include": ["./**/*.ts"]
