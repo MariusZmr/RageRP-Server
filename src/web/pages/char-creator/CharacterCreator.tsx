@@ -188,13 +188,21 @@ const CharacterCreator: React.FC = () => {
                     />
                 </div>
 
-                <div className="p-6 border-t border-white/5 bg-surface-100">
+                <div className="p-6 border-t border-white/5 bg-surface-100 space-y-3">
                     <Button 
                         onClick={handleSave}
                         className="w-full h-14 bg-primary hover:bg-primary-hover text-white text-base font-bold rounded-2xl shadow-lg shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-2"
                     >
                         <Check className="w-5 h-5" />
                         {t('char_create.finalize')}
+                    </Button>
+                    
+                    <Button 
+                        variant="ghost"
+                        onClick={() => EventManager.trigger('navigateTo', { route: '/char-selector' })}
+                        className="w-full h-10 text-zinc-500 hover:text-white hover:bg-zinc-800 rounded-xl text-sm font-bold"
+                    >
+                        Exit to Menu
                     </Button>
                 </div>
             </div>

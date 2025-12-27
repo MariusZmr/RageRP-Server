@@ -12,12 +12,20 @@ import GameInterface from "./pages/GameInterface";
 import CharacterCreator from "./pages/char-creator/CharacterCreator";
 import CharacterSelector from "./pages/char-selector/CharacterSelector";
 import DevTools from "./components/DevTools";
+import { Loader2 } from "lucide-react";
 
 import { NotificationProvider } from "./components/ui/NotificationSystem";
 
 const Home = () => (
-  <div className="p-10 text-white font-bold text-2xl bg-red-500/20 absolute top-0 left-0">
-    🏠 REACT UI LOADED (Waiting for routing...)
+  <div className="w-full h-full flex flex-col items-center justify-center bg-[#050505] text-zinc-600 space-y-4">
+    <div className="relative">
+        <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse" />
+        <Loader2 className="w-8 h-8 animate-spin text-zinc-500 relative z-10" />
+    </div>
+    <div className="text-center">
+        <h1 className="text-sm font-bold tracking-[0.3em] uppercase">System Standby</h1>
+        <p className="text-[10px] font-mono mt-2 opacity-50">Waiting for server routing signal...</p>
+    </div>
   </div>
 );
 
@@ -45,11 +53,11 @@ const NavigationHandler = () => {
 function App() {
   return (
     <React.Fragment>
-      <DevTools />
       <NotificationProvider>
+        <DevTools /> {/* DevTools is now overlayed globally */}
         <HashRouter>
           <NavigationHandler />
-          <div className="w-full h-full relative">
+          <div className="w-full h-full relative bg-black">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />

@@ -78,6 +78,35 @@ mp.events.add("client:openCreator", startCreatorSession);
 // Eveniment triggeruit de UI (Character Selector)
 mp.events.add("client:requestCreator", startCreatorSession);
 
+// Event pentru toggle DevTools (Triggered by server command /devui)
+mp.events.add("client:toggleDevTools", () => {
+  const browser = UIManager.getInstance().getBrowser();
+  if (browser) {
+    // Trimitem semnalul de toggle către UI (React)
+    // React va asculta 'devtools:toggle' prin EventManager
+    // In React avem: EventManager.on('devtools:toggle', (state) => ...)
+    
+    // Vom face un toggle simplu. React ar trebui să gestioneze starea, dar 
+    // clientul nu stie starea curenta a React-ului usor.
+    // Trimitem doar semnalul de activare/dezactivare.
+    // Pentru simplitate, vom trimite 'true' momentan, sau putem implementa un state local aici.
+    
+    // Voi folosi o variabila globala simpla pentru toggle
+    (window as any).isDevToolsOpen = !(window as any).isDevToolsOpen;
+    const newState = (window as any).isDevToolsOpen;
+
+    browser.execute(`
+      if (window.EventManager) {
+        window.EventManager.receiveFromServer('devtools:toggle', ${newState});
+      }
+    `);
+    
+    // Show cursor if opened
+    mp.gui.cursor.show(newState, newState);
+    NotificationManager.show("info", "DevTools", newState ? "Enabled" : "Disabled");
+  }
+});
+
 // Proxy UI -> Server
 mp.events.add("auth:login", (username: string, password: string) => {
   mp.events.callRemote("auth:login", username, password);

@@ -1,10 +1,10 @@
-// Definim tipurile pentru obiectul global 'mp' injectat de RageMP
+// EventManager.ts - Safe for both Browser and Server environments
 declare global {
   interface Window {
-    // Expunem EventManager global
     EventManager?: {
       receiveFromServer: (eventName: string, detail: any) => void;
     };
+    mp?: any;
   }
 }
 
@@ -15,19 +15,26 @@ class EventManager {
   private events: Map<string, EventHandler[]> = new Map();
 
   private constructor() {
-    window.EventManager = {
-      receiveFromServer: (eventName: string, detail: any) => {
-        this.log("info", `Received from Server: ${eventName}`);
-        this.emitLocal(eventName, detail);
-      },
-    };
+    // Verificăm dacă suntem într-un mediu cu 'window' (Browser/CEF)
+    if (typeof window !== "undefined") {
+      window.EventManager = {
+        receiveFromServer: (eventName: string, detail: any) => {
+          if (!eventName.includes("update") && !eventName.includes("tick")) {
+            this.log("info", `Received from Server: ${eventName}`);
+          }
+          this.emitLocal(eventName, detail);
+        },
+      };
 
-    console.log("[EventManager] Initialized.");
+      console.log("[EventManager] Initialized in Browser.");
 
-    // Anunțăm clientul că React este gata
-    setTimeout(() => {
-      this.triggerServer("ui:ready");
-    }, 100);
+      // Anunțăm clientul că React este gata
+      setTimeout(() => {
+        this.triggerServer("ui:ready");
+      }, 100);
+    } else {
+      console.log("[EventManager] Initialized in Non-Browser environment.");
+    }
   }
 
   public static getInstance(): EventManager {
@@ -61,43 +68,37 @@ class EventManager {
     }
   }
 
-  /**
-   * Trimite log-uri către consola RageMP (F8)
-   */
   public log(type: "info" | "error", message: string) {
-    console.log(`[${type.toUpperCase()}] ${message}`);
-    if (window.mp) {
+    if (typeof window !== "undefined" && window.mp) {
       try {
         window.mp.trigger("ui:log", type, message);
       } catch (e) {
         console.error("Failed to send log to client", e);
       }
+    } else {
+      const color = type === "error" ? "red" : "#3b82f6";
+      console.log(`%c[${type.toUpperCase()}] ${message}`, `color: ${color}; font-weight: bold;`);
     }
   }
 
-  /**
-   * Alias pentru triggerServer. Trimite eveniment către Clientul RageMP.
-   */
   public trigger(eventName: string, ...args: any[]): void {
     this.triggerServer(eventName, ...args);
   }
 
-  /**
-   * Trimite un eveniment către Server/Client (RageMP).
-   */
   public triggerServer(eventName: string, ...args: any[]): void {
-    if (window.mp && window.mp.trigger) {
+    if (typeof window !== "undefined" && window.mp && window.mp.trigger) {
       try {
-        this.log(
-          "info",
-          `Triggering: ${eventName} | Args: ${JSON.stringify(args)}`
-        );
+        if (!eventName.includes("update")) {
+          this.log("info", `Triggering: ${eventName}`);
+        }
         window.mp.trigger(eventName, ...args);
       } catch (e: any) {
         this.log("error", `Trigger Fail: ${e.message}`);
       }
-    } else {
-      console.warn(`[Mock-Trigger] ${eventName}`, args);
+    } else if (typeof window !== "undefined") {
+      // Browser Loopback
+      const payload = args.length > 0 ? args[0] : null;
+      this.emitLocal(eventName, payload);
     }
   }
 }
