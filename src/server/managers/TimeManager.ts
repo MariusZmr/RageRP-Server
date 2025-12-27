@@ -34,10 +34,11 @@ export class TimeManager {
               { id: user.id },
               { accountPlayedTime: user.accountPlayedTime }
             );
-            await Character.update(
-              { id: char.id },
-              { playedTime: char.playedTime }
-            );
+            
+            // Actualizăm și datele vitale periodice
+            char.health = player.health;
+            char.armor = player.armour;
+            await char.save(); // Salvează tot: bani, job, timp, stats
           }
         } catch (e) {
           Logger.error(

@@ -56,21 +56,22 @@ export class PlayerEvents {
         const user = (player as any).dbData as User;
         const char = (player as any).activeCharacter as Character;
 
-        // Salvăm timpul jucat
-        if (user && char) {
-          await TimeManager.forceSave(user, char);
-        }
+        if (char) {
+            // Actualizăm datele vitale înainte de salvare
+            char.health = player.health;
+            char.armor = player.armour;
+            
+            // Salvăm poziția în obiectul caracterului
+            if (pos) {
+                char.lastPosition = { x: pos.x, y: pos.y, z: pos.z, dimension: dimension, heading: player.heading };
+            }
 
-        // Salvăm poziția dacă era spawnat
-        if (char && pos) {
-          await CharacterService.getInstance().savePositionData(
-            char.id,
-            pos.x,
-            pos.y,
-            pos.z,
-            dimension,
-            player.heading
-          );
+            // Salvăm timpul (logică din TimeManager integrată sau apelată)
+            // TimeManager va salva timpul pe user și caracter, dar noi vrem să salvăm tot caracterul acum
+            await TimeManager.forceSave(user, char); 
+            
+            // Salvăm tot obiectul caracterului (inclusiv bani, stats, pos)
+            await char.save();
         }
 
         if (user) {
