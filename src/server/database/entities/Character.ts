@@ -46,13 +46,13 @@ export class Character extends BaseEntity {
     @JoinColumn({ name: "userId" })
     user!: User;
 
-    @Column()
+    @Column({ type: "int" })
     userId!: number;
 
-    @Column({ length: 50 })
+    @Column({ type: "varchar", length: 50 })
     firstName!: string;
 
-    @Column({ length: 50 })
+    @Column({ type: "varchar", length: 50 })
     lastName!: string;
 
     @Column({ type: "int" }) // 0 = Male, 1 = Female

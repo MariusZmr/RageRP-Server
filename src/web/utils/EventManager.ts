@@ -1,3 +1,5 @@
+import { ClientEvents } from "../../shared/constants/Events";
+
 // EventManager.ts - Safe for both Browser and Server environments
 declare global {
   interface Window {
@@ -30,7 +32,7 @@ class EventManager {
 
       // Anunțăm clientul că React este gata
       setTimeout(() => {
-        this.triggerServer("ui:ready");
+        this.triggerServer(ClientEvents.UI_READY);
       }, 100);
     } else {
       console.log("[EventManager] Initialized in Non-Browser environment.");
@@ -95,8 +97,9 @@ class EventManager {
       } catch (e: any) {
         this.log("error", `Trigger Fail: ${e.message}`);
       }
-    } else if (typeof window !== "undefined") {
-      // Browser Loopback
+    } else {
+      // Browser Loopback / Dev Mode
+      console.log(`[EventManager] TriggerServer (Fallback): ${eventName}`, args);
       const payload = args.length > 0 ? args[0] : null;
       this.emitLocal(eventName, payload);
     }

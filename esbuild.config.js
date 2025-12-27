@@ -1,47 +1,51 @@
 const esbuild = require('esbuild');
-const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
+const { esbuildDecorators } = require('esbuild-plugin-typescript-decorators');
 
 async function buildServer() {
     const distPath = path.join(__dirname, 'packages/server/dist');
     if (fs.existsSync(distPath)) fs.rmSync(distPath, { recursive: true, force: true });
 
-    console.log(`🚀 [BUILD-SERVER] Compilare cu SWC...`);
-    
+    console.log(`🚀 [BUILD-SERVER] Bundling server-side with decorators...`);
+
     try {
-        // Rulăm din src/server pentru a evita structura src/server în dist
-        const swcConfig = path.join(__dirname, 'packages/server/.swcrc');
-        const outDir = path.join(__dirname, 'packages/server/dist');
-        const srcDir = path.join(__dirname, 'src/server');
-        
-        execSync(`npx swc . -d ${outDir} --config-file ${swcConfig}`, { 
-            cwd: srcDir,
-            stdio: 'inherit' 
+        await esbuild.build({
+            entryPoints: [path.join(__dirname, 'src/server/index.ts')],
+            bundle: true,
+            outfile: path.join(__dirname, 'packages/server/dist/index.js'),
+            platform: 'node',
+            target: 'node16',
+            format: 'cjs',
+            sourcemap: true,
+            external: ['mariadb', 'mysql2', 'express', 'dotenv', 'typeorm', 'bcryptjs', 'reflect-metadata'],
+            plugins: [
+                esbuildDecorators({
+                    tsconfig: path.join(__dirname, 'src/server/tsconfig.json'),
+                }),
+            ],
+            tsconfig: path.join(__dirname, 'src/server/tsconfig.json'),
         });
     } catch (err) {
-        throw new Error('SWC compilation failed');
+        console.error(err);
+        throw new Error('Esbuild server compilation failed');
     }
 }
 
 async function buildClient() {
     const clientEntry = path.join(__dirname, 'src/client/index.ts');
-    if (!fs.existsSync(clientEntry)) {
-        // Creăm un fișier de index gol dacă nu există
-        fs.writeFileSync(clientEntry, "mp.gui.chat.push('Client-side loaded!');\n");
-    }
-
     console.log(`🚀 [BUILD-CLIENT] Bundling client-side...`);
 
     await esbuild.build({
         entryPoints: [clientEntry],
-        bundle: true, // IMPORTANT: Unim totul pentru client
+        bundle: true,
         outfile: 'client_packages/index.js',
-        platform: 'browser', // Clientul RAGE e un engine JS custom similar browserului
-        format: 'iife', // Format executabil imediat
+        platform: 'browser',
+        format: 'iife',
         target: 'esnext',
-        sourcemap: false, // Nu vrem sourcemaps pe client în producție (opțional)
-        minify: true, // Micșorăm fișierul pentru download mai rapid
+        sourcemap: false,
+        minify: true,
+        tsconfig: path.join(__dirname, 'src/client/tsconfig.json'),
     });
 }
 

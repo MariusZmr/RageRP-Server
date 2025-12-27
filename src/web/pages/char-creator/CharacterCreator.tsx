@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { ServerEvents } from '../../../shared/constants/Events';
 
 // --- Window Type Extensions ---
 declare global {
@@ -95,7 +96,7 @@ const CharacterCreator: React.FC = () => {
             return;
         }
         if (window.triggerNotification) window.triggerNotification('info', 'Processing', 'Creating identity...', 2000);
-        EventManager.triggerServer('character:create', JSON.stringify(data));
+        EventManager.triggerServer(ServerEvents.CHAR_CREATE, JSON.stringify(data));
     };
 
     useEffect(() => {

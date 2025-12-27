@@ -2,19 +2,20 @@ import React, { useState } from "react";
 import EventManager from "../../utils/EventManager";
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import {
-  User,
-  Lock,
-  Mail,
-  ArrowRight,
-  ChevronRight,
-  ShieldCheck,
-  Settings
-} from "lucide-react";
+import { ServerEvents } from "../../../shared/constants/Events";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import SettingsModal from "@/components/SettingsModal";
+import { 
+    Settings, 
+    ShieldCheck, 
+    User, 
+    Mail, 
+    Lock, 
+    ArrowRight, 
+    ChevronRight 
+} from "lucide-react";
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
@@ -30,12 +31,12 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleAuth = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isRegister) {
-      EventManager.triggerServer("auth:register", username, password, email);
+    if (!isRegister) {
+      EventManager.triggerServer(ServerEvents.AUTH_LOGIN, username, password);
     } else {
-      EventManager.triggerServer("auth:login", username, password);
+      EventManager.triggerServer(ServerEvents.AUTH_REGISTER, username, password, email);
     }
   };
 
@@ -89,7 +90,7 @@ const Login: React.FC = () => {
             </motion.div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleAuth} className="space-y-5">
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-secondary ml-1">{t('auth.username')}</label>
               <div className="relative group">
@@ -98,7 +99,7 @@ const Login: React.FC = () => {
                   className="bg-surface-200 border-transparent focus:bg-surface-300 focus:ring-2 focus:ring-primary/50 text-white rounded-xl h-12 pl-11 shadow-inner transition-all duration-300 placeholder:text-zinc-600"
                   placeholder={t('auth.username')}
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
                   required
                 />
                 <User className="absolute left-4 top-3.5 w-5 h-5 text-zinc-500 group-focus-within:text-white transition-colors" />
@@ -120,7 +121,7 @@ const Login: React.FC = () => {
                       className="bg-surface-200 border-transparent focus:bg-surface-300 focus:ring-2 focus:ring-primary/50 text-white rounded-xl h-12 pl-11 shadow-inner transition-all duration-300 placeholder:text-zinc-600"
                       placeholder="name@example.com"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                       required={isRegister}
                     />
                     <Mail className="absolute left-4 top-3.5 w-5 h-5 text-zinc-500 group-focus-within:text-white transition-colors" />
@@ -137,7 +138,7 @@ const Login: React.FC = () => {
                   className="bg-surface-200 border-transparent focus:bg-surface-300 focus:ring-2 focus:ring-primary/50 text-white rounded-xl h-12 pl-11 shadow-inner transition-all duration-300 placeholder:text-zinc-600"
                   placeholder="••••••••"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                   required
                 />
                 <Lock className="absolute left-4 top-3.5 w-5 h-5 text-zinc-500 group-focus-within:text-white transition-colors" />

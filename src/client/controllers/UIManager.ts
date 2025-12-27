@@ -1,19 +1,25 @@
+import { ISystem } from "@shared/interfaces/ISystem";
+import { ClientEvents } from "@shared/constants/Events";
+
 /**
  * UIManager - Controller Singleton pentru gestionarea interfeței grafice (CEF).
  */
-export class UIManager {
+export class UIManager implements ISystem {
   private static instance: UIManager;
+  public name = "UIManager";
   private browser: any | null = null;
   private readonly browserPath: string = "package://ui/index.html";
   private isReady: boolean = false;
   private pendingActions: Array<() => void> = [];
   private needsCursor: boolean = false; // Flag pentru a ști dacă pagina curentă vrea cursor
 
-  private constructor() {
+  private constructor() {}
+
+  public init(): void {
     this.initBrowser();
 
     // Ascultăm evenimentul care confirmă că React s-a încărcat complet
-    mp.events.add("ui:ready", () => {
+    mp.events.add(ClientEvents.UI_READY, () => {
       mp.console.logInfo("[UIManager] UI raportat ca fiind READY.");
       this.isReady = true;
       this.processPendingActions();
@@ -25,6 +31,15 @@ export class UIManager {
       if (this.needsCursor && !mp.gui.cursor.visible) {
         mp.gui.cursor.show(true, true);
       }
+    });
+
+    mp.events.add("client:ui:debug", () => {
+        mp.gui.chat.push(`[UI Debug] Browser: ${this.browser ? 'Exists' : 'NULL'}`);
+        if (this.browser) {
+            mp.gui.chat.push(`[UI Debug] Active: ${this.browser.active}`);
+            mp.gui.chat.push(`[UI Debug] Ready: ${this.isReady}`);
+            mp.gui.chat.push(`[UI Debug] URL: ${this.browserPath}`);
+        }
     });
   }
 
@@ -43,13 +58,9 @@ export class UIManager {
     });
 
     this.browser = mp.browsers.new(this.browserPath);
-    this.browser.active = true; // Trebuie să fie activ pentru a încărca JS-ul, dar îl putem ascunde vizual altfel dacă e nevoie
-    // Dar în cazul unui SPA full-screen, de obicei e ok. Dacă vrem hidden la start, riscăm să nu se încarce resursele pe unele PC-uri slow.
-    // Totuși, Rage încarcă și în background. Să-l lăsăm 'active = false' inițial e mai safe vizual, dar 'execute' nu merge mereu pe browser inactiv.
-    // Compromis: Îl lăsăm cum era (active=false) dar îl activăm la showPage.
-    this.browser.active = false;
+    this.browser.active = true; // IMPORTANT: Trebuie să fie activ pentru a rula JS-ul de start
 
-    mp.console.logInfo("[UIManager] Browser CEF inițializat.");
+    mp.console.logInfo(`[UIManager] Browser CEF inițializat: ${this.browserPath}`);
   }
 
   // ... (rest of the file content until getBrowser)

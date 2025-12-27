@@ -6,15 +6,16 @@ import { AdminConfig, Theme } from "../config/AdminLevels";
 import { CommandManager } from "../commands/CommandManager";
 import { TimeManager } from "../managers/TimeManager";
 import { CharacterService } from "../modules/character/character.service";
+import { ClientEvents, GameEvents } from "../../shared/constants/Events";
 
 export class PlayerEvents {
   static init() {
-    mp.events.add("playerJoin", async (player: PlayerMp) => {
-      player.call("client:setWeather", [mp.world.weather]);
+    mp.events.add(GameEvents.PLAYER_JOIN, async (player: PlayerMp) => {
+      player.call(ClientEvents.SET_WEATHER, [mp.world.weather]);
       Logger.info(`[JOIN] ${player.name} (ID: ${player.id}) s-a conectat.`);
     });
 
-    mp.events.add("playerChat", (player: PlayerMp, message: string) => {
+    mp.events.add(GameEvents.PLAYER_CHAT, (player: PlayerMp, message: string) => {
       const db = PlayerUtils.getDb(player);
       if (!db) {
         player.outputChatBox(`${Theme.Error}Sistem: ${Theme.Text}Trebuie sa te autentifici pentru a utiliza chat-ul.`);
@@ -32,11 +33,11 @@ export class PlayerEvents {
       Logger.info(`[CHAT] ${player.name}: ${message}`);
     });
 
-    mp.events.add("playerCommand", (player: PlayerMp, message: string) => {
+    mp.events.add(GameEvents.PLAYER_COMMAND, (player: PlayerMp, message: string) => {
       CommandManager.handleCommand(player, message);
     });
 
-    mp.events.add("playerQuit", async (player: PlayerMp, exitType: string) => {
+    mp.events.add(GameEvents.PLAYER_QUIT, async (player: PlayerMp, exitType: string) => {
       const playerName = player.name;
       const pos = player.position;
       const dimension = player.dimension;

@@ -1,8 +1,8 @@
 import { register } from "../CommandRegistry";
-import { Theme, AdminLevel } from "../../config/AdminLevels";
-import { Logger } from "../../utils/Logger";
+import { AdminLevel, Theme } from "../../config/AdminLevels";
+import { ClientEvents } from "../../../shared/constants/Events";
 
-const VALID_WEATHERS = [
+const validWeathers = [
   "EXTRASUNNY",
   "CLEAR",
   "CLOUDS",
@@ -13,46 +13,39 @@ const VALID_WEATHERS = [
   "THUNDER",
   "CLEARING",
   "NEUTRAL",
-  "SNOW",
-  "BLIZZARD",
   "SNOWLIGHT",
   "XMAS",
   "HALLOWEEN",
 ];
 
 register({
-  name: "weather",
-  aliases: ["setweather", "sw"],
-  description: "Schimba vremea globala pe server.",
-  usage: "/weather <tip>",
-  minAdmin: AdminLevel.Manager, // Level 4+
+  name: "setweather",
+  description: "Seteaza vremea pe server.",
+  aliases: ["sw"],
+  minAdmin: AdminLevel.Admin,
+  category: "admin",
   execute: (player, args) => {
-    if (args.length === 0) {
+    if (!args[0]) {
       return player.outputChatBox(
-        `${Theme.Error}Folosire: /weather <tip>\n` +
-          `${Theme.Secondary}Valide: ${VALID_WEATHERS.join(", ")}`
+        `${Theme.Error}Utilizare: ${Theme.Text}/setweather [nume-vreme]`
       );
     }
 
     const newWeather = args[0].toUpperCase();
 
-    if (!VALID_WEATHERS.includes(newWeather)) {
+    if (!validWeathers.includes(newWeather)) {
       return player.outputChatBox(
-        `${Theme.Error}Tip de vreme invalid! Incearca: ${Theme.Text}${VALID_WEATHERS.slice(0, 5).join(", ")}...`
+        `${Theme.Error}Vreme invalida! ${Theme.Text}Optiuni: ${validWeathers.join(
+          ", "
+        )}`
       );
     }
 
     mp.world.weather = newWeather;
+    mp.players.call(ClientEvents.SET_WEATHER, [newWeather]);
 
-    // Forțăm actualizarea vizuală pe toți clienții (esențial pentru zăpadă)
-    mp.players.call("client:setWeather", [newWeather]);
-
-    // Notificare pentru admin
-    player.outputChatBox(
-      `${Theme.Success}Ai schimbat vremea globala in: ${Theme.Primary}${newWeather}`
+    mp.players.broadcast(
+      `${Theme.Primary}Admin: ${Theme.Text}${player.name} a setat vremea la ${Theme.Secondary}${newWeather}${Theme.Text}.`
     );
-
-    // Log pentru audit
-    Logger.warn(`[ADMIN] ${player.name} changed weather to ${newWeather}.`);
   },
 });

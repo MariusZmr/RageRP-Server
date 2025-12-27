@@ -4,6 +4,7 @@ import { PlayerUtils } from "../../utils/PlayerUtils";
 import { Logger } from "../../utils/Logger";
 import { HUDUtils } from "../../utils/HUDUtils";
 import { Character } from "../../database/entities/Character";
+import { ServerEvents, ClientEvents } from "../../../shared/constants/Events";
 
 export class CharacterSystem implements ISystem {
     private static instance: CharacterSystem;
@@ -24,8 +25,8 @@ export class CharacterSystem implements ISystem {
     }
 
     private registerEvents(): void {
-        mp.events.add("character:select", (player, charId) => this.handleSelect(player, charId));
-        mp.events.add("character:create", (player, data) => this.handleCreate(player, data));
+        mp.events.add(ServerEvents.CHAR_SELECT, (player, charId) => this.handleSelect(player, charId));
+        mp.events.add(ServerEvents.CHAR_CREATE, (player, data) => this.handleCreate(player, data));
     }
 
     private async handleSelect(player: PlayerMp, charId: number): Promise<void> {
@@ -35,11 +36,11 @@ export class CharacterSystem implements ISystem {
 
             const char = await CharacterService.getInstance().getById(charId);
             if (!char || char.userId !== user.id) {
-                return player.call("notification:show", ["Identitate invalidă!", "error"]);
+                return player.call(ServerEvents.NOTIFICATION_SHOW, ["Identitate invalidă!", "error"]);
             }
 
             await CharacterService.getInstance().applyToPlayer(player, char);
-            player.call("client:enterGame");
+            player.call(ClientEvents.CHAR_ENTER_GAME);
             HUDUtils.update(player);
             
             Logger.info(`[Character] ${player.name} selected ${char.firstName} ${char.lastName}`);
@@ -56,17 +57,17 @@ export class CharacterSystem implements ISystem {
 
             const count = await Character.count({ where: { userId: user.id } });
             if (count >= user.characterSlots) {
-                return player.call("character:create:response", [{ success: false, error: "Limită sloturi atinsă." }]);
+                return player.call(ServerEvents.CHAR_CREATE_RESPONSE, [{ success: false, error: "Limită sloturi atinsă." }]);
             }
 
             const newChar = await CharacterService.getInstance().create(user.id, data);
             await CharacterService.getInstance().applyToPlayer(player, newChar);
 
-            player.call("character:create:response", [{ success: true }]);
+            player.call(ServerEvents.CHAR_CREATE_RESPONSE, [{ success: true }]);
             HUDUtils.update(player);
         } catch (e: any) {
             Logger.error(`[Character] Creation Error: ${e.message}`);
-            player.call("character:create:response", [{ success: false, error: "Eroare server." }]);
+            player.call(ServerEvents.CHAR_CREATE_RESPONSE, [{ success: false, error: "Eroare server." }]);
         }
     }
 }

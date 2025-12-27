@@ -2,6 +2,7 @@ import { ISystem } from "@shared/interfaces/ISystem";
 import { CameraManager } from "./CameraManager";
 import { UIManager } from "./UIManager";
 import { NotificationManager } from "./NotificationManager";
+import { ServerEvents, ClientEvents } from "@shared/constants/Events";
 
 export class CharacterController implements ISystem {
     private static instance: CharacterController;
@@ -21,14 +22,14 @@ export class CharacterController implements ISystem {
         // --- Game Events ---
         mp.events.add("client:openCreator", () => this.startCreatorSession());
         mp.events.add("client:requestCreator", () => this.startCreatorSession());
-        mp.events.add("client:enterGame", () => this.enterGame());
+        mp.events.add(ClientEvents.CHAR_ENTER_GAME, () => this.enterGame());
 
         // --- UI Responses ---
-        mp.events.add("character:select", (charId: number) => {
-            mp.events.callRemote("character:select", charId);
+        mp.events.add(ServerEvents.CHAR_SELECT, (charId: number) => {
+            mp.events.callRemote(ServerEvents.CHAR_SELECT, charId);
         });
 
-        mp.events.add("character:create:response", (responseRaw: any) => {
+        mp.events.add(ServerEvents.CHAR_CREATE_RESPONSE, (responseRaw: any) => {
             let response = typeof responseRaw === "string" ? JSON.parse(responseRaw) : responseRaw;
             if (Array.isArray(response)) response = response[0];
 
@@ -51,11 +52,11 @@ export class CharacterController implements ISystem {
             CameraManager.getInstance().focusOnBone(validParts.includes(part) ? part as any : 'default');
         });
 
-        mp.events.add('character:create', (dataRaw: any) => {
-            mp.events.callRemote('character:create', dataRaw);
+        mp.events.add(ServerEvents.CHAR_CREATE, (dataRaw: any) => {
+            mp.events.callRemote(ServerEvents.CHAR_CREATE, dataRaw);
         });
 
-        mp.events.add("client:applyAppearance", (appearance: any) => this.applyAppearance(appearance));
+        mp.events.add(ClientEvents.CHAR_APPLY_APPEARANCE, (appearance: any) => this.applyAppearance(appearance));
 
         // ESC Key Handler for Creator
         mp.keys.bind(0x1b, false, () => {

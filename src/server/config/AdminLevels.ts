@@ -1,3 +1,5 @@
+import { Theme } from "../../shared/constants/Themes";
+
 export enum AdminLevel {
     Player = 0,
     Moderator = 1,
@@ -7,14 +9,7 @@ export enum AdminLevel {
     Owner = 5
 }
 
-export const Theme = {
-    Primary: "!{#8B0000}",    // Roșu Închis (Branding)
-    Secondary: "!{#A9A9A9}",  // Gri pentru detalii
-    Text: "!{#E0E0E0}",       // Text principal
-    Success: "!{#27AE60}",    // Verde premium
-    Error: "!{#C0392B}",      // Roșu eroare
-    Divider: "!{#333333}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
-};
+export { Theme };
 
 export const AdminConfig = {
     [AdminLevel.Player]: { title: "Jucator", color: Theme.Text },

@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { User, Plus, Play, Calendar, Clock } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import EventManager from "../../utils/EventManager";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
+import { ServerEvents } from "../../../shared/constants/Events";
 
 interface Character {
   id: number;
@@ -20,6 +21,7 @@ const CharacterSelector: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   
   const characters: Character[] = (location.state as any)?.characters || [];
   const maxSlots: number = (location.state as any)?.maxSlots || 1;
@@ -28,7 +30,9 @@ const CharacterSelector: React.FC = () => {
   const canCreate = usedSlots < maxSlots;
 
   const handleSelect = (charId: number) => {
-    EventManager.triggerServer("character:select", charId);
+    if (loading) return;
+    setLoading(true);
+    EventManager.triggerServer(ServerEvents.CHAR_SELECT, charId);
   };
 
   const handleCreateNew = () => {
@@ -113,9 +117,10 @@ const CharacterSelector: React.FC = () => {
               {/* Action Button */}
               <Button
                 onClick={() => handleSelect(char.id)}
+                disabled={loading}
                 className="w-full h-14 bg-white hover:bg-zinc-200 text-black font-bold rounded-2xl shadow-lg transition-all active:scale-95 flex items-center justify-between px-6 group/btn"
               >
-                <span>{t('char_select.play_now')}</span>
+                <span>{loading ? "Loading..." : t('char_select.play_now')}</span>
                 <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white group-hover/btn:scale-110 transition-transform">
                     <Play className="w-3 h-3 fill-current ml-0.5" />
                 </div>
@@ -130,17 +135,17 @@ const CharacterSelector: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: characters.length * 0.1, duration: 0.5 }}
           onClick={handleCreateNew}
-          disabled={!canCreate}
+          disabled={!canCreate || loading}
           className={cn(
             "w-[320px] h-[480px] rounded-[2rem] border-2 border-dashed border-zinc-800 flex flex-col items-center justify-center gap-6 transition-all duration-300",
-            canCreate 
+            canCreate && !loading
               ? "hover:border-primary/50 hover:bg-surface-100/50 cursor-pointer group" 
               : "opacity-50 cursor-not-allowed grayscale"
           )}
         >
           <div className={cn(
             "w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 shadow-xl",
-            canCreate ? "bg-primary text-white group-hover:scale-110 group-hover:shadow-primary/30" : "bg-zinc-800 text-zinc-500"
+            canCreate && !loading ? "bg-primary text-white group-hover:scale-110 group-hover:shadow-primary/30" : "bg-zinc-800 text-zinc-500"
           )}>
             <Plus className="w-8 h-8" />
           </div>

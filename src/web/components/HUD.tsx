@@ -3,6 +3,7 @@ import EventManager from "../utils/EventManager";
 import { motion, AnimatePresence } from "framer-motion";
 import { Wallet, Briefcase, User, MapPin, Radio } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { ServerEvents } from "../../shared/constants/Events";
 
 interface HUDStats {
   id: number;
@@ -30,12 +31,12 @@ const HUD: React.FC = () => {
       setStats((prev) => ({ ...prev, ...data }));
     };
 
-    EventManager.on("hud:update", handleUpdate);
-    EventManager.triggerServer("hud:request");
+    EventManager.on(ServerEvents.HUD_UPDATE, handleUpdate);
+    EventManager.triggerServer(ServerEvents.HUD_REQUEST);
 
     return () => {
       clearTimeout(timer);
-      EventManager.off("hud:update", handleUpdate);
+      EventManager.off(ServerEvents.HUD_UPDATE, handleUpdate);
     };
   }, []);
 

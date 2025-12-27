@@ -2,6 +2,7 @@ import { Character } from "../../database/entities/Character";
 import { User } from "../../database/entities/User";
 import { ICharacterCreationData } from "./types/index.js";
 import { Logger } from "../../utils/Logger.js";
+import { ClientEvents } from "../../../shared/constants/Events";
 
 export class CharacterService {
     private static instance: CharacterService;
@@ -47,7 +48,7 @@ export class CharacterService {
         // Use appearance object directly (handled by TypeORM simple-json)
         if (char.appearance) {
             // Trimitem datele la client pentru a le aplica, deoarece funcțiile vizuale sunt client-side
-            player.call("client:applyAppearance", [char.appearance]);
+            player.call(ClientEvents.CHAR_APPLY_APPEARANCE, [char.appearance]);
         }
 
         if (char.lastPosition) {

@@ -1,4 +1,5 @@
 import { ISystem } from "@shared/interfaces/ISystem";
+import { UIManager } from "./controllers/UIManager";
 import { UIController } from "./controllers/UIController";
 import { AuthController } from "./controllers/AuthController";
 import { CharacterController } from "./controllers/CharacterController";
@@ -25,6 +26,7 @@ export class SystemsManager {
         // Instanțiem sistemele aici, nu în constructor, pentru a evita problemele de circularitate la import
         try {
             this.systems = [
+                UIManager.getInstance(),
                 UIController.getInstance(),
                 AuthController.getInstance(),
                 CharacterController.getInstance(),

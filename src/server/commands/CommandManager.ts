@@ -1,65 +1,21 @@
-import fs from "fs";
-import path from "path";
 import { Logger } from "../utils/Logger";
 import { findCommand, getAllCommands } from "./CommandRegistry";
 import { PlayerUtils } from "../utils/PlayerUtils";
 import { Theme } from "../config/AdminLevels";
+import { initCommands } from "./index";
 
 export class CommandManager {
   static async loadCommands() {
-    // În dist, CommandManager.js este în dist/commands/
-    // __dirname va fi calea absolută către acel folder pe disc.
-    const commandsPath = path.resolve(__dirname);
-
-    Logger.info(`[CMD] Incarcare comenzi...`);
-
+    Logger.info(`[CMD] Incarcare comenzi din bundle...`);
+    
     try {
-      if (!fs.existsSync(commandsPath)) {
-        Logger.error(
-          `[CMD] Calea de comenzi nu a fost gasita: ${commandsPath}`
-        );
-        return;
-      }
-
-      this.readDirRecursive(commandsPath);
-
+      initCommands();
       const commands = getAllCommands();
       Logger.info(
-        `[CMD] Sistem Comenzi activ. ${commands.length} comenzi incarcate.`
+        `[CMD] Sistem Comenzi activ. ${commands.length} comenzi inregistrate.`
       );
     } catch (e: any) {
       Logger.error(`[CMD] Eroare la incarcarea comenzilor: ${e.message}`);
-    }
-  }
-
-  private static readDirRecursive(dir: string) {
-    const items = fs.readdirSync(dir);
-
-    for (const item of items) {
-      const fullPath = path.join(dir, item);
-      const stats = fs.statSync(fullPath);
-
-      if (stats.isDirectory()) {
-        (global as any).currentLoadingCategory = item.toLowerCase();
-        this.readDirRecursive(fullPath);
-        (global as any).currentLoadingCategory = undefined;
-      } else if (
-        item.endsWith(".js") &&
-        !item.includes("CommandManager") &&
-        !item.includes("CommandRegistry") &&
-        !item.includes("index")
-      ) {
-        try {
-          const resolvedPath = path.resolve(fullPath);
-          // Curățăm cache-ul pentru a permite hot-reload dacă e cazul
-          delete require.cache[require.resolve(resolvedPath)];
-          require(resolvedPath);
-        } catch (e: any) {
-          Logger.error(
-            `[CMD] Eroare la incarcarea modulului ${item}: ${e.message}`
-          );
-        }
-      }
     }
   }
 
