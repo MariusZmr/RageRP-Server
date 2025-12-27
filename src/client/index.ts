@@ -32,7 +32,7 @@ let isCreatorOpen = false;
 // Funcție centralizată pentru inițializarea sesiunii de creare caracter
 const startCreatorSession = () => {
   if (isCreatorOpen) return;
-  isCreatorOpen = true; 
+  isCreatorOpen = true;
 
   // 1. Ascunde Chat și Radar. Activează Cursor.
   mp.gui.chat.show(false);
@@ -135,9 +135,9 @@ mp.events.add("auth:response", (responseRaw: any) => {
     // Navigăm către Selectorul de Caractere în loc să intrăm direct în joc
     UIManager.getInstance().showPage(
       "/char-selector",
-      { 
-          characters: response.characters,
-          maxSlots: response.maxSlots // Transmitem și numărul de sloturi
+      {
+        characters: response.characters,
+        maxSlots: response.maxSlots, // Transmitem și numărul de sloturi
       },
       { enableCursor: true }
     );

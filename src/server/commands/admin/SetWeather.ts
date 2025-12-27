@@ -42,15 +42,15 @@ register({
       );
     }
 
-        mp.world.weather = newWeather;
+    mp.world.weather = newWeather;
 
-        // Forțăm actualizarea vizuală pe toți clienții (esențial pentru zăpadă)
-        mp.players.call("client:setWeather", [newWeather]);
+    // Forțăm actualizarea vizuală pe toți clienții (esențial pentru zăpadă)
+    mp.players.call("client:setWeather", [newWeather]);
 
-        // Notificare pentru admin
-        player.outputChatBox(
-            `${Theme.Success}Ai schimbat vremea globala in: ${Theme.Primary}${newWeather}`
-        );
+    // Notificare pentru admin
+    player.outputChatBox(
+      `${Theme.Success}Ai schimbat vremea globala in: ${Theme.Primary}${newWeather}`
+    );
 
     // Log pentru audit
     Logger.warn(`[ADMIN] ${player.name} changed weather to ${newWeather}.`);

@@ -1,20 +1,29 @@
 export class WeatherController {
   private static instance: WeatherController;
 
-  // Variabile de stare
   private targetWeather: string = "CLEAR";
-  private isSnowEnabled: boolean = false;
+  private isXmasActive: boolean = false;
+
+  // Definim hash-urile native ca și constante pentru claritate și performanță
+  // 0x6E9EF3A33C8899F8 -> _SET_FORCE_PED_FOOTSTEPS_TRACKS (dar folosit aici pt texturi snow pass)
+  // 0x7F06937B0CDCBC1A -> _SET_SNOW_LEVEL (Nativa raw, mai puternică decât wrapper-ul Rage)
+  private readonly NATIVE_SNOW_PASS = "0x6E9EF3A33C8899F8";
+  private readonly NATIVE_SNOW_INTENSITY = "0x7F06937B0CDCBC1A";
 
   private constructor() {
-    // Ascultăm sync-ul
+    // 1. Ascultăm evenimentul de la server
     mp.events.add("client:setWeather", (weatherName: string) => {
+      // Verificare de siguranță
+      if (!weatherName) return;
+
       this.targetWeather = weatherName.toUpperCase();
-      this.updateWeatherState();
+      this.applyWeather();
     });
 
+    // 2. Cerem vremea la conectare
     mp.events.callRemote("server:requestWeatherSync");
 
-    // Loop-ul Render (Executat la fiecare frame ~60/sec)
+    // 3. Render Loop pentru efectele continue (urme)
     mp.events.add("render", () => this.onRender());
   }
 
@@ -25,36 +34,40 @@ export class WeatherController {
     return WeatherController.instance;
   }
 
-  // Funcție apelată o singură dată la schimbarea vremii
-  private updateWeatherState() {
+  private applyWeather() {
     if (this.targetWeather === "XMAS") {
-      // Pasul 1: Setăm Override-ul (Critic pentru texturi)
+      mp.game.gameplay.clearOverrideWeather();
+
       mp.game.gameplay.setOverrideWeather("XMAS");
       mp.game.gameplay.setWeatherTypeNow("XMAS");
 
-      // Pasul 2: Activăm flag-ul intern
-      this.isSnowEnabled = true;
+      mp.game.gameplay.enableSnow = true;
+      mp.game.gameplay.setSnowLevel(1.0);
+      mp.game.gameplay.setFadeOutAfterDeath(false);
+
+      mp.game.invoke(this.NATIVE_SNOW_PASS, true);
+      mp.game.invoke(this.NATIVE_SNOW_INTENSITY, 1.0); // 1.0 pentru acoperire completă
+
+      this.isXmasActive = true;
     } else {
-      // Reset
       mp.game.gameplay.clearOverrideWeather();
       mp.game.gameplay.enableSnow = false;
-      this.isSnowEnabled = false;
+      mp.game.gameplay.setSnowLevel(0.0);
+      mp.game.gameplay.setFadeOutAfterDeath(true);
+
+      mp.game.invoke(this.NATIVE_SNOW_PASS, false);
+      mp.game.invoke(this.NATIVE_SNOW_INTENSITY, 0.0);
+
+      this.isXmasActive = false;
     }
   }
 
   private onRender() {
-    if (this.isSnowEnabled) {
-      // Astea TREBUIE apelate la fiecare frame pentru a menține urmele și particulele
-
-      // 1. Asigură-te că nivelul zăpezii e la maxim
-      mp.game.gameplay.setSnowLevel(1.0);
-
-      // 2. Activează particulele
-      mp.game.gameplay.enableSnow = true;
-
-      // 3. Activează urmele (fără invoke, folosind API-ul Rage)
+    if (this.isXmasActive) {
       mp.game.graphics.setForcePedFootstepsTracks(true);
       mp.game.graphics.setForceVehicleTrails(true);
+
+      mp.game.gameplay.setSnowLevel(1.0);
     }
   }
 }

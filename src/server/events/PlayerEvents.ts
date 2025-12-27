@@ -17,23 +17,6 @@ export class PlayerEvents {
       // const user = await User.findOneBy({ username: player.name });
 
       // UI-ul va prelua fluxul de autentificare
-      /*
-      player.outputChatBox(Theme.Divider);
-      player.outputChatBox(
-        `${Theme.Text}Bun venit pe Server, ${Theme.Primary}${player.name}${Theme.Text}.`
-      );
-
-      if (user) {
-        player.outputChatBox(
-          `${Theme.Secondary}Sistem: ${Theme.Text}Contul tau este securizat. Foloseste ${Theme.Success}/login <parola>${Theme.Text}.`
-        );
-      } else {
-        player.outputChatBox(
-          `${Theme.Secondary}Sistem: ${Theme.Text}Numele tau nu este inregistrat. Foloseste ${Theme.Primary}/register <parola>${Theme.Text}.`
-        );
-      }
-      player.outputChatBox(Theme.Divider);
-      */
 
       Logger.info(`[JOIN] ${player.name} (ID: ${player.id}) s-a conectat.`);
     });
