@@ -30,9 +30,9 @@ export class AuthSystem implements ISystem {
     mp.events.add(ServerEvents.AUTH_REGISTER, (player, username, pass, email) =>
       this.handleRegister(player, username, pass, email)
     );
-    mp.events.add(ServerEvents.HUD_REQUEST, (player) =>
-      HUDUtils.update(player)
-    );
+    mp.events.add(ServerEvents.HUD_REQUEST, (player) => {
+      HUDUtils.update(player);
+    });
   }
 
   private async handleLogin(

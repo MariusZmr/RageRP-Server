@@ -7,10 +7,10 @@ import { UserService } from "./services/UserService";
 import { Logger } from "./utils/Logger";
 import { PlayerEvents } from "./events/PlayerEvents";
 import { CommandManager } from "./commands/CommandManager";
+import "./commands/index"; // Register all commands
 import * as dotenv from "dotenv";
 import { TimeManager } from "./managers/TimeManager";
 import SystemsManager from "./SystemsManager";
-
 dotenv.config();
 
 export const AppDataSource = new DataSource({

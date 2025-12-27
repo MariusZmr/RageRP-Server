@@ -40,7 +40,8 @@ const HUD: React.FC = () => {
     };
   }, []);
 
-  const formattedMoney = new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(stats.money);
+  const safeMoney = typeof stats.money === 'string' ? parseFloat(stats.money) : Number(stats.money) || 0;
+  const formattedMoney = new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(safeMoney);
 
   return (
     <AnimatePresence>

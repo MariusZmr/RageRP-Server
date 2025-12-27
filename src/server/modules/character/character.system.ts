@@ -48,10 +48,10 @@ export class CharacterSystem implements ISystem {
 
       await CharacterService.getInstance().applyToPlayer(player, char);
       player.call(ClientEvents.CHAR_ENTER_GAME);
-      HUDUtils.update(player);
+      // HUDUtils.update(player); // SCOS: HUD-ul va cere datele singur la mount via HUD_REQUEST
 
       Logger.info(
-        `[Character] ${player.name}(${user.id}) a selectat caracterul ${char.firstName} ${char.lastName}`
+        `[Character] ${player.name}(#${user.id}) a selectat caracterul ${char.firstName} ${char.lastName}`
       );
     } catch (e: any) {
       Logger.error(

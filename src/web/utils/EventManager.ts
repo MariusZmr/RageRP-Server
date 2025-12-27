@@ -6,7 +6,6 @@ declare global {
     EventManager?: {
       receiveFromServer: (eventName: string, detail: any) => void;
     };
-    mp?: any;
   }
 }
 
@@ -79,7 +78,10 @@ class EventManager {
       }
     } else {
       const color = type === "error" ? "red" : "#3b82f6";
-      console.log(`%c[${type.toUpperCase()}] ${message}`, `color: ${color}; font-weight: bold;`);
+      console.log(
+        `%c[${type.toUpperCase()}] ${message}`,
+        `color: ${color}; font-weight: bold;`
+      );
     }
   }
 
@@ -99,7 +101,10 @@ class EventManager {
       }
     } else {
       // Browser Loopback / Dev Mode
-      console.log(`[EventManager] TriggerServer (Fallback): ${eventName}`, args);
+      console.log(
+        `[EventManager] TriggerServer (Fallback): ${eventName}`,
+        args
+      );
       const payload = args.length > 0 ? args[0] : null;
       this.emitLocal(eventName, payload);
     }

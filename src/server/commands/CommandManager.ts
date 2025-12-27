@@ -8,7 +8,7 @@ export class CommandManager {
     try {
       const commands = getAllCommands();
       Logger.info(
-        `[CMD] Sistem Comenzi activ. ${commands.length} comenzi inregistrate.`
+        `[CMD] Modulul a pornit. ${commands.length} comenzi inregistrate.`
       );
     } catch (e: any) {
       Logger.error(`[CMD] Eroare la incarcarea comenzilor: ${e.message}`);

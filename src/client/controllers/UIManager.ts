@@ -41,6 +41,13 @@ export class UIManager implements ISystem {
             mp.gui.chat.push(`[UI Debug] URL: ${this.browserPath}`);
         }
     });
+
+    // Ascultăm log-urile din React
+    mp.events.add("ui:log", (type: string, message: string) => {
+        const prefix = `[REACT-${type.toUpperCase()}]`;
+        if (type === "error") mp.console.logError(`${prefix} ${message}`);
+        else mp.console.logInfo(`${prefix} ${message}`);
+    });
   }
 
   public static getInstance(): UIManager {

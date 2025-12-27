@@ -2,6 +2,7 @@ import React, { Component, ReactNode } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./i18n";
+import "./utils/EventManager"; // Force init EventManager
 // @ts-ignore
 import "./index.css";
 

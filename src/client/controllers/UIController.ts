@@ -16,12 +16,23 @@ export class UIController implements ISystem {
     }
 
     public init(): void {
+        // Forward HUD_REQUEST from CEF to Server
+        mp.events.add(ServerEvents.HUD_REQUEST, () => {
+            mp.events.callRemote(ServerEvents.HUD_REQUEST);
+        });
+
         mp.events.add(ServerEvents.HUD_UPDATE, (dataRaw: any) => {
             const browser = UIManager.getInstance().getBrowser();
             if (!browser) return;
 
             const data = typeof dataRaw === "string" ? JSON.parse(dataRaw) : dataRaw;
-            browser.execute(`window.EventManager.receiveFromServer('${ServerEvents.HUD_UPDATE}', ${JSON.stringify(data)})`);
+            
+            // Execute safely
+            browser.execute(`
+                if (window.EventManager) {
+                    window.EventManager.receiveFromServer('${ServerEvents.HUD_UPDATE}', ${JSON.stringify(data)});
+                }
+            `);
         });
     }
 }

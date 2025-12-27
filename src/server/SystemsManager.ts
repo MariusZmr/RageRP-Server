@@ -29,7 +29,7 @@ class SystemsManager {
     }
 
     Logger.info(
-      `[SystemsManager] (${this.systems.length}) Modulele au fost incarcate cu succes.`
+      `[SystemsManager] Modulele au fost incarcate cu succes. (${this.systems.length})`
     );
   }
 
