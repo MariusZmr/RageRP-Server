@@ -3,13 +3,13 @@ import { ServerEvents } from "../../shared/constants/Events";
 
 export class HUDUtils {
     public static update(player: PlayerMp) {
-        const user = PlayerUtils.getDb(player);
-        if (!user) return;
+        const char = PlayerUtils.getCharacter(player);
+        if (!char) return; // Daca nu are caracter selectat, nu updatam HUD-ul
 
         const data = {
             id: player.id, 
-            money: Number(user.money), 
-            job: user.jobId === 0 ? "Unemployed" : `Job ${user.jobId}`, 
+            money: Number(char.money), 
+            job: char.jobId === 0 ? "Unemployed" : `Job ${char.jobId}`, 
             serverName: "BATTLEGROUNDS"
         };
 

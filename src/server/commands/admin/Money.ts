@@ -18,16 +18,18 @@ register({
         if (!target || !mp.players.exists(target)) return player.outputChatBox(`${Theme.Error}Eroare: ${Theme.Text}Jucatorul nu a fost gasit.`);
         if (isNaN(amount)) return player.outputChatBox(`${Theme.Error}Eroare: ${Theme.Text}Suma invalida.`);
 
-        const db = PlayerUtils.getDb(target);
-        if (db) {
-            db.money = amount;
-            await db.save();
+        const char = PlayerUtils.getCharacter(target);
+        if (char) {
+            char.money = amount;
+            await char.save();
             
             // Actualizăm HUD-ul țintei
             HUDUtils.update(target);
 
-            player.outputChatBox(`${Theme.Success}Sistem: ${Theme.Text}I-ai setat lui ${Theme.Primary}${target.name} ${Theme.Text}suma de ${Theme.Success}$${amount.toLocaleString()}.`);
-            target.outputChatBox(`${Theme.Primary}Sistem: ${Theme.Text}Soldul tau a fost actualizat la ${Theme.Success}$${amount.toLocaleString()} ${Theme.Text}de catre admin.`);
+            player.outputChatBox(`${Theme.Success}Sistem: ${Theme.Text}I-ai setat lui ${Theme.Primary}${target.name} ${Theme.Text}suma de ${Theme.Success}$${amount.toLocaleString()} (Caracter: ${char.firstName} ${char.lastName}).`);
+            target.outputChatBox(`${Theme.Primary}Sistem: ${Theme.Text}Soldul caracterului a fost actualizat la ${Theme.Success}$${amount.toLocaleString()} ${Theme.Text}de catre admin.`);
+        } else {
+             player.outputChatBox(`${Theme.Error}Eroare: ${Theme.Text}Jucatorul nu are un caracter selectat.`);
         }
     }
 });

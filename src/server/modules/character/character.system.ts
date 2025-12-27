@@ -33,33 +33,44 @@ export class CharacterSystem implements ISystem {
     );
   }
 
-  private async handleSelect(player: PlayerMp, charId: number): Promise<void> {
-    try {
-      const user = PlayerUtils.getDb(player);
-      if (!user) return;
-
-      const char = await CharacterService.getInstance().getById(charId);
-      if (!char || char.userId !== user.id) {
-        return player.call(ServerEvents.NOTIFICATION_SHOW, [
-          "Identitate invalidă!",
-          "error",
-        ]);
+      private async handleSelect(player: PlayerMp, charId: number): Promise<void> {
+      try {
+        const user = PlayerUtils.getDb(player);
+        if (!user) return;
+  
+        const char = await CharacterService.getInstance().getById(charId);
+        if (!char || char.userId !== user.id) {
+          return player.call(ServerEvents.NOTIFICATION_SHOW, [
+            "Identitate invalidă!",
+            "error",
+          ]);
+        }
+  
+        // Setam caracterul activ
+        PlayerUtils.setCharacter(player, char);
+  
+        // Aplicam datele vizuale
+        await CharacterService.getInstance().applyToPlayer(player, char);
+  
+        // Aplicam stats vitale
+        player.health = char.health > 10 ? char.health : 100;
+        player.armour = char.armor;
+        
+        // Spawn la ultima pozitie (daca exista) sau default
+        // TODO: Implementare spawn la lastPos
+  
+        player.call(ClientEvents.CHAR_ENTER_GAME);
+        // HUD-ul se va cere singur
+  
+        Logger.info(
+          `[Character] ${player.name}(#${user.id}) a selectat caracterul ${char.firstName} ${char.lastName} (Money: ${char.money})`
+        );
+      } catch (e: any) {
+        Logger.error(
+          `[Character] Eroare la selectarea caracterului: ${e.message}`
+        );
       }
-
-      await CharacterService.getInstance().applyToPlayer(player, char);
-      player.call(ClientEvents.CHAR_ENTER_GAME);
-      // HUDUtils.update(player); // SCOS: HUD-ul va cere datele singur la mount via HUD_REQUEST
-
-      Logger.info(
-        `[Character] ${player.name}(#${user.id}) a selectat caracterul ${char.firstName} ${char.lastName}`
-      );
-    } catch (e: any) {
-      Logger.error(
-        `[Character] Eroare la selectarea caracterului: ${e.message}`
-      );
     }
-  }
-
   private async handleCreate(player: PlayerMp, dataRaw: any): Promise<void> {
     try {
       const data = typeof dataRaw === "string" ? JSON.parse(dataRaw) : dataRaw;

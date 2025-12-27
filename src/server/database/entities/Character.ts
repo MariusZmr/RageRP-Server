@@ -67,16 +67,51 @@ export class Character extends BaseEntity {
     @Column({ type: "int", default: 1 })
     level!: number;
 
-    // Stocăm structura JSON complexă pentru aspect
+    @Column({ type: "int", default: 0 })
+    exp!: number;
+
+    // --- Economy ---
+    @Column({ type: "bigint", default: 500, transformer: { to: (v: number) => v, from: (v: string) => parseInt(v) } })
+    money!: number;
+
+    @Column({ type: "bigint", default: 0, transformer: { to: (v: number) => v, from: (v: string) => parseInt(v) } })
+    bank!: number;
+
+    // --- Vitals ---
+    @Column({ type: "int", default: 100 })
+    health!: number;
+
+    @Column({ type: "int", default: 0 })
+    armor!: number;
+
+    @Column({ type: "int", default: 100 })
+    hunger!: number;
+
+    @Column({ type: "int", default: 100 })
+    thirst!: number;
+
+    // --- Job & Faction ---
+    @Column({ type: "int", default: 0 })
+    jobId!: number;
+
+    @Column({ type: "int", default: 0 })
+    factionId!: number;
+
+    @Column({ type: "int", default: 0 })
+    factionRank!: number;
+
+    // --- Appearance & Meta ---
     @Column({ type: "simple-json" }) 
     appearance!: CharacterAppearance;
 
-    // Stocăm hainele (pentru început simplu, poate fi extins)
     @Column({ type: "simple-json", nullable: true })
     clothes!: CharacterClothes;
 
     @Column({ type: "simple-json", nullable: true })
     lastPosition?: { x: number; y: number; z: number; dimension: number; heading: number };
+    
+    @Column({ type: "int", default: 0 })
+    dimension!: number;
 
     @CreateDateColumn()
     createdAt!: Date;
