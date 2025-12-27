@@ -2,14 +2,10 @@ import { Logger } from "../utils/Logger";
 import { findCommand, getAllCommands } from "./CommandRegistry";
 import { PlayerUtils } from "../utils/PlayerUtils";
 import { Theme } from "../config/AdminLevels";
-import { initCommands } from "./index";
 
 export class CommandManager {
   static async loadCommands() {
-    Logger.info(`[CMD] Incarcare comenzi din bundle...`);
-    
     try {
-      initCommands();
       const commands = getAllCommands();
       Logger.info(
         `[CMD] Sistem Comenzi activ. ${commands.length} comenzi inregistrate.`

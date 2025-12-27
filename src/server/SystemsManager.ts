@@ -4,43 +4,40 @@ import { AuthSystem } from "./modules/auth/auth.system";
 import { CharacterSystem } from "./modules/character/character.system";
 
 class SystemsManager {
-    private static instance: SystemsManager;
-    private systems: ISystem[] = [];
+  private static instance: SystemsManager;
+  private systems: ISystem[] = [];
 
-    private constructor() {
-        // Register ALL systems here using direct class imports
-        this.systems = [
-            AuthSystem.getInstance(),
-            CharacterSystem.getInstance(),
-        ];
+  private constructor() {
+    // Register ALL systems here using direct class imports
+    this.systems = [AuthSystem.getInstance(), CharacterSystem.getInstance()];
+  }
+
+  public static getInstance(): SystemsManager {
+    if (!SystemsManager.instance) {
+      SystemsManager.instance = new SystemsManager();
+    }
+    return SystemsManager.instance;
+  }
+
+  public async initAll(): Promise<void> {
+    for (const system of this.systems) {
+      if (system.init) await system.init();
     }
 
-    public static getInstance(): SystemsManager {
-        if (!SystemsManager.instance) {
-            SystemsManager.instance = new SystemsManager();
-        }
-        return SystemsManager.instance;
+    for (const system of this.systems) {
+      if (system.start) await system.start();
     }
 
-    public async initAll(): Promise<void> {
-        Logger.info(`[SystemsManager] Initializing ${this.systems.length} systems...`);
-        
-        for (const system of this.systems) {
-            if (system.init) await system.init();
-        }
+    Logger.info(
+      `[SystemsManager] (${this.systems.length}) Modulele au fost incarcate cu succes.`
+    );
+  }
 
-        for (const system of this.systems) {
-            if (system.start) await system.start();
-        }
-
-        Logger.info(`[SystemsManager] All systems are live.`);
+  public async shutdownAll(): Promise<void> {
+    for (const system of this.systems) {
+      if (system.shutdown) await system.shutdown();
     }
-
-    public async shutdownAll(): Promise<void> {
-        for (const system of this.systems) {
-            if (system.shutdown) await system.shutdown();
-        }
-    }
+  }
 }
 
 export default SystemsManager.getInstance();

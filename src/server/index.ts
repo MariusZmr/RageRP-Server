@@ -30,7 +30,7 @@ async function bootstrap() {
     Logger.info(">>> Battlegrounds RP <<<");
 
     await AppDataSource.initialize();
-    Logger.info("[DB] Database Connection Established.");
+    Logger.info("[DB] Conexiune realizată cu succes.");
 
     await SystemsManager.initAll();
     await CommandManager.loadCommands();
@@ -39,7 +39,7 @@ async function bootstrap() {
 
     setupExpress();
   } catch (e: any) {
-    Logger.error("Critical Bootstrap Failure:", e.message);
+    Logger.error("Eroare critică la inițializare:", e.message);
   }
 }
 
@@ -60,7 +60,9 @@ function setupExpress() {
     res.json(users);
   });
 
-  app.listen(3005, () => Logger.info("[API] Express listening on port 3005"));
+  app.listen(
+    3005 /*, () => Logger.info("[API] Express listening on port 3005")*/
+  );
 }
 
 bootstrap();

@@ -25,11 +25,3 @@ import "./admin/Tp";
 import "./admin/UserManagement";
 import "./admin/Veh";
 import "./admin/Weapon";
-
-import { Logger } from "../utils/Logger";
-import { getAllCommands } from "./CommandRegistry";
-
-export function initCommands() {
-    const count = getAllCommands().length;
-    Logger.info(`[CommandManager] ${count} commands loaded from bundle.`);
-}

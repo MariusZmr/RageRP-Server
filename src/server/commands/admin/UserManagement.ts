@@ -101,7 +101,7 @@ register({
       `${Theme.Success}Sloturile de baza pentru ${user.username} au fost setate la ${slots}.`
     );
     Logger.warn(
-      `[ADMIN] ${player.name} set slots for ${user.username} to ${slots}.`
+      `[ADMIN] ${player.name} set slots for ${user.username}(#${user.id}) to ${slots}.`
     );
   },
 });
