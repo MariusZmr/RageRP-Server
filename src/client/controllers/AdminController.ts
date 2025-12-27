@@ -14,7 +14,18 @@ class AdminController {
         this.setGodMode(value);
       }
     });
+    // Comandă de spălare a vehiculului
+    mp.events.add("client:vehicle:clean", () => {
+      const vehicle = mp.players.local.vehicle;
+      if (vehicle) {
+        // Nativa: SET_VEHICLE_DIRT_LEVEL(Vehicle vehicle, float level)
+        // 0.0 = Curat lacrima
+        // 15.0 = Full noroi
+        mp.game.invoke("0x79D3B596FE44EE8B", vehicle.handle, 0.0);
+      }
+    });
 
+    // Comandă de teleportare la waypoint
     mp.events.add("client:teleportToWaypoint", async () => {
       const waypoint = mp.game.ui.getFirstBlipInfoId(8); // 8 = Waypoint
 

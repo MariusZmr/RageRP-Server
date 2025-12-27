@@ -14,6 +14,7 @@ register({
       );
 
     player.vehicle.repair();
+    player.call("client:vehicle:clean");
     player.outputChatBox(
       `${Theme.Success}Succes: ${Theme.Text}Vehiculul a fost reparat.`
     );
