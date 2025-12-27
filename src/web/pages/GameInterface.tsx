@@ -1,14 +1,22 @@
 import React from "react";
 import HUD from "../components/HUD";
+import Speedometer from "../components/hud/Speedometer";
 
 const GameInterface: React.FC = () => {
   return (
     <div className="w-full h-full relative pointer-events-none">
-      {/* Pointer events none ca să putem da click prin UI în joc, 
-                dar HUD-ul poate reactiva pointer-events dacă e interactiv */}
+      {/* 
+        Game Interface Wrapper 
+        - pointer-events-none: Allows clicking through to the game world.
+        - Interactive elements inside must re-enable pointer-events-auto.
+      */}
+      
+      {/* Character Status (Health, Money, Job) */}
       <HUD />
 
-      {/* Aici vor veni Speedometer, etc. */}
+      {/* New Apple Style Speedometer Widget (Bottom Right) */}
+      <Speedometer />
+      
     </div>
   );
 };

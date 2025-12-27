@@ -1,0 +1,79 @@
+{
+  "auth": {
+    "welcome": "Welcome Back",
+    "create_account": "Create Account",
+    "login_subtitle": "Enter your credentials to access the system.",
+    "register_subtitle": "Join the Battlegrounds network today.",
+    "username": "Username",
+    "password": "Password",
+    "email": "Email Address",
+    "login_btn": "Sign In",
+    "register_btn": "Sign Up",
+    "no_account": "Don't have an account?",
+    "has_account": "Already have an account?",
+    "secure_connection": "Secure Connection",
+    "settings": "Game Settings"
+  },
+  "char_select": {
+    "title": "Select Identity",
+    "subtitle": "Choose your persona to enter the city.",
+    "level": "Level",
+    "played": "Played",
+    "last_seen": "Last seen",
+    "play_now": "Play Now",
+    "new_char": "New Character",
+    "slots_used": "Slots Used",
+    "create_subtitle": "Begin a new journey in Los Santos.",
+    "limit_reached": "Slot limit reached."
+  },
+  "char_create": {
+    "title": "Identity Lab",
+    "subtitle": "Design your unique persona.",
+    "finalize": "Finalize & Deploy",
+    "menu": {
+      "identity": "Identity",
+      "identity_desc": "Name, Age, Gender",
+      "genetics": "Genetics",
+      "genetics_desc": "Ancestry & Skin Tone",
+      "features": "Features",
+      "features_desc": "Facial Structure",
+      "style": "Style",
+      "style_desc": "Hair & Grooming"
+    },
+    "labels": {
+      "male": "Male",
+      "female": "Female",
+      "firstname": "First Name",
+      "lastname": "Last Name",
+      "age": "Age",
+      "resemblance": "Resemblance",
+      "skintone": "Skin Tone",
+      "father": "Father",
+      "mother": "Mother",
+      "hairstyle": "Hairstyle",
+      "color": "Color",
+      "highlights": "Highlights"
+    }
+  },
+  "hud": {
+    "occupation": "Occupation",
+    "cash": "Available Funds",
+    "server_name": "BATTLEGROUNDS"
+  },
+  "settings": {
+    "title": "System Configuration",
+    "language": "Interface Language",
+    "audio": "Master Volume",
+    "ui_scale": "Interface Scale",
+    "speed_unit": "Speed Unit",
+    "kmh": "KM/H (Metric)",
+    "mph": "MPH (Imperial)",
+    "save": "Save Preferences"
+  },
+  "vehicle": {
+    "engine": "Engine",
+    "locked": "Locked",
+    "seatbelt": "Seatbelt",
+    "fuel": "Fuel"
+  }
+}

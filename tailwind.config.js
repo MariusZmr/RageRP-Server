@@ -15,41 +15,52 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['"Reddit Sans"', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: "#000000", // Absolute black for OLED feel
+        foreground: "#ffffff",
+        
+        // Design System Colors
+        surface: {
+          100: "#09090b", // Zinc 950 - Main Card Bg
+          200: "#18181b", // Zinc 900 - Input Bg
+          300: "#27272a", // Zinc 800 - Secondary Elements
+          400: "#3f3f46", // Zinc 700 - Hover states
+        },
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#ef4444", // Red-500 (Apple Red / Error Red but used as Primary Brand)
+          hover: "#dc2626",   // Red-600
+          foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "#86868b", // Apple Grey Text
+          foreground: "#ffffff",
         },
+        
+        // Shadcn Defaults (mapped or kept for compatibility)
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "#27272a",
+          foreground: "#a1a1aa",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "#27272a",
+          foreground: "#ffffff",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "#09090b",
+          foreground: "#ffffff",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "#09090b",
+          foreground: "#ffffff",
         },
       },
       borderRadius: {

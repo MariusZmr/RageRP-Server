@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import EventManager from "../utils/EventManager";
-import { motion, AnimatePresence, Variants } from "framer-motion";
-import { Wallet, Briefcase, User, MapPin, Target } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { Wallet, Briefcase, User, MapPin, Radio } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface HUDStats {
   id: number;
@@ -12,17 +12,19 @@ interface HUDStats {
 }
 
 const HUD: React.FC = () => {
+  const { t } = useTranslation();
   const [stats, setStats] = useState<HUDStats>({
     id: 0,
     money: 0,
-    job: "Civil",
+    job: "Unemployed",
     serverName: "BATTLEGROUNDS",
   });
 
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 500);
+    // Delay appearance to allow world to load
+    const timer = setTimeout(() => setVisible(true), 1000);
 
     const handleUpdate = (data: Partial<HUDStats>) => {
       setStats((prev) => ({ ...prev, ...data }));
@@ -37,100 +39,69 @@ const HUD: React.FC = () => {
     };
   }, []);
 
-  const formattedMoney = new Intl.NumberFormat("en-US").format(stats.money);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { x: 50, opacity: 0 },
-    show: {
-      x: 0,
-      opacity: 1,
-      transition: { type: "spring", stiffness: 100, damping: 15 },
-    },
-  };
+  const formattedMoney = new Intl.NumberFormat("en-US", { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(stats.money);
 
   return (
     <AnimatePresence>
       {visible && (
-        <motion.div
-          initial="hidden"
-          animate="show"
-          exit="hidden"
-          variants={containerVariants}
-          className="fixed top-6 right-6 flex flex-col items-end gap-3 pointer-events-none select-none font-sans"
-        >
-          {/* Server Name Badge */}
-          <motion.div
-            variants={itemVariants}
-            className="flex items-center gap-2 mb-2"
-          >
-            <div className="flex flex-col items-end">
-              <span className="text-zinc-100 font-black italic tracking-widest text-xl drop-shadow-md leading-none">
-                {stats.serverName}
-              </span>
-              <div className="flex items-center gap-1 text-[10px] text-zinc-400 font-bold uppercase tracking-[0.2em] bg-zinc-950/80 px-2 py-0.5 rounded-full border border-zinc-800">
-                <Target className="w-3 h-3 text-red-500" />
-                ROLEPLAY
-              </div>
-            </div>
-          </motion.div>
+        <div className="fixed inset-0 pointer-events-none font-sans select-none overflow-hidden">
+          
+          {/* Top Right: Server Info & ID - Removed blur, using opacity */}
+          <div className="absolute top-8 right-8 flex flex-col items-end gap-3">
+             <motion.div 
+               initial={{ opacity: 0, y: -20 }}
+               animate={{ opacity: 1, y: 0 }}
+               className="flex items-center gap-3 bg-black/70 px-4 py-2 rounded-full border border-white/5 shadow-sm"
+             >
+                <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+                    <span className="text-xs font-bold text-white tracking-widest uppercase">{t('hud.server_name')}</span>
+                </div>
+                <div className="w-px h-3 bg-white/20" />
+                <div className="flex items-center gap-1.5 text-zinc-400">
+                    <User className="w-3 h-3" />
+                    <span className="text-xs font-mono font-medium">ID {stats.id}</span>
+                </div>
+             </motion.div>
+          </div>
 
-          {/* Money Card */}
-          <motion.div
-            variants={itemVariants}
-            className="bg-gradient-to-l from-zinc-900/95 to-zinc-950/80 p-3 pr-5 rounded-l-xl border-r-4 border-green-500 shadow-xl flex items-center gap-4 min-w-[200px] justify-end group"
-          >
-            <div className="flex flex-col items-end">
-              <span className="text-[10px] text-green-500/80 uppercase font-bold tracking-wider">
-                Cash Balance
-              </span>
-              <span className="text-white font-bold text-2xl font-mono tracking-tight group-hover:text-green-400 transition-colors drop-shadow-sm">
-                $ {formattedMoney}
-              </span>
-            </div>
-            <div className="bg-green-500/10 p-2 rounded-lg border border-green-500/20">
-              <Wallet className="w-6 h-6 text-green-500" />
-            </div>
-          </motion.div>
+          {/* Bottom Right: Status Pills */}
+          <div className="absolute bottom-8 right-8 flex flex-col items-end gap-3">
+            
+            {/* Job Pill */}
+            <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
+                className="bg-surface-100/90 pl-4 pr-1 py-1 rounded-full border border-white/5 shadow-lg flex items-center gap-3 group"
+            >
+                <div className="flex flex-col items-end mr-1">
+                    <span className="text-[10px] font-bold text-secondary uppercase tracking-wider leading-none mb-0.5">{t('hud.occupation')}</span>
+                    <span className="text-sm font-semibold text-white leading-none">{stats.job}</span>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-surface-200 flex items-center justify-center text-zinc-400 group-hover:text-white group-hover:bg-primary transition-all duration-300">
+                    <Briefcase className="w-4 h-4" />
+                </div>
+            </motion.div>
 
-          {/* Job Card */}
-          <motion.div
-            variants={itemVariants}
-            className="bg-zinc-900/80 p-2 pr-4 rounded-l-lg border-r-2 border-orange-500/50 shadow-lg flex items-center gap-3 min-w-[160px] justify-end"
-          >
-            <div className="flex flex-col items-end">
-              <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">
-                Occupation
-              </span>
-              <span className="text-zinc-100 font-semibold text-sm">
-                {stats.job}
-              </span>
-            </div>
-            <div className="bg-orange-500/10 p-1.5 rounded-md border border-orange-500/20">
-              <Briefcase className="w-4 h-4 text-orange-500" />
-            </div>
-          </motion.div>
+            {/* Money Pill */}
+            <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="bg-surface-100/95 pl-5 pr-1 py-1 rounded-full border border-white/5 shadow-xl flex items-center gap-3 group"
+            >
+                <div className="flex flex-col items-end mr-1">
+                    <span className="text-[10px] font-bold text-green-500/80 uppercase tracking-wider leading-none mb-0.5">{t('hud.cash')}</span>
+                    <span className="text-lg font-bold text-white font-mono leading-none tracking-tight">{formattedMoney}</span>
+                </div>
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-700 flex items-center justify-center text-white shadow-lg shadow-green-900/20 group-hover:scale-105 transition-transform">
+                    <Wallet className="w-5 h-5" />
+                </div>
+            </motion.div>
 
-          {/* ID Card */}
-          <motion.div variants={itemVariants} className="flex gap-2">
-            <div className="bg-zinc-900/90 px-3 py-1.5 rounded-lg border border-zinc-700 shadow-lg flex items-center gap-2">
-              <User className="w-3 h-3 text-zinc-400" />
-              <span className="text-zinc-200 font-bold text-sm font-mono">
-                ID: <span className="text-white">{stats.id}</span>
-              </span>
-            </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
     </AnimatePresence>
   );

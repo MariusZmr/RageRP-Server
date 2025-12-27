@@ -16,8 +16,8 @@ import DevTools from "./components/DevTools";
 import { NotificationProvider } from "./components/ui/NotificationSystem";
 
 const Home = () => (
-  <div className="p-10 text-white font-bold text-2xl hidden">
-    🏠 Home (Default Hidden)
+  <div className="p-10 text-white font-bold text-2xl bg-red-500/20 absolute top-0 left-0">
+    🏠 REACT UI LOADED (Waiting for routing...)
   </div>
 );
 

@@ -5,6 +5,7 @@ import { NotificationManager } from "./controllers/NotificationManager";
 import { DevController } from "./controllers/DevController";
 import { DebugController } from "./controllers/DebugController";
 import { WeatherController } from "./controllers/WeatherController";
+import { VehicleUIController } from "./controllers/VehicleUIController";
 import "./controllers/AdminController";
 import "./noclip";
 mp.console.logInfo("Client-side loaded successfully!");
@@ -14,6 +15,7 @@ CharacterController.getInstance();
 DebugController.getInstance();
 DevController.getInstance();
 WeatherController.getInstance();
+VehicleUIController.getInstance();
 
 mp.events.add("ui:log", (type: string, msg: string) => {
   mp.console.logInfo(`[UI-${type.toUpperCase()}] ${msg}`);

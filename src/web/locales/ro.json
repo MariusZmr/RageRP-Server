@@ -1,0 +1,79 @@
+{
+  "auth": {
+    "welcome": "Bine ai venit",
+    "create_account": "Creează Cont",
+    "login_subtitle": "Introdu credențialele pentru a accesa sistemul.",
+    "register_subtitle": "Alătură-te rețelei Battlegrounds astăzi.",
+    "username": "Nume Utilizator",
+    "password": "Parolă",
+    "email": "Adresă Email",
+    "login_btn": "Autentificare",
+    "register_btn": "Înregistrare",
+    "no_account": "Nu ai cont?",
+    "has_account": "Ai deja cont?",
+    "secure_connection": "Conexiune Securizată",
+    "settings": "Setări Joc"
+  },
+  "char_select": {
+    "title": "Selectare Identitate",
+    "subtitle": "Alege persoana pentru a intra în oraș.",
+    "level": "Nivel",
+    "played": "Jucat",
+    "last_seen": "Ultima dată",
+    "play_now": "Joacă Acum",
+    "new_char": "Caracter Nou",
+    "slots_used": "Sloturi Folosite",
+    "create_subtitle": "Începe o nouă călătorie în Los Santos.",
+    "limit_reached": "Limită sloturi atinsă."
+  },
+  "char_create": {
+    "title": "Laborator Identitate",
+    "subtitle": "Proiectează-ți persona unică.",
+    "finalize": "Finalizare",
+    "menu": {
+      "identity": "Identitate",
+      "identity_desc": "Nume, Vârstă, Gen",
+      "genetics": "Genetică",
+      "genetics_desc": "Strămoși & Ton Piele",
+      "features": "Trăsături",
+      "features_desc": "Structură Facială",
+      "style": "Stil",
+      "style_desc": "Păr & Îngrijire"
+    },
+    "labels": {
+      "male": "Masculin",
+      "female": "Feminin",
+      "firstname": "Prenume",
+      "lastname": "Nume Familie",
+      "age": "Vârstă",
+      "resemblance": "Asemănare",
+      "skintone": "Ton Piele",
+      "father": "Tată",
+      "mother": "Mamă",
+      "hairstyle": "Stil Păr",
+      "color": "Culoare",
+      "highlights": "Șuvițe"
+    }
+  },
+  "hud": {
+    "occupation": "Ocupație",
+    "cash": "Fonduri Disponibile",
+    "server_name": "BATTLEGROUNDS"
+  },
+  "settings": {
+    "title": "Configurare Sistem",
+    "language": "Limbă Interfață",
+    "audio": "Volum Master",
+    "ui_scale": "Scalare Interfață",
+    "speed_unit": "Unitate Viteză",
+    "kmh": "KM/H (Metric)",
+    "mph": "MPH (Imperial)",
+    "save": "Salvează Preferințe"
+  },
+  "vehicle": {
+    "engine": "Motor",
+    "locked": "Încuiat",
+    "seatbelt": "Centură",
+    "fuel": "Combustibil"
+  }
+}
